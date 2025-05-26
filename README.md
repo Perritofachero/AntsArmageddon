@@ -22,7 +22,6 @@ Si todos los personajes son eliminados al mismo tiempo, la partida finalizará e
 
 - LibGDX  
 - IntelliJ IDEA  
-- Tablero Kanban
 
 ---
 
