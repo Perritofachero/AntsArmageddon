@@ -26,6 +26,12 @@ Si todos los personajes son eliminados al mismo tiempo, la partida finalizará e
 
 ---
 
+## Estado actual del proyecto
+
+Configuración Inicial
+
+---
+
 # Como clonar el repositorio
 
 Abrir cmd y copiar el siguiente comando: 
