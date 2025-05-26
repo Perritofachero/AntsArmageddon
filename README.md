@@ -37,12 +37,12 @@ Abrir cmd y copiar el siguiente comando:
 git clone https://github.com/Perritofachero/AntsArmageddon.git
 
 # Como compilar y ejecutar
-1- Abrir IntelliJ IDEA
-2- Tocar las 3 rallas de arriba a la izquierda
-3- Tocar open
-4- Seleccionar la carpeta clonada
-5- Abrir src -> main -> java -> Lwjgl3Launcher
-6- Ejecutar Lwjgl3Launcher presionando el play de arriba
+-1- Abrir IntelliJ IDEA
+-2- Tocar las 3 rallas de arriba a la izquierda
+-3- Tocar open
+-4- Seleccionar la carpeta clonada
+-5- Abrir src -> main -> java -> Lwjgl3Launcher
+-6- Ejecutar Lwjgl3Launcher presionando el play de arriba
 
 ## Plataformas objetivo
 
