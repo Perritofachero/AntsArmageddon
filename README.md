@@ -27,7 +27,10 @@ Si todos los personajes son eliminados al mismo tiempo, la partida finalizará e
 
 ## Estado actual del proyecto
 
-Configuración Inicial
+- Estructura del proyecto creada  
+- Repositorio funcional con LibGDX configurado  
+- Se puede compilar y ejecutar un entorno base  
+- Próximos pasos: implementar mecánicas básicas de juego
 
 ---
 
