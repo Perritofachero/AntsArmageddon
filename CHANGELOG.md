@@ -7,6 +7,11 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-07-02
+### Changed 
+- Correcciones de escritura del README y CHANGELOG.
+- Nueva wiki utilizando la propuesta del proyecto. 
+
 ## [0.2.0] - 2025-06-03
 
 ### Added
