@@ -1,2 +1,8 @@
-images.png
+jugar.png
 libgdx.png
+opc1.png
+opc2.png
+opciones.png
+salir.png
+sonido_click.mp3
+volver.png
