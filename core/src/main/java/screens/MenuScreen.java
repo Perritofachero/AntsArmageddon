@@ -37,7 +37,7 @@ public class MenuScreen implements Screen {
         opciones = FabricaBotones.crearBoton("opciones.png");
         salir = FabricaBotones.crearBoton("salir.png");
 
-        FabricaBotones.agregarEventos(jugar, () -> {System.out.println("Presionado Jugado");});
+        FabricaBotones.agregarEventos(jugar, EventosBoton.irJuego(juego));
         FabricaBotones.agregarEventos(opciones, EventosBoton.irMenuOpciones(juego));
         FabricaBotones.agregarEventos(salir, EventosBoton.salirDelJuego());
 

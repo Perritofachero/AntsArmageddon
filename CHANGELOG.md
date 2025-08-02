@@ -7,6 +7,17 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.1] - 2025-08-02
+
+### Added
+- 2 personajes jugables.
+- Logica de turnos.
+- Miras para apuntar.
+- Disparar proyectiles con espacio.
+
+### Changed
+- Descripccion detallada de las dificultades de esta version en la wiki.
+
 ## [0.3.0] - 2025-07-31
 
 ### Added

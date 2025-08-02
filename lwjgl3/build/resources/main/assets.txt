@@ -1,8 +1,12 @@
+Buddy.png
+hormiga.png
 jugar.png
 libgdx.png
+mira.png
 opc1.png
 opc2.png
 opciones.png
+proyectil.png
 salir.png
 sonido_click.mp3
 volver.png

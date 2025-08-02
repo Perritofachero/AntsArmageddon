@@ -42,14 +42,6 @@ public class FabricaBotones {
             }
         });
     }
-
-    public static void dispose() {
-        for (Texture t : texturaCache.values()) {
-            t.dispose();
-        }
-        texturaCache.clear();
-    }
-
     public static InputListener agregarHover() {
         return new InputListener() {
             @Override
@@ -75,4 +67,12 @@ public class FabricaBotones {
             }
         };
     }
+
+    public static void dispose() {
+        for (Texture t : texturaCache.values()) {
+            t.dispose();
+        }
+        texturaCache.clear();
+    }
+
 }
