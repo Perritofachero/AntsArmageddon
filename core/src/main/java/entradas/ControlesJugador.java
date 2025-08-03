@@ -1,4 +1,4 @@
-package utils;
+package entradas;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
@@ -6,7 +6,7 @@ import entidades.Personaje;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ControlesPersonaje implements InputProcessor {
+public class ControlesJugador implements InputProcessor {
 
     private Personaje personaje;
 
@@ -14,7 +14,7 @@ public class ControlesPersonaje implements InputProcessor {
     private Set<Integer> keysPresionadas = new HashSet<>();
     private boolean proyectilDisparado = false;
 
-    public ControlesPersonaje(Personaje personaje){
+    public ControlesJugador(Personaje personaje){
         this.personaje = personaje;
     }
 
@@ -24,11 +24,11 @@ public class ControlesPersonaje implements InputProcessor {
 
         if (keysPresionadas.contains(Input.Keys.UP)){
             personaje.getMirilla().mostrarMirilla();
-            personaje.getMirilla().cambiarAngulo(-15);
+            personaje.getMirilla().cambiarAngulo(-5);
         }
         if (keysPresionadas.contains(Input.Keys.DOWN)){
             personaje.getMirilla().mostrarMirilla();
-            personaje.getMirilla().cambiarAngulo(15);
+            personaje.getMirilla().cambiarAngulo(5);
         }
         if (keysPresionadas.contains(Input.Keys.LEFT)) {
             this.x -= 1;
@@ -69,39 +69,27 @@ public class ControlesPersonaje implements InputProcessor {
     }
 
     @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
+    public boolean keyTyped(char character) { return false; }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) { return false; }
 
     @Override
-    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) { return false; }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
+    public boolean touchDragged(int screenX, int screenY, int pointer) { return false; }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
+    public boolean mouseMoved(int screenX, int screenY) { return false; }
 
     @Override
-    public boolean scrolled(float amountX, float amountY) {
-        return false;
-    }
+    public boolean scrolled(float amountX, float amountY) { return false; }
+
+
 
     public float getX(){
         return x;

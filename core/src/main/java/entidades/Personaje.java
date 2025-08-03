@@ -1,9 +1,7 @@
 package entidades;
 
-import Habilidades.Proyectil;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import utils.GestorDeColisiones;
+import logica.GestorDeColisiones;
 
 public class Personaje extends Entidad {
 
@@ -36,7 +34,7 @@ public class Personaje extends Entidad {
     }
 
     public Proyectil atacar(){
-        float poscX = this.x + (sprite.getWidth()/2);
+        float poscX = this.x + (sprite.getWidth()/2); //probar esto
         float poscY = this.y + (sprite.getHeight()/2);
 
         float angulo = mirilla.getAnguloRad();
@@ -62,34 +60,21 @@ public class Personaje extends Entidad {
         mirilla.render(batch);
     }
 
-    public float getX(){
-        return this.x;
-    }
 
-    public float getY(){
-        return this.y;
-    }
 
-    public float getVelocidad(){
-        return this.velocidad;
-    }
+    public float getX(){ return this.x; }
 
-    public int getVida(){
-        return this.vida;
-    }
-    public int getVidaMaxima(){
-        return 50;
-        //lo ponemos manualmente por ahora
-    }
+    public float getY(){ return this.y; }
 
-    public boolean getDireccion(){
-        return direccion;
-    }
-    public void setDireccion(boolean nuevaDireccion){
-        this.direccion = nuevaDireccion;
-    }
+    public float getVelocidad(){ return this.velocidad; }
 
-    public Mirilla getMirilla(){
-        return this.mirilla;
-    }
+    public int getVida(){ return this.vida; }
+
+    public int getVidaMaxima(){ return 50; } //lo ponemos manualmente por ahora
+
+    public boolean getDireccion(){ return direccion; }
+
+    public void setDireccion(boolean nuevaDireccion){ this.direccion = nuevaDireccion; }
+
+    public Mirilla getMirilla(){ return this.mirilla; }
 }

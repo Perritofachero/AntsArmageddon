@@ -1,6 +1,7 @@
-package utils;
+package logica;
 
 import com.badlogic.gdx.math.Rectangle;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,7 +25,6 @@ public class GestorDeColisiones {
                     puedeMoverse = false;
                 }
             }
-
             i++;
         }
 
@@ -37,8 +37,6 @@ public class GestorDeColisiones {
         }
     }
 
-    public void removerObjeto(Colisionable objeto) {
-        objetos.remove(objeto);
-    }
+    public void removerObjeto(Colisionable objeto) { objetos.remove(objeto); }
 
 }

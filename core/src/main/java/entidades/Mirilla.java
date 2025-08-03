@@ -64,15 +64,11 @@ public class Mirilla {
         }
     }
 
-    public void mostrarMirilla(){
-       this.visible = true;
-    }
 
-    public void ocultarMirilla(){
-        this.visible = false;
-    }
 
-    public float getAnguloRad(){
-        return this.anguloRad;
-    }
+    public void mostrarMirilla(){ this.visible = true; }
+
+    public void ocultarMirilla(){ this.visible = false; }
+
+    public float getAnguloRad(){ return this.anguloRad; }
 }

@@ -1,4 +1,4 @@
-package utils;
+package logica;
 
 import com.badlogic.gdx.math.Rectangle;
 

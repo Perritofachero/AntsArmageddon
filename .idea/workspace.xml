@@ -14,18 +14,25 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Habilidades/Proyectil.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Proyectil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/principal/AntsArmageddon.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/principal/AntsArmageddon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Mirilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Mirilla.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Personaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Personaje.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/FabricaBotones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/utils/FabricaBotones.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/Colisionable.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/logica/Colisionable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/ControlesPersonaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/EventosBoton.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/EventosBoton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/FabricaBotones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/FabricaBotones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/GestorDeColisiones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/logica/GestorDeColisiones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/Hud.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/Hud.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,6 +88,7 @@
     "Gradle.Ants Armageddon:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor": "Run",
     "Gradle.Build Ants Armageddon.executor": "Run",
     "Gradle.avances:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor": "Run",
+    "Gradle.backUp Trabajo echo:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -89,7 +97,8 @@
     "onboarding.tips.debug.path": "C:/Users/adria/IdeaProjects/Ants Armageddon/src/Main.java",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -100,7 +109,7 @@
   <component name="RunManager">
     <configuration name="Lwjgl3Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.github.some_example_name.lwjgl3.Lwjgl3Launcher" />
-      <module name="avances.lwjgl3.main" />
+      <module name="backUp_Trabajo_echo.lwjgl3.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="io.github.some_example_name.lwjgl3.*" />

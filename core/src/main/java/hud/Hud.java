@@ -1,4 +1,4 @@
-package utils;
+package hud;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,7 +20,5 @@ public class Hud {
         fuente.draw(batch, "Tiempo restante: " + contador, 10, 400);
     }
 
-    public void dispose() {
-        fuente.dispose();
-    }
+    public void dispose() { fuente.dispose(); }
 }

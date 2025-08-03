@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
-import utils.EventosBoton;
-import utils.FabricaBotones;
+import hud.EventosBoton;
+import hud.FabricaBotones;
 
 public class MenuScreen implements Screen {
 
@@ -19,8 +19,6 @@ public class MenuScreen implements Screen {
     private Stage escenario;
     private FitViewport viewport;
     private OrthographicCamera camara;
-
-    private ImageButton jugar, opciones, salir;
 
     public MenuScreen(AntsArmageddon juego){
         this.juego = juego;
@@ -33,24 +31,7 @@ public class MenuScreen implements Screen {
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        jugar = FabricaBotones.crearBoton("jugar.png");
-        opciones = FabricaBotones.crearBoton("opciones.png");
-        salir = FabricaBotones.crearBoton("salir.png");
-
-        FabricaBotones.agregarEventos(jugar, EventosBoton.irJuego(juego));
-        FabricaBotones.agregarEventos(opciones, EventosBoton.irMenuOpciones(juego));
-        FabricaBotones.agregarEventos(salir, EventosBoton.salirDelJuego());
-
-        Table table = new Table();
-        table.setFillParent(true);
-        table.center();
-
-        table.add(jugar).width(150).height(50).pad(10).row();
-        table.add(opciones).width(150).height(50).pad(10).row();
-        table.add(salir).width(150).height(50).pad(10);
-
-        escenario.addActor(table);
-
+        construirMenu();
     }
 
     @Override
@@ -63,29 +44,40 @@ public class MenuScreen implements Screen {
 
     }
 
-    @Override
-    public void resize(int ancho, int alto) {
-        viewport.update(ancho, alto, true);
+    public void construirMenu(){
+        ImageButton jugar = FabricaBotones.crearBoton("jugar.png");
+        ImageButton opciones = FabricaBotones.crearBoton("opciones.png");
+        ImageButton salir = FabricaBotones.crearBoton("salir.png");
+
+        FabricaBotones.agregarEventos(jugar, EventosBoton.irJuego(juego));
+        FabricaBotones.agregarEventos(opciones, EventosBoton.irMenuOpciones(juego));
+        FabricaBotones.agregarEventos(salir, EventosBoton.salirJuego(juego));
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+        table.add(jugar).pad(10).row();
+        table.add(opciones).pad(10).row();
+        table.add(salir).pad(10).row();
+
+        escenario.addActor(table);
     }
 
-    @Override
-    public void dispose() {
-        escenario.dispose();
-    }
+
 
     @Override
-    public void pause() {
-
-    }
+    public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
 
     @Override
-    public void resume() {
-
-    }
+    public void dispose() { escenario.dispose(); }
 
     @Override
-    public void hide() {
+    public void pause() { }
 
-    }
+    @Override
+    public void resume() { }
+
+    @Override
+    public void hide() { }
 
 }

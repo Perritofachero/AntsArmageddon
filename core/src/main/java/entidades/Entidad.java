@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import utils.Colisionable;
-import utils.GestorDeColisiones;
+import logica.Colisionable;
+import logica.GestorDeColisiones;
 
 public abstract class Entidad implements Colisionable {
 
@@ -38,15 +38,11 @@ public abstract class Entidad implements Colisionable {
 
     }
 
-    public Rectangle getHitbox(){
-        return hitbox;
-    }
 
-    public void render(SpriteBatch batch){
-        sprite.draw(batch);
-    }
 
-    public void dispose(){
-        sprite.getTexture().dispose();
-    }
+    public Rectangle getHitbox(){ return hitbox; }
+
+    public void render(SpriteBatch batch){ sprite.draw(batch); }
+
+    public void dispose(){ sprite.getTexture().dispose(); }
 }

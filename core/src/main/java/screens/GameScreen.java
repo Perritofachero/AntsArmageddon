@@ -1,6 +1,7 @@
 package screens;
 
-import Habilidades.Proyectil;
+import com.principal.Jugador;
+import entidades.Proyectil;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,9 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
 import entidades.Personaje;
-import utils.ControlesPersonaje;
-import utils.GestorDeColisiones;
-import utils.Hud;
+import entradas.ControlesJugador;
+import logica.GestorDeColisiones;
+import hud.Hud;
+import logica.GestorTurno;
 
 import java.util.ArrayList;
 
@@ -23,20 +25,18 @@ public class GameScreen implements Screen {
     private Stage escenario;
     private FitViewport viewport;
     private OrthographicCamera camara;
-
     private SpriteBatch batch;
     private Hud hud;
 
-    private Personaje jugador1, jugador2;
-    private ControlesPersonaje control1, control2;
+    private ArrayList<Jugador> jugadores = new ArrayList<>();
+    private ArrayList<ControlesJugador> controles = new ArrayList<>();
+    private GestorDeColisiones gestorColisiones = new GestorDeColisiones();
 
-    private boolean turno = true;
-    private final int TIEMPO_TURNO = 7;
-    private int contador = TIEMPO_TURNO;
-    private float tiempoAcumulado = 0f;
 
-    ArrayList<Proyectil> proyectiles;
-    GestorDeColisiones gestor = new GestorDeColisiones();
+    private ArrayList<Proyectil> proyectiles;
+
+    private GestorTurno gestorTurno;
+
 
     public GameScreen(AntsArmageddon juego){
         this.juego = juego;
@@ -48,22 +48,9 @@ public class GameScreen implements Screen {
         viewport = new FitViewport(800, 400, camara);
         escenario = new Stage(viewport);
 
-        jugador1 = new Personaje("Buddy.png", gestor, 50, 80, 50, false);
-        jugador2 = new Personaje("hormiga.png", gestor, 350, 80, 50, true);
-
-        control1 = new ControlesPersonaje(jugador1);
-        control2 = new ControlesPersonaje(jugador2);
+        crearJugadoresYControles();
 
         proyectiles = new ArrayList<>();
-
-        gestor.agregarObjeto(jugador1);
-        gestor.agregarObjeto(jugador2);
-
-        if(turno){
-            Gdx.input.setInputProcessor(control1);
-        }else{
-            Gdx.input.setInputProcessor(control2);
-        }
 
         hud = new Hud();
         batch = new SpriteBatch();
@@ -72,54 +59,40 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        if (turno) {
-            jugador1.mover(control1.getX(), control1.getY(), delta);
+        gestorTurno.correrContador(delta);
 
-            if(control1.getProyectilDisparado()){
-                Proyectil proyectil = jugador1.atacar();
-                proyectiles.add(proyectil);
-                gestor.agregarObjeto(proyectil);
-                control1.setProyectilDisparado(false);
-            }
-        } else {
-            jugador2.mover(control2.getX(), control2.getY(), delta);
+        Jugador jugadorActivo = gestorTurno.getJugadorActivo();
+        Personaje personajeActivo = jugadorActivo.getPersonajeActivo();
 
-            if(control2.getProyectilDisparado()){
-                Proyectil proyectil = jugador2.atacar();
-                proyectiles.add(proyectil);
-                gestor.agregarObjeto(proyectil);
+        int turno = gestorTurno.getTurnoActual();
 
-                control2.setProyectilDisparado(false);
-            }
-        }
+        ControlesJugador controlActivo = controles.get(turno);
+        Gdx.input.setInputProcessor(controlActivo);
+        controlActivo.procesarEntrada();
+        personajeActivo.mover(controlActivo.getX(), controlActivo.getY(), delta);
 
-        tiempoAcumulado += delta;
-        if (tiempoAcumulado >= 1f) {
-            contador--;
-            if (contador <= 0) {
-                contador = TIEMPO_TURNO;
-                turno = !turno;
-
-                if(turno){
-                    Gdx.input.setInputProcessor(control1);
-                    jugador2.getMirilla().ocultarMirilla();
-                }else{
-                    Gdx.input.setInputProcessor(control2);
-                    jugador1.getMirilla().ocultarMirilla();
-                }
-            }
-            tiempoAcumulado = 0f;
+        if(controlActivo.getProyectilDisparado()){
+            Proyectil proyectilDisparado = personajeActivo.atacar();
+            proyectiles.add(proyectilDisparado);
+            gestorColisiones.agregarObjeto(proyectilDisparado);
+            controlActivo.setProyectilDisparado(false);
         }
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        jugador1.render(batch);
-        hud.mostrarVida(batch, jugador1);
-        jugador2.render(batch);
-        hud.mostrarVida(batch, jugador2);
-        hud.mostrarContador(batch, contador);
+
+        for(int x = 0; x < jugadores.size(); x++){
+            Jugador jugadorAux = jugadores.get(x);
+            for(int y = 0; y < jugadorAux.getPersonajes().size(); y++){
+                Personaje personajeAux = jugadorAux.getPersonajes().get(y);
+                personajeAux.render(batch);
+                hud.mostrarVida(batch, personajeAux);
+            }
+        }
+
+        hud.mostrarContador(batch, gestorTurno.getTiempoActual());
 
         for(int i = 0; i < proyectiles.size(); i++){
             Proyectil proyectil = proyectiles.get(i);
@@ -134,29 +107,52 @@ public class GameScreen implements Screen {
         escenario.draw();
     }
 
-    @Override
-    public void resize(int ancho, int alto) {
-        viewport.update(ancho, alto, true);
+    public void crearJugadoresYControles(){
+
+        ArrayList<Personaje> personajesJugador1 = new ArrayList<>();
+        personajesJugador1.add(new Personaje("Buddy.png", gestorColisiones, 50, 80, 50, false));
+
+        ArrayList<Personaje> personajesJugador2 = new ArrayList<>();
+        personajesJugador2.add(new Personaje("hormiga.png", gestorColisiones, 450, 80, 50, false));
+
+        Jugador jugador1 = new Jugador(personajesJugador1);
+        Jugador jugador2 = new Jugador(personajesJugador2);
+
+        jugadores.add(jugador1);
+        jugadores.add(jugador2);
+
+        ControlesJugador control1 = new ControlesJugador(jugador1.getPersonajeActivo());
+        ControlesJugador control2 = new ControlesJugador(jugador2.getPersonajeActivo());
+
+        controles.add(control1);
+        controles.add(control2);
+
+        gestorColisiones = new GestorDeColisiones();
+        for(int x = 0; x < jugadores.size(); x++){
+            Jugador jugadorAux = jugadores.get(x);
+            for(int y = 0; y < jugadorAux.getPersonajes().size(); y++){
+                gestorColisiones.agregarObjeto(jugadorAux.getPersonajeIndice(y));
+            }
+        }
+
+        gestorTurno = new GestorTurno(jugadores);
     }
 
-    @Override
-    public void dispose() {
-        escenario.dispose();
-    }
+
 
     @Override
-    public void pause() {
-
-    }
+    public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
 
     @Override
-    public void resume() {
-
-    }
+    public void dispose() { escenario.dispose(); }
 
     @Override
-    public void hide() {
+    public void pause() { }
 
-    }
+    @Override
+    public void resume() { }
+
+    @Override
+    public void hide() { }
 
 }

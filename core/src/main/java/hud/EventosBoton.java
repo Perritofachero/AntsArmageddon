@@ -1,4 +1,4 @@
-package utils;
+package hud;
 
 import com.badlogic.gdx.Gdx;
 import com.principal.AntsArmageddon;

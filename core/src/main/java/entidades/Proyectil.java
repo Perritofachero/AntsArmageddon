@@ -1,9 +1,8 @@
-package Habilidades;
+package entidades;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import entidades.Entidad;
-import utils.GestorDeColisiones;
+import logica.GestorDeColisiones;
 
 public class Proyectil extends Entidad {
 
@@ -36,7 +35,5 @@ public class Proyectil extends Entidad {
         batch.draw(sprite, this.x, this.y);
     }
 
-    public boolean getActivo(){
-        return this.activo;
-    }
+    public boolean getActivo(){ return this.activo; }
 }

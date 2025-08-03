@@ -7,6 +7,12 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.2] - 2025-08-03
+
+### Changed
+- Reorganizacion de las clases y paquetes del proyecto.
+- Factorizacion del codigo de las clases.
+
 ## [0.3.1] - 2025-08-02
 
 ### Added
@@ -14,9 +20,6 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - Logica de turnos.
 - Miras para apuntar.
 - Disparar proyectiles con espacio.
-
-### Changed
-- Descripccion detallada de las dificultades de esta version en la wiki.
 
 ## [0.3.0] - 2025-07-31
 
