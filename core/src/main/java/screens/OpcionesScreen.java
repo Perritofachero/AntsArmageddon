@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
+import utils.Constantes;
 
 public class OpcionesScreen implements Screen {
 
@@ -19,6 +23,11 @@ public class OpcionesScreen implements Screen {
     private Stage escenario;
     private FitViewport viewport;
     private OrthographicCamera camara;
+
+    private Texture texturaFondo;
+    private Sprite spriteFondo;
+
+    private SpriteBatch batch;
 
     private ImageButton opc1, opc2, volver;
 
@@ -29,9 +38,16 @@ public class OpcionesScreen implements Screen {
     @Override
     public void show() {
         camara = new OrthographicCamera();
-        viewport = new FitViewport(800, 400, camara);
+        viewport = new FitViewport(Constantes.ANCHO, Constantes.ALTO, camara);
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
+
+        texturaFondo = new Texture(Gdx.files.internal("fondoPantalla.png"));
+        spriteFondo = new Sprite(texturaFondo);
+
+        spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+
+        batch = new SpriteBatch();
 
         construirMenuOpciones();
 
@@ -39,18 +55,21 @@ public class OpcionesScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClearColor(0.5f,   0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.begin();
+        spriteFondo.draw(batch);
+        batch.end();
 
         escenario.act(delta);
         escenario.draw();
-
     }
 
     public void construirMenuOpciones(){
-        ImageButton opc1 = FabricaBotones.crearBoton("opc1.png");
-        ImageButton opc2 = FabricaBotones.crearBoton("opc2.png");
-        ImageButton volver = FabricaBotones.crearBoton("volver.png");
+        ImageButton opc1 = FabricaBotones.crearBoton("Opc.png");
+        ImageButton opc2 = FabricaBotones.crearBoton("Sonido.png");
+        ImageButton volver = FabricaBotones.crearBoton("Volver.png");
 
         FabricaBotones.agregarEventos(opc1, () -> {System.out.println("Presionado opc1");});
         FabricaBotones.agregarEventos(opc2, () -> {System.out.println("Presionado opc2");});

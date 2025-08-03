@@ -17,7 +17,7 @@ public class Hud {
     }
 
     public void mostrarContador(SpriteBatch batch, int contador) {
-        fuente.draw(batch, "Tiempo restante: " + contador, 10, 400);
+        fuente.draw(batch, "Tiempo restante: " + contador, 40, 690);
     }
 
     public void dispose() { fuente.dispose(); }

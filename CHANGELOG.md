@@ -7,6 +7,16 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.3] - 2025-08-03
+
+### Added
+- Hitbox funcional entre entidades.
+- Fondo de pantalla para el menu screen, opciones y juego.
+
+### Changed
+- Descripccion detallada de las dificultades de esta version en la wiki.
+- Link del video demostrativo en el README.
+
 ## [0.3.2] - 2025-08-03
 
 ### Changed

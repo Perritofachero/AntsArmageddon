@@ -1,6 +1,7 @@
 package entidades;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import logica.GestorDeColisiones;
 
 public class Personaje extends Entidad {
@@ -34,7 +35,7 @@ public class Personaje extends Entidad {
     }
 
     public Proyectil atacar(){
-        float poscX = this.x + (sprite.getWidth()/2); //probar esto
+        float poscX = this.x + (sprite.getWidth()/2);
         float poscY = this.y + (sprite.getHeight()/2);
 
         float angulo = mirilla.getAnguloRad();
@@ -43,7 +44,12 @@ public class Personaje extends Entidad {
             angulo = (float) Math.PI - angulo;
         }
 
-        return new Proyectil(poscX, poscY, angulo, gestor);
+        float desplazamientoCentro = Math.max(sprite.getWidth(), sprite.getHeight()) / 2f + 70f;
+
+        float balaX = poscX + MathUtils.cos(angulo) * desplazamientoCentro;
+        float balaY = poscY + MathUtils.sin(angulo) * desplazamientoCentro;
+
+        return new Proyectil(balaX, balaY, angulo, gestor);
     }
 
     public void restarVida(int danioCausado){

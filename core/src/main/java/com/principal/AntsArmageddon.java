@@ -11,11 +11,10 @@ public class AntsArmageddon extends Game {
         setScreen(new MenuScreen(this));
     }
 
-
-
     @Override
     public void render() { super.render(); }
 
     @Override
     public void dispose() { super.dispose(); }
+
 }

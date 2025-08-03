@@ -1,5 +1,7 @@
 package screens;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.principal.Jugador;
 import entidades.Proyectil;
 import com.badlogic.gdx.Gdx;
@@ -15,6 +17,7 @@ import entradas.ControlesJugador;
 import logica.GestorDeColisiones;
 import hud.Hud;
 import logica.GestorTurno;
+import utils.Constantes;
 
 import java.util.ArrayList;
 
@@ -28,10 +31,12 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private Hud hud;
 
+    private Texture texturaMapa;
+    private Sprite spriteMapa;
+
     private ArrayList<Jugador> jugadores = new ArrayList<>();
     private ArrayList<ControlesJugador> controles = new ArrayList<>();
     private GestorDeColisiones gestorColisiones = new GestorDeColisiones();
-
 
     private ArrayList<Proyectil> proyectiles;
 
@@ -45,8 +50,11 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         camara = new OrthographicCamera();
-        viewport = new FitViewport(800, 400, camara);
+        viewport = new FitViewport(Constantes.ANCHO, Constantes.ALTO, camara);
         escenario = new Stage(viewport);
+
+        texturaMapa = new Texture(Gdx.files.internal("Mapa.png"));
+        spriteMapa = new Sprite(texturaMapa);
 
         crearJugadoresYControles();
 
@@ -83,6 +91,8 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
+        spriteMapa.draw(batch);
+
         for(int x = 0; x < jugadores.size(); x++){
             Jugador jugadorAux = jugadores.get(x);
             for(int y = 0; y < jugadorAux.getPersonajes().size(); y++){
@@ -109,11 +119,13 @@ public class GameScreen implements Screen {
 
     public void crearJugadoresYControles(){
 
+        gestorColisiones = new GestorDeColisiones();
+
         ArrayList<Personaje> personajesJugador1 = new ArrayList<>();
-        personajesJugador1.add(new Personaje("Buddy.png", gestorColisiones, 50, 80, 50, false));
+        personajesJugador1.add(new Personaje("buddy.png", gestorColisiones, 550, 350, 50, false));
 
         ArrayList<Personaje> personajesJugador2 = new ArrayList<>();
-        personajesJugador2.add(new Personaje("hormiga.png", gestorColisiones, 450, 80, 50, false));
+        personajesJugador2.add(new Personaje("hormiga.png", gestorColisiones, 50, 350, 50, false));
 
         Jugador jugador1 = new Jugador(personajesJugador1);
         Jugador jugador2 = new Jugador(personajesJugador2);
@@ -127,7 +139,6 @@ public class GameScreen implements Screen {
         controles.add(control1);
         controles.add(control2);
 
-        gestorColisiones = new GestorDeColisiones();
         for(int x = 0; x < jugadores.size(); x++){
             Jugador jugadorAux = jugadores.get(x);
             for(int y = 0; y < jugadorAux.getPersonajes().size(); y++){
