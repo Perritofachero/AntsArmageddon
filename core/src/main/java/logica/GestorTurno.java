@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 public class GestorTurno {
 
-    private final int TIEMPO_POR_TURNO = 15;
+    private final float TIEMPO_POR_TURNO = 5f;
 
     private int turnoActual = 0;
-    private int tiempoActual = TIEMPO_POR_TURNO;
-    private float tiempoAcumulado = 0f;
+    private float tiempoActual = TIEMPO_POR_TURNO;
+
+    private boolean enTransicion = false;
+    private float tiempoTransicion = 0f;
+    private final float DURACION_TRANSICION = 3f;
 
     ArrayList<Jugador> jugadores;
 
@@ -17,14 +20,31 @@ public class GestorTurno {
         this.jugadores = jugadores;
     }
 
-    public void correrContador(float delta){
-        this.tiempoAcumulado += delta;
-        if (this.tiempoAcumulado >= 1f) {
-            this.tiempoActual--;
-            if (this.tiempoActual <= 0) {
-                actualizarTurno();
+    public void correrContador(float delta) {
+
+        if (enTransicion) {
+            transicionarTurno(delta);
+        } else {
+            tiempoActual -= delta;
+            if (tiempoActual <= 0) {
+                iniciarTransicion();
+                tiempoActual = 0;
             }
-            this.tiempoAcumulado = 0f;
+        }
+    }
+
+    private void iniciarTransicion() {
+        this.enTransicion = true;
+        this.tiempoTransicion = 0f;
+    }
+
+    private void transicionarTurno(float delta){
+        tiempoTransicion += delta;
+
+        if(tiempoTransicion >= DURACION_TRANSICION){
+            tiempoTransicion = 0;
+            enTransicion = false;
+            actualizarTurno();
         }
     }
 
@@ -41,6 +61,6 @@ public class GestorTurno {
 
     public Jugador getJugadorActivo() { return jugadores.get(turnoActual); }
     public int getTurnoActual() { return this.turnoActual; }
-    public int getTiempoActual() { return this.tiempoActual; }
+    public float getTiempoActual() { return this.tiempoActual; }
 
 }

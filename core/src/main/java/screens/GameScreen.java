@@ -1,5 +1,6 @@
 package screens;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.principal.Jugador;
@@ -42,18 +43,25 @@ public class GameScreen implements Screen {
 
     private GestorTurno gestorTurno;
 
+    private AssetManager assetManager;
 
-    public GameScreen(AntsArmageddon juego){
+    /*
+    Sprites y logica de dibujo de balas y personaje tienen que estar en sus clases particulares.
+    Por ahora lo dejamos aca para ir probandolos.
+     */
+    public GameScreen(AntsArmageddon juego, AssetManager assetManager){
         this.juego = juego;
+        this.assetManager = assetManager;
+
     }
 
     @Override
     public void show() {
         camara = new OrthographicCamera();
-        viewport = new FitViewport(Constantes.ANCHO, Constantes.ALTO, camara);
+        viewport = new FitViewport(Constantes.RESOLUCION_ANCHO, Constantes.RESOLUCION_ALTO, camara);
         escenario = new Stage(viewport);
 
-        texturaMapa = new Texture(Gdx.files.internal("Mapa.png"));
+        texturaMapa = assetManager.get(Constantes.FONDO_GAMEPLAY, Texture.class);
         spriteMapa = new Sprite(texturaMapa);
 
         crearJugadoresYControles();
@@ -122,10 +130,10 @@ public class GameScreen implements Screen {
         gestorColisiones = new GestorDeColisiones();
 
         ArrayList<Personaje> personajesJugador1 = new ArrayList<>();
-        personajesJugador1.add(new Personaje("buddy.png", gestorColisiones, 550, 350, 50, false));
+        personajesJugador1.add(new Personaje("buddy.png", gestorColisiones, 550, 350));
 
         ArrayList<Personaje> personajesJugador2 = new ArrayList<>();
-        personajesJugador2.add(new Personaje("hormiga.png", gestorColisiones, 50, 350, 50, false));
+        personajesJugador2.add(new Personaje("hormiga.png", gestorColisiones, 50, 350));
 
         Jugador jugador1 = new Jugador(personajesJugador1);
         Jugador jugador2 = new Jugador(personajesJugador2);
@@ -155,7 +163,7 @@ public class GameScreen implements Screen {
     public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
 
     @Override
-    public void dispose() { escenario.dispose(); }
+    public void dispose() { escenario.dispose(); batch.dispose(); }
 
     @Override
     public void pause() { }

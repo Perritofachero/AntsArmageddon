@@ -1,77 +1,50 @@
 package hud;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-import java.util.HashMap;
+import utils.Constantes;
 
 public class FabricaBotones {
 
-    private static final HashMap<String, Texture> texturaCache = new HashMap<>();
-    private static final Sound sonidoClick = Gdx.audio.newSound(Gdx.files.internal("sonido_click.mp3"));
+    public static ImageButton crearBoton(AssetManager assetManager, String regionImagenUp, String regionImagenOver, String regionImagenDown, Runnable evento) {
 
-    public static ImageButton crearBoton(String nombreImagen) {
-        Texture textura = texturaCache.get(nombreImagen);
-        if (textura == null) {
-            textura = new Texture(Gdx.files.internal(nombreImagen));
-            texturaCache.put(nombreImagen, textura);
-        }
-        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(textura));
-        return new ImageButton(drawable);
-    }
+        TextureAtlas atlas = assetManager.get(Constantes.ATLAS_BOTONES, TextureAtlas.class);
+        ImageButton.ImageButtonStyle estilo = new ImageButton.ImageButtonStyle();
 
-    public static void agregarEventos(ImageButton boton, Runnable evento){
-        boton.addListener(agregarHover());
-        boton.addListener(agregarSonido());
+        estilo.up = new TextureRegionDrawable(atlas.findRegion(regionImagenUp));
+        estilo.over = new TextureRegionDrawable(atlas.findRegion(regionImagenOver));
+        estilo.down = new TextureRegionDrawable(atlas.findRegion(regionImagenDown));
+
+        ImageButton boton = new ImageButton(estilo);
 
         boton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y){
-                if(evento != null){
+            public void clicked(InputEvent event, float x, float y) {
+                if(evento != null) {
                     evento.run();
                 }
             }
         });
-    }
-    public static InputListener agregarHover() {
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (event.getListenerActor() instanceof ImageButton boton) {
-                    boton.getImage().setColor(0.7f, 0.7f, 0.7f, 1f);
-                }
-            }
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (event.getListenerActor() instanceof ImageButton boton) {
-                    boton.getImage().setColor(1f, 1f, 1f, 1f);
-                }
-            }
-        };
+
+        return boton;
     }
 
-    public static ClickListener agregarSonido() {
-        return new ClickListener() {
+    public static void agregarSonido(ImageButton boton, Sound sonido) {
+        if (sonido == null) return;
+
+        boton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                sonidoClick.play();
+                sonido.play();
             }
-        };
-    }
-
-    public static void dispose() {
-        for (Texture t : texturaCache.values()) {
-            t.dispose();
-        }
-        texturaCache.clear();
+        });
     }
 
 }

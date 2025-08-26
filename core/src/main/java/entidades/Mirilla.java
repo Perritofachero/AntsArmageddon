@@ -6,48 +6,38 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Mirilla {
 
-    private float x, y, angulo, radio, anguloRad;
+    private float x, y, angulo = 180, radio = 50, anguloRad;
     private Texture textura;
     private Sprite sprite;
     private Personaje personaje;
     private boolean visible;
-    private float velocidadMirilla = 30f;
+    private float velocidadMirilla = 4f;
 
     public Mirilla(Personaje personaje){
         this.personaje = personaje;
-        this.radio = 50;
         this.textura = new Texture("mira.png");
         this.sprite = new Sprite(textura);
-        this.angulo = 180;
     }
 
     public void actualizarPosicion() {
         float poscX = personaje.getX() + personaje.sprite.getWidth() / 2;
         float poscY = personaje.getY() + personaje.sprite.getHeight() / 2;
 
-        boolean direccion = personaje.getDireccion();
-
         anguloRad = (float) Math.toRadians(angulo);
 
-        float distanciaX = (float) Math.cos(anguloRad) * radio;
-        float distanciaY = (float) Math.sin(anguloRad) * radio;
+        float direccionMultiplier = personaje.getDireccion() ? -1 : 1;
 
-        if (direccion) {
-            distanciaX = -distanciaX;
-        } else {
-            //la mirilla esta mas lejos dependiendo si mira a la derecha o a la izquierda
-            //por el momento lo ajustamos asi manualmente hasta encontrar solucion.
-            distanciaX -= 13;
-        }
+        float distanciaX = (float) Math.cos(anguloRad) * radio * direccionMultiplier;
+        float distanciaY = (float) Math.sin(anguloRad) * radio;
 
         this.x = poscX + distanciaX;
         this.y = poscY + distanciaY;
 
-        this.sprite.setPosition(this.x, this.y);
+        this.sprite.setPosition(this.x - sprite.getWidth() / 2, this.y - sprite.getHeight() / 2);
     }
 
-    public void cambiarAngulo(float delta){
-        angulo += delta;
+    public void cambiarAngulo(int direccion){
+        angulo += direccion * velocidadMirilla;
 
         if(angulo > 270){
             angulo = 270;
@@ -63,7 +53,6 @@ public class Mirilla {
 
         }
     }
-
 
 
     public void mostrarMirilla(){ this.visible = true; }

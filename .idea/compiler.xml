@@ -7,22 +7,28 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.38/57f8f5e02e92a30fd21b80cbd426a4172b5f8e29/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="backUp_Trabajo_echo.core.main" />
+        <module name="AntsArmageddon.core.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
         </processorPath>
-        <module name="backUp_Trabajo_echo.core.test" />
-        <module name="backUp_Trabajo_echo.lwjgl3.test" />
-        <module name="backUp_Trabajo_echo.lwjgl3.main" />
+        <module name="AntsArmageddon.core.test" />
+        <module name="AntsArmageddon.lwjgl3.test" />
+        <module name="AntsArmageddon.lwjgl3.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="AntsArmageddon.core" options="-Xlint:-processing" />
+      <module name="AntsArmageddon.core.main" options="-Xlint:-processing" />
+      <module name="AntsArmageddon.core.test" options="-Xlint:-processing" />
+      <module name="AntsArmageddon.lwjgl3" options="-Xlint:-processing" />
+      <module name="AntsArmageddon.lwjgl3.main" options="-Xlint:-processing" />
+      <module name="AntsArmageddon.lwjgl3.test" options="-Xlint:-processing" />
       <module name="Ants_Armageddon.core" options="-Xlint:-processing" />
       <module name="Ants_Armageddon.core.main" options="-Xlint:-processing" />
       <module name="Ants_Armageddon.core.test" options="-Xlint:-processing" />

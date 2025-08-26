@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.4] - 2025-08-03
+
+### Added
+- Metodo en la clase utiles para descomponer atlas.
+
+### Changed
+- Refactorizacion de codigo.
+- Reajuste de la clase fabricaBotones para que funcione con atlas.
+
 ## [0.3.3] - 2025-08-03
 
 ### Added

@@ -5,33 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ee0bfa-838b-4590-9fc2-a89030fb04c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Opc.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Sonido.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/jugar.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/jugar.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/opc1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/opc2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/opciones.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/opciones.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/salir.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/salir.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/volver.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/volver.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/jugar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/libgdx.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/opciones.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/salir.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/volver.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/com/principal/AntsArmageddon.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/principal/AntsArmageddon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/com/principal/Jugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/com/principal/Jugador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Mirilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Mirilla.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Personaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Personaje.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/hud/EventosBoton.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/EventosBoton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/hud/FabricaBotones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/FabricaBotones.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/hud/Hud.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/Hud.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/logica/GestorTurno.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/logica/GestorTurno.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/classes/java/main/io/github/some_example_name/lwjgl3/Lwjgl3Launcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/classes/java/main/io/github/some_example_name/lwjgl3/Lwjgl3Launcher.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/Constantes.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/utils/Constantes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/Utiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/utils/Utiles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/src/main/java/io/github/some_example_name/lwjgl3/Lwjgl3Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/src/main/java/io/github/some_example_name/lwjgl3/Lwjgl3Launcher.java" afterDir="false" />
@@ -51,12 +63,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Ants Armageddon" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -87,19 +94,22 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Gradle.Ants Armageddon:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.AntsArmageddon:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Build Ants Armageddon.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
     &quot;Gradle.avances:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.backUp Trabajo echo:lwjgl3 [:lwjgl3:io.github.some_example_name.lwjgl3.Lwjgl3Launcher.main()].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/backUp Trabajo echo/avances&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/AntsArmageddon&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/adria/IdeaProjects/Ants Armageddon/src/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -110,7 +120,7 @@
   <component name="RunManager">
     <configuration name="Lwjgl3Launcher" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.github.some_example_name.lwjgl3.Lwjgl3Launcher" />
-      <module name="backUp_Trabajo_echo.lwjgl3.main" />
+      <module name="AntsArmageddon.lwjgl3.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="io.github.some_example_name.lwjgl3.*" />
@@ -148,6 +158,9 @@
     </task>
     <servers />
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -167,6 +180,10 @@
           <line>11</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

@@ -2,6 +2,8 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -29,20 +31,22 @@ public class OpcionesScreen implements Screen {
 
     private SpriteBatch batch;
 
-    private ImageButton opc1, opc2, volver;
+    AssetManager assetManager;
 
-    public OpcionesScreen(AntsArmageddon juego){
+    public OpcionesScreen(AntsArmageddon juego, AssetManager assetManager){
         this.juego = juego;
+        this.assetManager = assetManager;
+
     }
 
     @Override
     public void show() {
         camara = new OrthographicCamera();
-        viewport = new FitViewport(Constantes.ANCHO, Constantes.ALTO, camara);
+        viewport = new FitViewport(Constantes.RESOLUCION_ANCHO, Constantes.RESOLUCION_ALTO, camara);
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        texturaFondo = new Texture(Gdx.files.internal("fondoPantalla.png"));
+        texturaFondo = assetManager.get(Constantes.FONDO_JUEGO, Texture.class);
         spriteFondo = new Sprite(texturaFondo);
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -67,19 +71,21 @@ public class OpcionesScreen implements Screen {
     }
 
     public void construirMenuOpciones(){
-        ImageButton opc1 = FabricaBotones.crearBoton("Opc.png");
-        ImageButton opc2 = FabricaBotones.crearBoton("Sonido.png");
-        ImageButton volver = FabricaBotones.crearBoton("Volver.png");
+        ImageButton opc1 = FabricaBotones.crearBoton(assetManager, "opc_up", "opc_over", "opc_down", () -> System.out.println("Boton opc presionado"));
+        ImageButton sonido = FabricaBotones.crearBoton(assetManager, "sonido_up", "sonido_over", "sonido_down", () -> System.out.println("Boton sonido presionado"));
+        ImageButton volver = FabricaBotones.crearBoton(assetManager, "volver_up", "volver_over", "volver_down", EventosBoton.salirMenuOpciones(juego));
 
-        FabricaBotones.agregarEventos(opc1, () -> {System.out.println("Presionado opc1");});
-        FabricaBotones.agregarEventos(opc2, () -> {System.out.println("Presionado opc2");});
-        FabricaBotones.agregarEventos(volver, EventosBoton.salirMenuOpciones(juego));
+        Sound sonidoClick = assetManager.get(Constantes.SONIDO_BOTONES, Sound.class);
+
+        FabricaBotones.agregarSonido(opc1, sonidoClick);
+        FabricaBotones.agregarSonido(sonido, sonidoClick);
+        FabricaBotones.agregarSonido(volver, sonidoClick);
 
         Table table = new Table();
         table.setFillParent(true);
         table.top().right();
         table.add(opc1).pad(10).row();
-        table.add(opc2).pad(10).row();
+        table.add(sonido).pad(10).row();
         table.add(volver).pad(10).row();
 
         escenario.addActor(table);
@@ -91,7 +97,7 @@ public class OpcionesScreen implements Screen {
     public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
 
     @Override
-    public void dispose() { escenario.dispose(); }
+    public void dispose() { escenario.dispose(); batch.dispose(); }
 
     @Override
     public void pause() { }

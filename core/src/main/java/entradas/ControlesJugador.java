@@ -24,47 +24,35 @@ public class ControlesJugador implements InputProcessor {
 
         if (keysPresionadas.contains(Input.Keys.UP)){
             personaje.getMirilla().mostrarMirilla();
-            personaje.getMirilla().cambiarAngulo(-5);
+            personaje.getMirilla().cambiarAngulo(-1);
         }
         if (keysPresionadas.contains(Input.Keys.DOWN)){
             personaje.getMirilla().mostrarMirilla();
-            personaje.getMirilla().cambiarAngulo(5);
+            personaje.getMirilla().cambiarAngulo(1);
         }
         if (keysPresionadas.contains(Input.Keys.LEFT)) {
             this.x -= 1;
             personaje.getMirilla().ocultarMirilla();
-            personaje.setDireccion(false);
         }
         if (keysPresionadas.contains(Input.Keys.RIGHT)){
             personaje.getMirilla().ocultarMirilla();
             this.x += 1;
-            personaje.setDireccion(true);
         }
         if (keysPresionadas.contains(Input.Keys.SPACE)){
             proyectilDisparado = true;
         }
 
-        if (this.x != 0 && this.y != 0) {
-            float factor = (float)(1 / Math.sqrt(2));
-            this.x *= factor;
-            this.y *= factor;
-        }
     }
 
     @Override
     public boolean keyDown(int keycode) {
         keysPresionadas.add(keycode);
-        procesarEntrada();
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         keysPresionadas.remove(keycode);
-        if(keycode == Input.Keys.SPACE){
-            proyectilDisparado = false;
-        }
-        procesarEntrada();
         return true;
     }
 

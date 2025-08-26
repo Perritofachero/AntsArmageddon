@@ -1,5 +1,6 @@
 package entidades;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import logica.GestorDeColisiones;
@@ -8,23 +9,31 @@ public class Personaje extends Entidad {
 
     private int vida;
     private float velocidad;
-    private boolean direccion; //izquierda false, derecha true.
     private Mirilla mirilla;
+    private boolean direccion;
 
-    public Personaje(String rutaTextura, GestorDeColisiones gestor, float x, float y, int vida, boolean direccion) {
+    public Personaje(String rutaTextura, GestorDeColisiones gestor, float x, float y) {
         super(rutaTextura, gestor, x, y);
-        this.vida = vida;
+        this.vida = 50;
         this.velocidad = 200;
-        this.direccion = direccion;
         this.mirilla = new Mirilla(this);
+        this.direccion = false;
     }
 
     public void mover(float deltaX, float deltaY, float deltaTiempo){
         float nuevaX = this.x + deltaX * velocidad * deltaTiempo;
         float nuevaY = this.y + deltaY * velocidad * deltaTiempo;
 
-        if (this.direccion == sprite.isFlipX()) {
-            sprite.flip(true, false);
+        if (deltaX < 0) {
+            direccion = false;
+            if (!sprite.isFlipX()) {
+                sprite.flip(true, false);
+            }
+        } else if (deltaX > 0) {
+            direccion = true;
+            if (sprite.isFlipX()) {
+                sprite.flip(true, false);
+            }
         }
 
         if(gestor.verificarHitbox(this, nuevaX, nuevaY)){
@@ -68,19 +77,17 @@ public class Personaje extends Entidad {
 
 
 
-    public float getX(){ return this.x; }
+    public float getX() { return this.x; }
 
-    public float getY(){ return this.y; }
+    public float getY() { return this.y; }
 
-    public float getVelocidad(){ return this.velocidad; }
+    public int getVida() { return this.vida; }
 
-    public int getVida(){ return this.vida; }
+    public int getVidaMaxima() { return 50; } //lo ponemos manualmente por ahora
 
-    public int getVidaMaxima(){ return 50; } //lo ponemos manualmente por ahora
+    public boolean getDireccion() { return direccion; }
 
-    public boolean getDireccion(){ return direccion; }
+    public Sprite getSprite() { return this.sprite; }
 
-    public void setDireccion(boolean nuevaDireccion){ this.direccion = nuevaDireccion; }
-
-    public Mirilla getMirilla(){ return this.mirilla; }
+    public Mirilla getMirilla() { return this.mirilla; }
 }
