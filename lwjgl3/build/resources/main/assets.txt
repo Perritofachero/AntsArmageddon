@@ -10,4 +10,6 @@ fondoPantalla.png
 hormiga.png
 mira.png
 proyectil.png
+prueba.png
+pruebaFondoJuego.jpg
 sonido_click.mp3

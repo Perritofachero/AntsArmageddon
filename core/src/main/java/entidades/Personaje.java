@@ -70,10 +70,13 @@ public class Personaje extends Entidad {
     }
 
     public void render(SpriteBatch batch){
+        sprite.setPosition(this.x, this.y);
         sprite.draw(batch);
+
         mirilla.actualizarPosicion();
         mirilla.render(batch);
     }
+
 
 
 

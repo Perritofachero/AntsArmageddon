@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.5] - 2025-09-10
+
+### Added
+- Metodo gestionar proyectiles
+
+### Changed
+- Refactorizacion de codigo.
+- Implementacion de camara que sigue al personaje
+
 ## [0.3.4] - 2025-08-03
 
 ### Added

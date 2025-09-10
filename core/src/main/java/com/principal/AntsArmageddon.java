@@ -36,6 +36,8 @@ public class AntsArmageddon extends Game {
         assetManager.load("fondoPantalla.png", Texture.class);
         assetManager.load("Mapa.png", Texture.class);
 
+        assetManager.load(Constantes.FONDO_JUEGO_PRUEBA, Texture.class);
+
         assetManager.finishLoading();
 
     }

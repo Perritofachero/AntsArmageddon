@@ -6,7 +6,13 @@ public class Constantes {
     public static final String SONIDO_BOTONES = "sonido_click.mp3";
     public static final String FONDO_JUEGO = "fondoPantalla.png";
     public static final String FONDO_GAMEPLAY = "Mapa.png";
+    public static final String FONDO_JUEGO_PRUEBA = "pruebaFondoJuego.jpg";
 
     public static final int RESOLUCION_ANCHO = 1280;
     public static final int RESOLUCION_ALTO = 720;
+
+    public static final int RESOLUCION_ANCHO_MAPA = 1920;
+    public static final int RESOLUCION_ALTO_MAPA = 696;
+
+
 }
