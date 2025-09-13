@@ -1,4 +1,4 @@
-package logica;
+package Fisicas;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
@@ -21,8 +21,9 @@ public class Camara {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
 
-        camera.position.set(worldWidth / 2f, worldHeight / 2f, 0);
+        camera.position.set(mapWidth / 2f, mapHeight / 2f, 0);
         camera.update();
+
     }
 
     public void update(Vector2 targetPosition) {

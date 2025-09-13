@@ -1,4 +1,4 @@
-package logica;
+package Gameplay.Gestores;
 
 import com.principal.Jugador;
 import java.util.ArrayList;

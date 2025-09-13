@@ -1,4 +1,4 @@
-package logica;
+package Fisicas;
 
 import com.badlogic.gdx.math.Rectangle;
 

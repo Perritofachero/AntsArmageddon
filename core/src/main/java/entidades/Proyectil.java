@@ -1,39 +1,45 @@
 package entidades;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import logica.GestorDeColisiones;
+import Gameplay.Gestores.GestorColisiones;
 
-public class Proyectil extends Entidad {
+public abstract class Proyectil extends Entidad {
 
-    private float velocidad = 200;
-    private float angulo;
-    private boolean activo;
+    protected float velocidad;
+    protected float angulo;
+    protected boolean activo;
+    protected int danio;
+    protected float peso;//despues lo usaremos
+    protected GestorColisiones gestor;
+    protected Personaje ejecutor;
+    protected float tiempoGracia = 2f;
+    protected float tiempoTranscurrido = 0f;
 
-    public Proyectil(float x, float y, float angulo, GestorDeColisiones gestor){
-        super("proyectil.png", gestor, x, y);
+    public Proyectil(float x, float y, float angulo, float velocidad, int danio, GestorColisiones gestor, Personaje ejecutor) {
+        super(x, y);
         this.velocidad = velocidad;
         this.angulo = angulo;
+        this.danio = danio;
         this.activo = true;
+        this.gestor = gestor;
+        this.ejecutor = ejecutor;
     }
 
-    public void moverProyectil(float delta){
-        float nuevaX = this.x + MathUtils.cos(angulo) * velocidad * delta;
-        float nuevaY = this.y + MathUtils.sin(angulo) * velocidad * delta;
+    public abstract void mover(float delta);
 
-        if(gestor.verificarHitbox(this, nuevaX, nuevaY)){
-            this.x = nuevaX;
-            this.y = nuevaY;
-            update();
-        }else{
-            gestor.removerObjeto(this);
-            activo = false;
-        }
+    public abstract void render(SpriteBatch batch);
+
+    public boolean isActivo() {
+        return activo;
     }
 
-    public void render(SpriteBatch batch){
-        batch.draw(sprite, this.x, this.y);
+    public int getDanio() {
+        return danio;
     }
 
-    public boolean getActivo(){ return this.activo; }
+    public void desactivar() {
+        activo = false;
+        gestor.removerObjeto(this);
+    }
 }
+

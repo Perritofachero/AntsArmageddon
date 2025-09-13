@@ -14,5 +14,9 @@ public class Constantes {
     public static final int RESOLUCION_ANCHO_MAPA = 1920;
     public static final int RESOLUCION_ALTO_MAPA = 696;
 
+    /*
+    Criterio de direccion, true = derecha, false = izquierda.
+    Derecha = -1, izquierda = 1
+    */
 
 }

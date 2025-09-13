@@ -1,75 +1,86 @@
 package entidades;
 
+import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Movimientos.LanzaRoca;
+import Gameplay.Movimientos.Movimiento;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import logica.GestorDeColisiones;
+import Gameplay.Gestores.GestorColisiones;
+import com.badlogic.gdx.graphics.Texture;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Personaje extends Entidad {
 
     private int vida;
+    private final int vidaMaxima = 50;
     private float velocidad;
-    private Mirilla mirilla;
     private boolean direccion;
 
-    public Personaje(String rutaTextura, GestorDeColisiones gestor, float x, float y) {
-        super(rutaTextura, gestor, x, y);
-        this.vida = 50;
-        this.velocidad = 200;
+    private Mirilla mirilla;
+    private Texture textura;
+    private Sprite sprite;
+    private GestorColisiones gestorColisiones;
+    private GestorProyectiles gestorProyectiles;
+
+    private List<Movimiento> movimientos;
+
+
+    public Personaje(String rutaTextura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
+        super(x, y);
+        this.gestorColisiones = gestorColisiones;
+        this.gestorProyectiles = gestorProyectiles; // <- Usar el que viene de GameScreen
+
+        this.textura = new Texture(rutaTextura);
+        this.sprite = new Sprite(textura);
+        this.sprite.setPosition(x, y);
+
+        this.hitbox.setWidth(sprite.getWidth());
+        this.hitbox.setHeight(sprite.getHeight());
+
+        this.vida = vidaMaxima;
+        this.velocidad = 200f;
         this.mirilla = new Mirilla(this);
         this.direccion = false;
+
+        if (!direccion) {
+            sprite.flip(true, false);
+        }
+
+        movimientos = new ArrayList<>();
+
+        Sprite spriteMovimiento = new Sprite(new Texture("1.png"));
+        movimientos.add(new LanzaRoca("Lanzar Roca", spriteMovimiento, 1f, 300f, 25, gestorProyectiles));
     }
 
-    public void mover(float deltaX, float deltaY, float deltaTiempo){
+    public void mover(float deltaX, float deltaY, float deltaTiempo) {
         float nuevaX = this.x + deltaX * velocidad * deltaTiempo;
         float nuevaY = this.y + deltaY * velocidad * deltaTiempo;
 
         if (deltaX < 0) {
             direccion = false;
-            if (!sprite.isFlipX()) {
-                sprite.flip(true, false);
-            }
+            if (!sprite.isFlipX()) sprite.flip(true, false);
         } else if (deltaX > 0) {
             direccion = true;
-            if (sprite.isFlipX()) {
-                sprite.flip(true, false);
-            }
+            if (sprite.isFlipX()) sprite.flip(true, false);
         }
 
-        if(gestor.verificarHitbox(this, nuevaX, nuevaY)){
+        if (gestorColisiones.verificarHitbox(this, nuevaX, nuevaY, this)) {
             this.x = nuevaX;
             this.y = nuevaY;
             update();
         }
     }
 
-    public Proyectil atacar(){
-        float poscX = this.x + (sprite.getWidth()/2);
-        float poscY = this.y + (sprite.getHeight()/2);
-
-        float angulo = mirilla.getAnguloRad();
-
-        if (direccion) {
-            angulo = (float) Math.PI - angulo;
-        }
-
-        float desplazamientoCentro = Math.max(sprite.getWidth(), sprite.getHeight()) / 2f + 70f;
-
-        float balaX = poscX + MathUtils.cos(angulo) * desplazamientoCentro;
-        float balaY = poscY + MathUtils.sin(angulo) * desplazamientoCentro;
-
-        return new Proyectil(balaX, balaY, angulo, gestor);
-    }
-
-    public void restarVida(int danioCausado){
-        this.vida -= danioCausado;
-
-        if(this.vida < 0){
-            this.vida = 0;
+    public void usarMovimiento(int indice) {
+        if (indice >= 0 && indice < movimientos.size()) {
+            Movimiento movimiento = movimientos.get(indice);
+            movimiento.ejecutar(this);
+            System.out.println("Personaje va a usar movimiento: " + indice + " -> " + movimientos.get(indice).getClass().getSimpleName());
         }
     }
 
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch) {
         sprite.setPosition(this.x, this.y);
         sprite.draw(batch);
 
@@ -77,20 +88,32 @@ public class Personaje extends Entidad {
         mirilla.render(batch);
     }
 
+    public void restarVida(int danio) {
+        this.vida -= danio;
+        if (this.vida < 0) this.vida = 0;
+    }
 
+    public void dispose() {
+        textura.dispose();
+        for (Movimiento m : movimientos) {
+            if (m.getSprite() != null) m.getSprite().getTexture().dispose();
+        }
+    }
 
-
+    public int getDireccionMultiplicador() {
+        if (direccion) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
     public float getX() { return this.x; }
-
     public float getY() { return this.y; }
-
     public int getVida() { return this.vida; }
-
-    public int getVidaMaxima() { return 50; } //lo ponemos manualmente por ahora
-
+    public int getVidaMaxima() { return vidaMaxima; }
     public boolean getDireccion() { return direccion; }
-
     public Sprite getSprite() { return this.sprite; }
-
     public Mirilla getMirilla() { return this.mirilla; }
+    public List<Movimiento> getMovimientos() { return movimientos; }
 }
+

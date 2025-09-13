@@ -10,11 +10,22 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 ## [0.3.5] - 2025-09-10
 
 ### Added
+- Clase Movimiento y Movimiento Rango con interfaz de movimiento.
+- Creacion de proyectil Roca y movimiento LanzaRoca.x
+
+### Changed
+- Reordenamiento de clases en paquetes.
+- Optimizacion y escalamiento de codigo.
+- Fix de bugs y malos funcionamientos.
+
+## [0.3.5] - 2025-09-10
+
+### Added
 - Metodo gestionar proyectiles
 
 ### Changed
 - Refactorizacion de codigo.
-- Implementacion de camara que sigue al personaje
+- Implementacion de camara que sigue al personaje.
 
 ## [0.3.4] - 2025-08-03
 
