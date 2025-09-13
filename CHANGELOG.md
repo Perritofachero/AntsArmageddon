@@ -7,11 +7,11 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
-## [0.3.5] - 2025-09-10
+## [0.3.6] - 2025-09-10
 
 ### Added
 - Clase Movimiento y Movimiento Rango con interfaz de movimiento.
-- Creacion de proyectil Roca y movimiento LanzaRoca.x
+- Creacion de proyectil Roca y movimiento LanzaRoca.
 
 ### Changed
 - Reordenamiento de clases en paquetes.
