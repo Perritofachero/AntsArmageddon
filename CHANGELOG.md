@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.7] - 2025-09-18
+
+### Added
+- Raycast para evitar saltos por velocidad.
+- Limites del mapa.
+
+### Changed
+- Logica de movimiento para funcionar con raycast.
+
 ## [0.3.6] - 2025-09-10
 
 ### Added

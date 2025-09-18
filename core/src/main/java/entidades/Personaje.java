@@ -29,7 +29,7 @@ public class Personaje extends Entidad {
     public Personaje(String rutaTextura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
         super(x, y);
         this.gestorColisiones = gestorColisiones;
-        this.gestorProyectiles = gestorProyectiles; // <- Usar el que viene de GameScreen
+        this.gestorProyectiles = gestorProyectiles;
 
         this.textura = new Texture(rutaTextura);
         this.sprite = new Sprite(textura);
@@ -70,13 +70,13 @@ public class Personaje extends Entidad {
             this.y = nuevaY;
             update();
         }
+
     }
 
     public void usarMovimiento(int indice) {
         if (indice >= 0 && indice < movimientos.size()) {
             Movimiento movimiento = movimientos.get(indice);
             movimiento.ejecutar(this);
-            System.out.println("Personaje va a usar movimiento: " + indice + " -> " + movimientos.get(indice).getClass().getSimpleName());
         }
     }
 

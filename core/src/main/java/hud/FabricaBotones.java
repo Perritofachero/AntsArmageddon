@@ -13,7 +13,8 @@ import utils.Constantes;
 
 public class FabricaBotones {
 
-    public static ImageButton crearBoton(AssetManager assetManager, String regionImagenUp, String regionImagenOver, String regionImagenDown, Runnable evento) {
+    public static ImageButton crearBoton(AssetManager assetManager, String regionImagenUp,
+    String regionImagenOver, String regionImagenDown, Runnable evento) {
 
         TextureAtlas atlas = assetManager.get(Constantes.ATLAS_BOTONES, TextureAtlas.class);
         ImageButton.ImageButtonStyle estilo = new ImageButton.ImageButtonStyle();
@@ -37,14 +38,15 @@ public class FabricaBotones {
     }
 
     public static void agregarSonido(ImageButton boton, Sound sonido) {
-        if (sonido == null) return;
-
         boton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 sonido.play();
             }
         });
+
     }
+
+    /*Hacer botones un enum, con todos los datos de los botones ya creados*/
 
 }

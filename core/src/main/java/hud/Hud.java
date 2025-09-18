@@ -1,8 +1,11 @@
 package hud;
 
+import Fisicas.Camara;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import entidades.Personaje;
 import utils.Constantes;
 
@@ -23,12 +26,24 @@ public class Hud {
         fuente.draw(batch, texto, posX, posY);
     }
 
-    public void mostrarContador(SpriteBatch batch, float contador) {
+    public void mostrarContador(SpriteBatch batch, float contador, Camara camara) {
         String texto = String.format("Tiempo restante: %.2f s", contador);
         layout.setText(fuente, texto);
-        float posX = Constantes.RESOLUCION_ANCHO - 200;
-        float posY = Constantes.RESOLUCION_ALTO - 50;
+
+        OrthographicCamera camera = camara.getCamera();
+        Viewport viewport = camara.getViewport();
+
+        float camX = camera.position.x;
+        float camY = camera.position.y;
+
+        float offsetX = viewport.getWorldWidth() / 2f - 200;
+        float offsetY = viewport.getWorldHeight() / 2f - 50;
+
+        float posX = camX + offsetX;
+        float posY = camY + offsetY;
+
         fuente.draw(batch, texto, posX, posY);
+
     }
 
     public void dispose() { fuente.dispose(); }

@@ -1,17 +1,20 @@
 package entidades;
 
+import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 public class Roca extends Proyectil {
 
     private Texture textura;
     private Sprite sprite;
+    private int direccion;
+
     private float velocidadY;
-    private float direccion;
 
     public Roca(float x, float y, float angulo, float velocidad, int dano, GestorColisiones gestorColisiones, Personaje ejecutor) {
         super(x, y, angulo, velocidad, dano, gestorColisiones, ejecutor);
@@ -26,33 +29,17 @@ public class Roca extends Proyectil {
         this.hitbox.setHeight(sprite.getHeight());
 
         this.ejecutor = ejecutor;
-
         this.direccion = ejecutor.getDireccionMultiplicador();
 
         this.activo = true;
     }
 
-    private boolean primerFrame = true;
-
     @Override
-    public void mover(float delta) {
-        tiempoTranscurrido += delta;
+    protected Vector2 calcularMovimiento(float delta) {
+        float dx = MathUtils.cos(angulo) * velocidad * delta * direccion;
+        float dy = MathUtils.sin(angulo) * velocidad * delta;
 
-        float nuevaX = this.x + MathUtils.cos(angulo) * velocidad * delta * direccion;
-        float nuevaY = this.y + MathUtils.sin(angulo) * velocidad * delta;
-
-        Personaje ignorar = null;
-        if (tiempoTranscurrido < tiempoGracia) {
-            ignorar = ejecutor;
-        }
-
-        if (gestor.verificarHitbox(this, nuevaX, nuevaY, ignorar)) {
-            x = nuevaX;
-            y = nuevaY;
-            update();
-        } else {
-            desactivar();
-        }
+        return new Vector2(dx, dy);
     }
 
     @Override
@@ -60,6 +47,9 @@ public class Roca extends Proyectil {
         sprite.setPosition(this.x, this.y);
         sprite.draw(batch);
     }
+
+    @Override
+    protected void impactoProyectil(Colisionable impactado) { }
 
     @Override
     public void dispose() {

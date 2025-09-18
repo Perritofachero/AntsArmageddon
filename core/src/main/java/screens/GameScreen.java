@@ -1,14 +1,17 @@
 package screens;
 
 import Fisicas.Camara;
+import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorProyectiles;
 import Gameplay.Gestores.GestorTurno;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
 import entidades.Personaje;
 import com.badlogic.gdx.Screen;
@@ -16,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
+import entidades.Proyectil;
 import entidades.Roca;
 import entradas.ControlesJugador;
 import hud.Hud;
@@ -31,6 +35,7 @@ public class GameScreen implements Screen {
 
     private Stage escenario;
     private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
     private Hud hud;
     private Sprite spriteMapa;
     private Camara camaraPersonaje;
@@ -38,6 +43,7 @@ public class GameScreen implements Screen {
     private GestorColisiones gestorColisiones;
     private GestorProyectiles gestorProyectiles;
     private GestorTurno gestorTurno;
+    private Mapa mapa;
 
     private List<Jugador> jugadores = new ArrayList<>();
     private List<ControlesJugador> controles = new ArrayList<>();
@@ -53,6 +59,12 @@ public class GameScreen implements Screen {
         escenario = new Stage(viewport);
         batch = new SpriteBatch();
         hud = new Hud();
+        shapeRenderer = new ShapeRenderer();
+
+        gestorColisiones = new GestorColisiones();
+        gestorProyectiles = new GestorProyectiles(gestorColisiones);
+
+        mapa = new Mapa(gestorColisiones);
 
         spriteMapa = new Sprite(assetManager.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
         spriteMapa.setPosition(0, 0);
@@ -60,23 +72,19 @@ public class GameScreen implements Screen {
         camaraPersonaje = new Camara(
             Constantes.RESOLUCION_ANCHO,
             Constantes.RESOLUCION_ALTO,
-            spriteMapa.getWidth(),
-            spriteMapa.getHeight()
+            Constantes.RESOLUCION_ANCHO_MAPA,
+            Constantes.RESOLUCION_ALTO_MAPA
         );
 
-        gestorColisiones = new GestorColisiones();
-        gestorProyectiles = new GestorProyectiles(gestorColisiones);
-
         Jugador jugador1 = new Jugador(new ArrayList<>());
-        jugador1.getPersonajes().add(new Personaje("prueba.png", gestorColisiones, gestorProyectiles, 300, 100));
+        jugador1.getPersonajes().add(new Personaje("prueba.png", gestorColisiones, gestorProyectiles, 200, 200));
 
         Jugador jugador2 = new Jugador(new ArrayList<>());
-        jugador2.getPersonajes().add(new Personaje("hormiga.png", gestorColisiones, gestorProyectiles, 50, 350));
+        jugador2.getPersonajes().add(new Personaje("hormiga.png", gestorColisiones, gestorProyectiles, 400, 350));
 
         jugadores.add(jugador1);
         jugadores.add(jugador2);
 
-        // --- Crear controles ---
         controles.add(new ControlesJugador(jugador1.getPersonajeActivo()));
         controles.add(new ControlesJugador(jugador2.getPersonajeActivo()));
 
@@ -91,46 +99,76 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        gestorTurno.correrContador(delta);
-        Jugador jugadorActivo = gestorTurno.getJugadorActivo();
-        Personaje personajeActivo = jugadorActivo.getPersonajeActivo();
-        ControlesJugador controlActivo = controles.get(gestorTurno.getTurnoActual());
+        actualizarTurno(delta);
+        procesarEntradaJugador();
+        actualizarPersonajeActivo(delta);
 
+        limpiarPantalla();
+        actualizarCamara();
+
+        batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
+        batch.begin();
+
+        dibujarMapa();
+        dibujarPersonajes();
+        actualizarYDibujarProyectiles(delta);
+        hud.mostrarContador(batch, gestorTurno.getTiempoActual(), camaraPersonaje);
+        batch.end();
+
+        mapa.draw(shapeRenderer, camaraPersonaje);
+
+        escenario.act(delta);
+        escenario.draw();
+    }
+
+    private void actualizarTurno(float delta) {
+        gestorTurno.correrContador(delta);
+    }
+
+    private void procesarEntradaJugador() {
+        ControlesJugador controlActivo = controles.get(gestorTurno.getTurnoActual());
         Gdx.input.setInputProcessor(controlActivo);
         controlActivo.procesarEntrada();
 
-        personajeActivo.mover(controlActivo.getX(), controlActivo.getY(), delta);
-
+        Personaje personajeActivo = gestorTurno.getJugadorActivo().getPersonajeActivo();
         if (controlActivo.getMovimientoSeleccionado() >= 0) {
             personajeActivo.usarMovimiento(controlActivo.getMovimientoSeleccionado());
             controlActivo.resetMovimientoSeleccionado();
         }
+    }
 
+    private void actualizarPersonajeActivo(float delta) {
+        Personaje personajeActivo = gestorTurno.getJugadorActivo().getPersonajeActivo();
+        ControlesJugador controlActivo = controles.get(gestorTurno.getTurnoActual());
+        personajeActivo.mover(controlActivo.getX(), controlActivo.getY(), delta);
+    }
+
+    private void limpiarPantalla() {
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    }
 
-        camaraPersonaje.seguirPersonaje(personajeActivo);
+    private void actualizarCamara() {
+        camaraPersonaje.seguirPersonaje(gestorTurno.getJugadorActivo().getPersonajeActivo());
         camaraPersonaje.getCamera().update();
-        batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
+    }
 
-        batch.begin();
+    private void dibujarMapa() {
         spriteMapa.draw(batch);
+    }
 
+    private void dibujarPersonajes() {
         for (Jugador j : jugadores) {
             for (Personaje p : j.getPersonajes()) {
                 p.render(batch);
                 hud.mostrarVida(batch, p);
             }
         }
+    }
 
+    private void actualizarYDibujarProyectiles(float delta) {
         gestorProyectiles.actualizar(delta);
         gestorProyectiles.render(batch);
-
-        hud.mostrarContador(batch, gestorTurno.getTiempoActual());
-        batch.end();
-
-        escenario.act(delta);
-        escenario.draw();
     }
 
     @Override public void resize(int width, int height) {

@@ -15,14 +15,19 @@ public class LanzaRoca extends MovimientoRango {
 
     @Override
     public void ejecutar(Personaje personaje) {
+        float radio = 10f;
+
         float angulo = personaje.getMirilla().getAnguloRad();
 
-        float startX = personaje.getX() + personaje.getSprite().getWidth() / 2f + MathUtils.cos(angulo) * 10;
-        float startY = personaje.getY() + personaje.getSprite().getHeight() / 2f + MathUtils.sin(angulo) * 10;
+        float poscX = personaje.getX() + personaje.getSprite().getWidth() / 2f;
+        float poscY = personaje.getY() + personaje.getSprite().getHeight() / 2f;
 
-        Roca roca = new Roca(startX, startY, angulo, velocidad, danio, gestorProyectiles.getGestorColisiones(), personaje);
+        float x = poscX + MathUtils.cos(angulo) * radio * personaje.getDireccionMultiplicador();
+        float y = poscY + MathUtils.sin(angulo) * radio;
+
+        Roca roca = new Roca(x, y, angulo, velocidad, danio, gestorProyectiles.getGestorColisiones(), personaje);
 
         gestorProyectiles.agregar(roca);
-        System.out.println("LanzaRoca ejecutado con gestorProyectiles=" + gestorProyectiles);
+        System.out.println("Creando roca en x=" + x + ", y=" + y + " con angulo=" + angulo);
     }
 }
