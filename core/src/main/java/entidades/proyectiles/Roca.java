@@ -1,4 +1,4 @@
-package entidades;
+package entidades.proyectiles;
 
 import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import entidades.personajes.Personaje;
 import managers.GestorAssets;
 
 public class Roca extends Proyectil {
@@ -50,9 +51,13 @@ public class Roca extends Proyectil {
     }
 
     @Override
-    protected void impactoProyectil(Colisionable impactado) { }
-
-    @Override
-    public void dispose() {
+    protected void impactoProyectil(Colisionable impactado) {
+        if (impactado instanceof Personaje) {
+            Personaje p = (Personaje) impactado;
+            p.recibirDanio(this.danio);
+            this.activo = false;
+        }
     }
+
+    @Override public void dispose() {}
 }

@@ -21,6 +21,7 @@ public class GestorAssets {
         assetManager.load("prueba.png", Texture.class);
         assetManager.load("pruebaFondoJuego.jpg", Texture.class);
         assetManager.load("1.png", Texture.class);
+        assetManager.load("gameOver.png", Texture.class);
 
         assetManager.load(Constantes.FONDO_JUEGO_PRUEBA, Texture.class);
 

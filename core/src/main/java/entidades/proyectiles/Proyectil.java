@@ -1,9 +1,11 @@
-package entidades;
+package entidades.proyectiles;
 
 import Fisicas.Colisionable;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.math.Vector2;
+import entidades.Entidad;
+import entidades.personajes.Personaje;
 
 public abstract class Proyectil extends Entidad {
 

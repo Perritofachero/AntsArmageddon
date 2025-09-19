@@ -7,6 +7,7 @@ Mapa.png
 botones/botones.atlas
 botones/botones.png
 fondoPantalla.png
+gameOver.png
 hormiga.png
 mira.png
 prueba.png

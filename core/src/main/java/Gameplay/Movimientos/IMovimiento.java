@@ -1,6 +1,6 @@
 package Gameplay.Movimientos;
 
-import entidades.Personaje;
+import entidades.personajes.Personaje;
 
 public interface IMovimiento {
     void ejecutar(Personaje personaje);

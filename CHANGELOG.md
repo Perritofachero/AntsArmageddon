@@ -7,6 +7,19 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.9] - 2025-09-19
+
+### Added
+- Gestor de juego.
+- Hormiga Obrera.
+- Game over screen.
+
+### Changed
+- Clase personaje pasa a ser abstracta y heredara a los personajes particulares.
+- Refactorizacion de GameScreen para funcionar con GestorJuego.
+- Separacion de logica controles de personaje.
+- Fix de errores en el cambio de turnos entre personajes y jugadores.
+
 ## [0.3.8] - 2025-09-18
 
 ### Added

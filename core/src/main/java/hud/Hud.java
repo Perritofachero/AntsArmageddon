@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import entidades.Personaje;
-import utils.Constantes;
+import entidades.personajes.Personaje;
 
 public class Hud {
     private final BitmapFont fuente; //cambiar la fuente con un .fnt
@@ -19,6 +18,7 @@ public class Hud {
     }
 
     public void mostrarVida(SpriteBatch batch, Personaje personaje) {
+        if (!personaje.getActivo()) return;
         String texto = personaje.getVida() + " / " + personaje.getVidaMaxima();
         layout.setText(fuente, texto);
         float posX = personaje.getX();

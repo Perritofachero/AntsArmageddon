@@ -1,58 +1,50 @@
 package com.principal;
 
-import entidades.Personaje;
-
+import entidades.personajes.Personaje;
+import entradas.ControlesJugador;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Jugador {
 
-    private List<Personaje> personajes;
-    private int turnoPersonajeActivo = 0;
+    private final List<Personaje> personajes;
+    private int indiceActivo;
     private boolean jugadorVivo;
+    private ControlesJugador controlesJugador;
 
-    public Jugador(List<Personaje> personajes){
+    public Jugador(List<Personaje> personajes) {
         this.personajes = new ArrayList<>(personajes);
-        this.jugadorVivo = true;
+        this.indiceActivo = 0;
+        this.jugadorVivo = !personajes.isEmpty();
     }
 
+    public void removerPersonaje(Personaje personaje) {
+        if (!personajes.remove(personaje)) return;
 
-    public void removerPersonaje(Personaje personajeRemovido){
-        int indiceRemovido = personajes.indexOf(personajeRemovido);
+        if (personajes.isEmpty()) {
+            jugadorVivo = false;
+            return;
+        }
 
-        if(indiceRemovido == -1) {
-            System.out.println("Personaje no existente");
-
-        }else {
-            personajes.remove(indiceRemovido);
-
-            if(personajes.isEmpty()){
-                this.jugadorVivo = false;
-            }else {
-                if (turnoPersonajeActivo>= personajes.size()){
-                    turnoPersonajeActivo = 0;
-                }else if(indiceRemovido < turnoPersonajeActivo) {
-                    turnoPersonajeActivo--;
-                }
-            }
+        if (indiceActivo >= personajes.size()) {
+            indiceActivo = 0;
         }
     }
 
-    public void avanzarPersonaje(){
-
-        if(turnoPersonajeActivo < personajes.size()-1){
-            turnoPersonajeActivo++;
-        }else{
-            turnoPersonajeActivo = 0;
-        }
+    public void avanzarPersonaje() {
+        if (personajes.isEmpty()) return;
+        indiceActivo = (indiceActivo + 1) % personajes.size();
     }
 
-    public void agregarPersonaje(Personaje nuevoPersonaje){
+    public void agregarPersonaje(Personaje nuevoPersonaje) {
         personajes.add(nuevoPersonaje);
+        if (!jugadorVivo) jugadorVivo = true;
     }
-    public Personaje getPersonajeActivo() { return personajes.get(turnoPersonajeActivo); }
-    public List<Personaje> getPersonajes() { return this.personajes; }
-    public Personaje getPersonajeIndice(int indice) { return this.personajes.get(indice); }
-    public boolean getJugadorVivo() { return this.jugadorVivo; }
+
+    public void setControlesJugador(ControlesJugador controlesJugador) { this.controlesJugador = controlesJugador; }
+    public ControlesJugador getControlesJugador() { return this.controlesJugador; }
+    public Personaje getPersonajeActivo() { return personajes.get(indiceActivo); }
+    public List<Personaje> getPersonajes() { return personajes; }
+    public boolean estaVivo() { return jugadorVivo; }
 }

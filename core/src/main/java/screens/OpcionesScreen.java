@@ -2,7 +2,6 @@ package screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -90,21 +89,10 @@ public class OpcionesScreen implements Screen {
         escenario.addActor(table);
     }
 
-
-
-    @Override
-    public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
-
-    @Override
-    public void dispose() { escenario.dispose(); batch.dispose(); }
-
-    @Override
-    public void pause() { }
-
-    @Override
-    public void resume() { }
-
-    @Override
-    public void hide() { }
+    @Override public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
+    @Override public void dispose() { escenario.dispose(); batch.dispose(); }
+    @Override public void pause() { }
+    @Override public void resume() { }
+    @Override public void hide() { }
 
 }

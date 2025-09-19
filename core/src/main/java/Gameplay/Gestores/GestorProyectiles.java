@@ -1,7 +1,7 @@
 package Gameplay.Gestores;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import entidades.Proyectil;
+import entidades.proyectiles.Proyectil;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -49,11 +49,6 @@ public class GestorProyectiles {
         proyectiles.clear();
     }
 
-    public List<Proyectil> getProyectiles() {
-        return proyectiles;
-    }
-
-    public GestorColisiones getGestorColisiones() {
-        return gestorColisiones;
-    }
+    public List<Proyectil> getProyectiles() { return proyectiles; }
+    public GestorColisiones getGestorColisiones() { return gestorColisiones; }
 }
