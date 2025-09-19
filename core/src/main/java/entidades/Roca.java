@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import managers.GestorAssets;
 
 public class Roca extends Proyectil {
 
@@ -19,7 +20,7 @@ public class Roca extends Proyectil {
     public Roca(float x, float y, float angulo, float velocidad, int dano, GestorColisiones gestorColisiones, Personaje ejecutor) {
         super(x, y, angulo, velocidad, dano, gestorColisiones, ejecutor);
 
-        this.textura = new Texture("proyectil.png");
+        this.textura = GestorAssets.get("roca.png", Texture.class);
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
 
@@ -53,6 +54,5 @@ public class Roca extends Proyectil {
 
     @Override
     public void dispose() {
-        textura.dispose();
     }
 }

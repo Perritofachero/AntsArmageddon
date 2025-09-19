@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import jdk.jshell.execution.Util;
+import managers.GestorAssets;
 import screens.MenuScreen;
 import utils.Constantes;
 import utils.Utiles;
@@ -17,33 +18,13 @@ public class AntsArmageddon extends Game {
 
     @Override
     public void create() {
-        cargarAssets();
+        GestorAssets.load();
 
-        setScreen(new MenuScreen(this, assetManager));
+        setScreen(new MenuScreen(this));
     }
 
     @Override
     public void render() { super.render(); }
-
     @Override
-    public void dispose() { super.dispose(); assetManager.dispose(); }
-
-    public void cargarAssets() {
-        assetManager = new AssetManager();
-
-        assetManager.load(Constantes.ATLAS_BOTONES, TextureAtlas.class);
-        assetManager.load("sonido_click.mp3", Sound.class);
-        assetManager.load("fondoPantalla.png", Texture.class);
-        assetManager.load("Mapa.png", Texture.class);
-
-        assetManager.load(Constantes.FONDO_JUEGO_PRUEBA, Texture.class);
-
-        assetManager.finishLoading();
-
-    }
-
-    public AssetManager getAssetManager(){
-        return this.assetManager;
-    }
-
+    public void dispose() { super.dispose(); GestorAssets.dispose(); }
 }

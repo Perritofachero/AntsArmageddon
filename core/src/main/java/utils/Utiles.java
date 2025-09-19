@@ -43,6 +43,4 @@ public class Utiles {
         System.out.println("Atlas descompuesto correctamente");
     }
 
-
-
 }

@@ -2,15 +2,15 @@ package Gameplay.Movimientos;
 
 
 import Gameplay.Gestores.GestorProyectiles;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import entidades.Personaje;
 import entidades.Roca;
 
 public class LanzaRoca extends MovimientoRango {
 
-    public LanzaRoca(String nombre, Sprite sprite, float cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
-        super(nombre, sprite, cooldown, velocidad, danio, gestorProyectiles);
+    public LanzaRoca(String nombre, Texture textura, float cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
+        super(nombre, textura, cooldown, velocidad, danio, gestorProyectiles);
     }
 
     @Override

@@ -7,31 +7,29 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
+import managers.GestorAssets;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Personaje extends Entidad {
 
-    private int vida;
-    private final int vidaMaxima = 50;
-    private float velocidad;
-    private boolean direccion;
-
-    private Mirilla mirilla;
-    private Texture textura;
-    private Sprite sprite;
     private GestorColisiones gestorColisiones;
     private GestorProyectiles gestorProyectiles;
-
+    private Sprite sprite;
+    private Texture textura;
+    private Mirilla mirilla;
+    private boolean direccion;
+    private int vida;
+    private int vidaMaxima = 100;
+    private int velocidad;
     private List<Movimiento> movimientos;
 
-
-    public Personaje(String rutaTextura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
+    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
         super(x, y);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
-
-        this.textura = new Texture(rutaTextura);
+        this.textura = textura;
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
 
@@ -39,18 +37,18 @@ public class Personaje extends Entidad {
         this.hitbox.setHeight(sprite.getHeight());
 
         this.vida = vidaMaxima;
-        this.velocidad = 200f;
-        this.mirilla = new Mirilla(this);
+        this.velocidad = 200;
         this.direccion = false;
 
         if (!direccion) {
             sprite.flip(true, false);
         }
 
-        movimientos = new ArrayList<>();
+        this.mirilla = new Mirilla(this);
 
-        Sprite spriteMovimiento = new Sprite(new Texture("1.png"));
-        movimientos.add(new LanzaRoca("Lanzar Roca", spriteMovimiento, 1f, 300f, 25, gestorProyectiles));
+        movimientos = new ArrayList<>();
+        Texture texturaMovimiento = GestorAssets.get("1.png", Texture.class);
+        movimientos.add(new LanzaRoca("Lanzar Roca", texturaMovimiento, 1f, 300f, 25, gestorProyectiles));
     }
 
     public void mover(float deltaX, float deltaY, float deltaTiempo) {
@@ -94,7 +92,6 @@ public class Personaje extends Entidad {
     }
 
     public void dispose() {
-        textura.dispose();
         for (Movimiento m : movimientos) {
             if (m.getSprite() != null) m.getSprite().getTexture().dispose();
         }

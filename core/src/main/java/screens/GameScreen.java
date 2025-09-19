@@ -23,6 +23,7 @@ import entidades.Proyectil;
 import entidades.Roca;
 import entradas.ControlesJugador;
 import hud.Hud;
+import managers.GestorAssets;
 import utils.Constantes;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ import java.util.List;
 public class GameScreen implements Screen {
 
     private AntsArmageddon juego;
-    private AssetManager assetManager;
 
     private Stage escenario;
     private SpriteBatch batch;
@@ -48,9 +48,8 @@ public class GameScreen implements Screen {
     private List<Jugador> jugadores = new ArrayList<>();
     private List<ControlesJugador> controles = new ArrayList<>();
 
-    public GameScreen(AntsArmageddon juego, AssetManager assetManager) {
+    public GameScreen(AntsArmageddon juego) {
         this.juego = juego;
-        this.assetManager = assetManager;
     }
 
     @Override
@@ -66,7 +65,7 @@ public class GameScreen implements Screen {
 
         mapa = new Mapa(gestorColisiones);
 
-        spriteMapa = new Sprite(assetManager.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
+        spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
         spriteMapa.setPosition(0, 0);
 
         camaraPersonaje = new Camara(
@@ -77,10 +76,10 @@ public class GameScreen implements Screen {
         );
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
-        jugador1.getPersonajes().add(new Personaje("prueba.png", gestorColisiones, gestorProyectiles, 200, 200));
+        jugador1.getPersonajes().add(new Personaje(GestorAssets.get("prueba.png", Texture.class), gestorColisiones, gestorProyectiles, 200, 200));
 
         Jugador jugador2 = new Jugador(new ArrayList<>());
-        jugador2.getPersonajes().add(new Personaje("hormiga.png", gestorColisiones, gestorProyectiles, 400, 350));
+        jugador2.getPersonajes().add(new Personaje(GestorAssets.get("hormiga.png", Texture.class), gestorColisiones, gestorProyectiles, 400, 350));
 
         jugadores.add(jugador1);
         jugadores.add(jugador2);

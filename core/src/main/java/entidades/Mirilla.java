@@ -3,6 +3,7 @@ package entidades;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import managers.GestorAssets;
 
 public class Mirilla {
 
@@ -15,10 +16,9 @@ public class Mirilla {
 
     public Mirilla(Personaje personaje){
         this.personaje = personaje;
-        this.textura = new Texture("mira.png");
+        this.textura = GestorAssets.get("mira.png", Texture.class);
         this.sprite = new Sprite(textura);
-
-        this.angulo = this.angulo = personaje.getDireccion() ? 0 : 180;
+        this.angulo = personaje.getDireccion() ? 0 : 180;
         actualizarPosicion();
     }
 
@@ -56,8 +56,6 @@ public class Mirilla {
         }
 
         public void mostrarMirilla(){ this.visible = true; }
-
         public void ocultarMirilla(){ this.visible = false; }
-
         public float getAnguloRad(){ return this.anguloRad; }
 }

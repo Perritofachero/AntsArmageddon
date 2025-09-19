@@ -1,17 +1,20 @@
 package Gameplay.Movimientos;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import entidades.Personaje;
 
 public abstract class Movimiento implements IMovimiento {
 
     protected String nombre;
+    protected Texture textura;
     protected Sprite sprite;
     protected float cooldown;
 
-    public Movimiento(String nombre, Sprite sprite, float cooldown) {
+    public Movimiento(String nombre, Texture textura, float cooldown) {
         this.nombre = nombre;
-        this.sprite = sprite;
+        this.textura = textura;
+        this.sprite = new Sprite(textura);
         this.cooldown = cooldown;
     }
 
@@ -21,6 +24,5 @@ public abstract class Movimiento implements IMovimiento {
     public String getNombre() { return nombre; }
     public Sprite getSprite() { return sprite; }
     public float getCooldown() { return cooldown; }
-
     public void setCooldown(float cooldown) { this.cooldown = cooldown; }
 }

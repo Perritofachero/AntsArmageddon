@@ -2,14 +2,6 @@ package utils;
 
 public class Constantes {
 
-    /*
-    fabrica botones
-    mapa
-    ray tracing
-     */
-
-    /*Para la colision con el borde del mapa, ray tracing*/
-
     public static final String ATLAS_BOTONES = "botones/botones.atlas";
     public static final String SONIDO_BOTONES = "sonido_click.mp3";
     public static final String FONDO_JUEGO = "fondoPantalla.png";
@@ -21,10 +13,5 @@ public class Constantes {
 
     public static final int RESOLUCION_ANCHO_MAPA = 2500;
     public static final int RESOLUCION_ALTO_MAPA = 800;
-
-    /*
-    Criterio de direccion, true = derecha, false = izquierda.
-    Derecha = -1, izquierda = 1
-    */
 
 }

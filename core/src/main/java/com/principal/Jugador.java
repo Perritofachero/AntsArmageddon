@@ -51,12 +51,8 @@ public class Jugador {
     public void agregarPersonaje(Personaje nuevoPersonaje){
         personajes.add(nuevoPersonaje);
     }
-
     public Personaje getPersonajeActivo() { return personajes.get(turnoPersonajeActivo); }
-
     public List<Personaje> getPersonajes() { return this.personajes; }
-
     public Personaje getPersonajeIndice(int indice) { return this.personajes.get(indice); }
-
     public boolean getJugadorVivo() { return this.jugadorVivo; }
 }

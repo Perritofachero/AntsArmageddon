@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
+import managers.GestorAssets;
 import utils.Constantes;
 
 public class OpcionesScreen implements Screen {
@@ -31,11 +32,8 @@ public class OpcionesScreen implements Screen {
 
     private SpriteBatch batch;
 
-    AssetManager assetManager;
-
-    public OpcionesScreen(AntsArmageddon juego, AssetManager assetManager){
+    public OpcionesScreen(AntsArmageddon juego){
         this.juego = juego;
-        this.assetManager = assetManager;
 
     }
 
@@ -46,7 +44,7 @@ public class OpcionesScreen implements Screen {
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        texturaFondo = assetManager.get(Constantes.FONDO_JUEGO, Texture.class);
+        texturaFondo = GestorAssets.get(Constantes.FONDO_JUEGO, Texture.class);
         spriteFondo = new Sprite(texturaFondo);
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -71,11 +69,12 @@ public class OpcionesScreen implements Screen {
     }
 
     public void construirMenuOpciones(){
-        ImageButton opc1 = FabricaBotones.crearBoton(assetManager, "opc_up", "opc_over", "opc_down", () -> System.out.println("Boton opc presionado"));
-        ImageButton sonido = FabricaBotones.crearBoton(assetManager, "sonido_up", "sonido_over", "sonido_down", () -> System.out.println("Boton sonido presionado"));
-        ImageButton volver = FabricaBotones.crearBoton(assetManager, "volver_up", "volver_over", "volver_down", EventosBoton.salirMenuOpciones(juego));
 
-        Sound sonidoClick = assetManager.get(Constantes.SONIDO_BOTONES, Sound.class);
+        ImageButton opc1 = FabricaBotones.OPC1.crearBoton(() -> System.out.println("Boton opc1 presionado"));
+        ImageButton sonido = FabricaBotones.SONIDO.crearBoton(() -> System.out.println("Boton opc1 presionado"));
+        ImageButton volver = FabricaBotones.VOLVER.crearBoton(EventosBoton.salirMenuOpciones(juego));
+
+        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_BOTONES, Sound.class);
 
         FabricaBotones.agregarSonido(opc1, sonidoClick);
         FabricaBotones.agregarSonido(sonido, sonidoClick);

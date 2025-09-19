@@ -1,7 +1,7 @@
 package Gameplay.Movimientos;
 
 import Gameplay.Gestores.GestorProyectiles;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Texture;
 import entidades.Personaje;
 
 public abstract class MovimientoRango extends Movimiento {
@@ -10,8 +10,8 @@ public abstract class MovimientoRango extends Movimiento {
     protected int danio;
     protected GestorProyectiles gestorProyectiles;
 
-    public MovimientoRango(String nombre, Sprite sprite, float cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
-        super(nombre, sprite, cooldown);
+    public MovimientoRango(String nombre, Texture textura, float cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
+        super(nombre, textura, cooldown);
         this.velocidad = velocidad;
         this.danio = danio;
         this.gestorProyectiles = gestorProyectiles;

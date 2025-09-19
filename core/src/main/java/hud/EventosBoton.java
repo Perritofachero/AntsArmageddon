@@ -10,22 +10,22 @@ import utils.Utiles;
 public class EventosBoton {
 
     public static Runnable irMenuOpciones(AntsArmageddon juego){
-        return() -> juego.setScreen(new OpcionesScreen(juego, juego.getAssetManager()));
+        return () -> juego.setScreen(new OpcionesScreen(juego));
     }
 
     public static Runnable salirMenuOpciones(AntsArmageddon juego){
-        return() -> juego.setScreen(new MenuScreen(juego, juego.getAssetManager()));
+        return () -> juego.setScreen(new MenuScreen(juego));
     }
 
     public static Runnable irJuego(AntsArmageddon juego){
-        return() -> juego.setScreen(new GameScreen(juego, juego.getAssetManager()));
+        return () -> juego.setScreen(new GameScreen(juego));
     }
 
     public static Runnable salirJuego(){
-        return() -> Gdx.app.exit();
+        return () -> Gdx.app.exit();
     }
 
     public static Runnable descomponerAtlas(){
-        return() -> Utiles.descomponerAtlas("botones/pack.atlas", "atlasDescompuestos/");
+        return () -> utils.Utiles.descomponerAtlas("botones/pack.atlas", "atlasDescompuestos/");
     }
 }

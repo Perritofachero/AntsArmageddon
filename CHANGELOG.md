@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.3.8] - 2025-09-18
+
+### Added
+- Gestor de Screen y Assets
+
+### Changed
+- Clase boton pasa a ser un enum con las regiones de las imagenes ya definidas.
+- Todas las imagenes pasan a ser gestionadas con assetManager.
+
 ## [0.3.7] - 2025-09-18
 
 ### Added
