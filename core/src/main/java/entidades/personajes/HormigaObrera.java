@@ -10,7 +10,7 @@ public class HormigaObrera extends Personaje {
 
     public HormigaObrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
         super(GestorAssets.get("prueba.png", Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 80, 100);
+            gestorProyectiles, x, y, 80, 80, 100f, 100f);
     }
 
     @Override
@@ -19,4 +19,7 @@ public class HormigaObrera extends Personaje {
         movimientos.add(new LanzaRoca("Lanzar Roca", texturaMovimiento, 1, 300f, 25, gestorProyectiles));
 
     }
+
+    @Override
+    public void actualizar(float delta) { }
 }

@@ -22,8 +22,9 @@ public class ControlesJugador implements InputProcessor {
 
         if (keysPresionadas.contains(Input.Keys.LEFT))  { x -= 1; personaje.ocultarMirilla(); }
         if (keysPresionadas.contains(Input.Keys.RIGHT)) { x += 1; personaje.ocultarMirilla(); }
-        if (keysPresionadas.contains(Input.Keys.UP))    { y += 1; personaje.ocultarMirilla(); }
+        if (keysPresionadas.contains(Input.Keys.UP))    { y += 4; personaje.ocultarMirilla(); }
         if (keysPresionadas.contains(Input.Keys.DOWN))  { y -= 1; personaje.ocultarMirilla(); }
+        if (keysPresionadas.contains(Input.Keys.SPACE))  { personaje.saltar(); }
 
         personaje.mover(x, y, Gdx.graphics.getDeltaTime());
 

@@ -14,4 +14,9 @@ public class Constantes {
     public static final int RESOLUCION_ANCHO_MAPA = 2500;
     public static final int RESOLUCION_ALTO_MAPA = 800;
 
+    public static final float GRAVEDAD = -980f;
+    public static final float VEL_MAX_CAIDA = -2000f;
+    public static final float VEL_MAX = 3333f;
+    public static final float SALTO = 500;
+
 }

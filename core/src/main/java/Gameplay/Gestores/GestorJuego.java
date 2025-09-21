@@ -1,14 +1,17 @@
 package Gameplay.Gestores;
 
+import Fisicas.Borde;
+import Fisicas.Camara;
+import Fisicas.Fisica;
 import Fisicas.Mapa;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
 import entidades.personajes.Personaje;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.ScreenManager;
 import screens.GameOverScreen;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,26 +21,31 @@ public class GestorJuego {
     private GestorTurno gestorTurno;
     private GestorColisiones gestorColisiones;
     private GestorProyectiles gestorProyectiles;
-    private Mapa mapa;
+    private GestorEntidades gestorEntidades;
+    private Borde borde;
 
-    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, Mapa mapa) {
+    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, Borde borde) {
         this.jugadores.addAll(jugadores);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
-        this.mapa = mapa;
+        this.borde = borde;
 
         this.gestorTurno = new GestorTurno(new ArrayList<>(this.jugadores));
 
-        for (Jugador j : this.jugadores) {
-            for (Personaje p : j.getPersonajes()) {
-                this.gestorColisiones.agregarObjeto(p);
+        this.gestorEntidades = new GestorEntidades();
+
+        for (Jugador jugadorAux : this.jugadores) {
+            for (Personaje personajeAux : jugadorAux.getPersonajes()) {
+                this.gestorColisiones.agregarObjeto(personajeAux);
+                this.gestorEntidades.agregarEntidad(personajeAux);
             }
         }
     }
 
-    public void actualizar(float delta) {
+    public void actualizar(float delta, Fisica fisica, Mapa mapa) {
         gestorTurno.correrContador(delta);
         revisarPersonajesMuertos();
+        gestorEntidades.actualizar(delta, fisica, mapa);
         gestorProyectiles.actualizar(delta);
     }
 
@@ -58,10 +66,10 @@ public class GestorJuego {
     }
 
     public void renderPersonajes(SpriteBatch batch, Hud hud) {
-        for (Jugador j : jugadores) {
-            for (Personaje p : j.getPersonajes()) {
-                p.render(batch);
-                hud.mostrarVida(batch, p);
+        for (Jugador jugadorAux : jugadores) {
+            for (Personaje personajeAux : jugadorAux.getPersonajes()) {
+                personajeAux.render(batch);
+                hud.mostrarVida(batch, personajeAux);
             }
         }
     }
@@ -89,6 +97,10 @@ public class GestorJuego {
         if (jugadores.size() <= 1) { ScreenManager.setScreen(new GameOverScreen(ScreenManager.returnJuego())); }
     }
 
+    public void renderEntidades(SpriteBatch batch) { gestorEntidades.render(batch); }
+
+    public void renderDebugEntidades(ShapeRenderer sr, Camara camara) { gestorEntidades.renderDebug(sr, camara); }
+
     public Personaje getPersonajeActivo() {
         Jugador activo = getJugadorActivo();
         if (activo != null && !activo.getPersonajes().isEmpty()) {
@@ -102,6 +114,7 @@ public class GestorJuego {
     public float getTiempoActual() { return gestorTurno.getTiempoActual(); }
     public List<Jugador> getJugadores() { return jugadores; }
     public GestorProyectiles getGestorProyectiles() { return gestorProyectiles; }
+    public GestorColisiones getGestorColisiones() { return this.gestorColisiones; }
     public void renderProyectiles(SpriteBatch batch) { gestorProyectiles.render(batch); }
-    public Mapa getMapa() { return mapa; }
+    public Borde getMapa() { return borde; }
 }

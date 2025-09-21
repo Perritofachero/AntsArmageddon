@@ -7,6 +7,18 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+
+## [0.4.0] - 2025-09-21
+
+### Added
+- Fisicas y gravedad.
+- Mapa y su logica.
+- Integracion de ambos en el resto del proyecto.
+
+### Changed
+- Clase personaje pasa a funcionar con fisicas e interactuar con mapa.
+- Proyectiles pasa a funcionar con fisicas e interactuar con mapa.
+
 ## [0.3.9] - 2025-09-19
 
 ### Added
@@ -33,7 +45,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ### Added
 - Raycast para evitar saltos por velocidad.
-- Limites del mapa.
+- Limites del borde.
 
 ### Changed
 - Logica de movimiento para funcionar con raycast.

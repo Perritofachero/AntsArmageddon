@@ -1,6 +1,8 @@
 package screens;
 
+import Fisicas.Borde;
 import Fisicas.Camara;
+import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorJuego;
@@ -34,6 +36,8 @@ public class GameScreen implements Screen {
     private Hud hud;
     private Sprite spriteMapa;
     private Camara camaraPersonaje;
+    private Mapa mapa;
+    private Fisica fisica;
 
     private GestorJuego gestorJuego;
     private List<ControlesJugador> controles = new ArrayList<>();
@@ -61,9 +65,12 @@ public class GameScreen implements Screen {
             Constantes.RESOLUCION_ALTO_MAPA
         );
 
-        GestorColisiones gestorColisiones = new GestorColisiones();
+        mapa = new Mapa("pruebaMapa4.png");
+        fisica = new Fisica();
+
+        GestorColisiones gestorColisiones = new GestorColisiones(mapa);
         GestorProyectiles gestorProyectiles = new GestorProyectiles(gestorColisiones);
-        Mapa mapa = new Mapa(gestorColisiones);
+        Borde borde = new Borde(gestorColisiones);
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
         jugador1.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 200, 200));
@@ -84,7 +91,7 @@ public class GameScreen implements Screen {
         controles.add(control1);
         controles.add(control2);
 
-        gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, mapa);
+        gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, borde);
 
         int turnoInicial = gestorJuego.getTurnoActual();
         controles.get(turnoInicial).setPersonaje(gestorJuego.getPersonajeActivo());
@@ -94,7 +101,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        gestorJuego.actualizar(delta);
+        gestorJuego.actualizar(delta, fisica, mapa);
+
         procesarEntradaJugador(delta);
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
@@ -109,14 +117,23 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
         batch.begin();
         spriteMapa.draw(batch);
+        mapa.render(batch);
 
+        //gestorJuego.renderEntidades(batch);
         gestorJuego.renderPersonajes(batch, hud);
         gestorJuego.renderProyectiles(batch);
 
         hud.mostrarContador(batch, gestorJuego.getTiempoActual(), camaraPersonaje);
         batch.end();
 
-        gestorJuego.getMapa().draw(shapeRenderer, camaraPersonaje);
+        /*
+        ShapeRenderer sr = new ShapeRenderer();
+        gestorJuego.getGestorColisiones().renderDebugHitboxes(sr, camaraPersonaje);
+        mapa.renderDebugMapaHitbox(sr, camaraPersonaje);
+        gestorJuego.renderDebugEntidades(sr, camaraPersonaje);
+        sr.dispose();
+        */
+
         escenario.act(delta);
         escenario.draw();
 
@@ -129,7 +146,6 @@ public class GameScreen implements Screen {
             ControlesJugador control = controles.get(turnoActual);
             control.setPersonaje(gestorJuego.getPersonajeActivo());
             Gdx.input.setInputProcessor(control);
-
             turnoAnterior = turnoActual;
         }
     }
@@ -160,4 +176,3 @@ public class GameScreen implements Screen {
         }
     }
 }
-

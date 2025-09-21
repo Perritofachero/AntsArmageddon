@@ -1,43 +1,48 @@
 package Gameplay.Gestores;
 
+import Fisicas.Camara;
+import Fisicas.Mapa;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.List;
 import java.util.ArrayList;
 
 public class GestorColisiones {
 
-    private List<Colisionable> objetos;
+    private final List<Colisionable> colisionables;
+    private final Mapa mapa;
 
-    public GestorColisiones() {
-        objetos = new ArrayList<>();
+    public GestorColisiones(Mapa mapa) {
+        this.mapa = mapa;
+        this.colisionables = new ArrayList<>();
     }
 
-    public boolean verificarHitbox(Colisionable objeto, float nuevaX, float nuevaY, Colisionable ignorar) {
-        Rectangle hitboxPropuesta = objeto.getHitboxPosicion(nuevaX, nuevaY);
-
-        for (Colisionable otro : objetos) {
-            if (otro == objeto) continue;
-            if (otro == ignorar) continue;
-
-            if (hitboxPropuesta.overlaps(otro.getHitbox())) {
-                return false;
+    public boolean colisionaConAlgo(Colisionable ejecutor, Rectangle area) {
+        for (Colisionable otro : colisionables) {
+            if (otro == ejecutor) continue;
+            if (area.overlaps(otro.getHitbox())) {
+                return true;
             }
         }
-        return true;
+
+        if (mapa != null && mapa.colisiona(area)) {
+            return true;
+        }
+
+        return false;
     }
 
-    public void agregarObjeto(Colisionable objeto) {
-        if (!objetos.contains(objeto)) {
-            objetos.add(objeto);
-        }
+    public boolean verificarMovimiento(Colisionable objeto, float nuevaX, float nuevaY) {
+        Rectangle hitbox = objeto.getHitboxPosicion(nuevaX, nuevaY);
+        return !colisionaConAlgo(objeto, hitbox);
     }
 
     public Colisionable verificarTrayectoria(Vector2 inicio, Vector2 fin, Colisionable ignorar, Colisionable self) {
-        for (Colisionable otro : objetos) {
+        for (Colisionable otro : colisionables) {
             if (otro == ignorar || otro == self) continue;
             Rectangle rect = otro.getHitbox();
             if (Intersector.intersectSegmentRectangle(inicio, fin, rect)) {
@@ -47,6 +52,25 @@ public class GestorColisiones {
         return null;
     }
 
-    public void removerObjeto(Colisionable objeto) { objetos.remove(objeto); }
+    public void agregarObjeto(Colisionable objeto) {
+        if (!colisionables.contains(objeto)) {
+            colisionables.add(objeto);
+        }
+    }
 
+    public void renderDebugHitboxes(ShapeRenderer sr, Camara camara) {
+        sr.setProjectionMatrix(camara.getCamera().combined);
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.setColor(Color.RED);
+
+        for (Colisionable c : colisionables) {
+            Rectangle r = c.getHitbox();
+            sr.rect(r.x, r.y, r.width, r.height);
+        }
+
+        sr.end();
+    }
+
+    public List<Colisionable> getColisionables() { return colisionables; }
+    public void removerObjeto(Colisionable objeto) { colisionables.remove(objeto); }
 }

@@ -1,12 +1,17 @@
 package entidades.personajes;
 
+import Fisicas.Fisica;
+import Fisicas.Mapa;
 import Gameplay.Gestores.GestorProyectiles;
 import Gameplay.Movimientos.Movimiento;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import entidades.Entidad;
+import utils.Constantes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +22,15 @@ public abstract class Personaje extends Entidad {
     protected Sprite sprite;
     protected Texture textura;
     protected Mirilla mirilla;
-    protected boolean direccion;
-    protected int vida;
-    protected int vidaMaxima;
-    protected int velocidad;
     protected List<Movimiento> movimientos;
-    protected boolean activo;
+    protected Vector2 velocidadVector = new Vector2();
+    protected boolean direccion;
+    protected int vida, vidaMaxima;
+    protected float velocidadX, velocidadY;
+    protected boolean sobreSuelo, activo;
 
-    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y, int vidaMaxima, int velocidad) {
-        super(x, y);
+    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y, int vida, int vidaMaxima, float velocidadX, float velocidadY) {
+        super(x, y, gestorColisiones);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
         this.textura = textura;
@@ -34,9 +39,10 @@ public abstract class Personaje extends Entidad {
         this.hitbox.setWidth(sprite.getWidth());
         this.hitbox.setHeight(sprite.getHeight());
 
+        this.vida = vida;
         this.vidaMaxima = vidaMaxima;
-        this.vida = vidaMaxima;
-        this.velocidad = velocidad;
+        this.velocidadX = velocidadX;
+        this.velocidadY = velocidadY;
         this.direccion = false;
         this.activo = true;
 
@@ -48,9 +54,19 @@ public abstract class Personaje extends Entidad {
         inicializarMovimientos();
     }
 
+    public void aplicarFisica(Fisica fisica, Mapa mapa, float delta) {
+        sobreAlgo = verificarSobreAlgo(gestorColisiones);
+        velocidadVector = fisica.aplicarGravedad(velocidadVector, delta, sobreAlgo);
+
+        Rectangle nuevaHitbox = fisica.moverEntidad(hitbox, velocidadVector, mapa, gestorColisiones, delta);
+        this.x = nuevaHitbox.x;
+        this.y = nuevaHitbox.y;
+        updateHitbox();
+    }
+
     public void mover(float deltaX, float deltaY, float deltaTiempo) {
-        float nuevaX = this.x + deltaX * velocidad * deltaTiempo;
-        float nuevaY = this.y + deltaY * velocidad * deltaTiempo;
+        float nuevaX = this.x + deltaX * velocidadX * deltaTiempo;
+        float nuevaY = this.y + deltaY * velocidadY * deltaTiempo;
 
         if (deltaX < 0) {
             direccion = false;
@@ -60,10 +76,19 @@ public abstract class Personaje extends Entidad {
             if (sprite.isFlipX()) sprite.flip(true, false);
         }
 
-        if (gestorColisiones.verificarHitbox(this, nuevaX, nuevaY, this)) {
+        boolean puedeMover = gestorColisiones.verificarMovimiento(this, nuevaX, nuevaY);
+
+        if (puedeMover) {
             this.x = nuevaX;
             this.y = nuevaY;
-            update();
+            updateHitbox();
+        }
+    }
+
+    public void saltar() {
+        if (sobreSuelo) {
+            velocidadY = Constantes.SALTO;
+            sobreSuelo = false;
         }
     }
 

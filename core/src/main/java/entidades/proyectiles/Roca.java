@@ -1,6 +1,8 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
+import Fisicas.Fisica;
+import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -42,6 +44,16 @@ public class Roca extends Proyectil {
         float dy = MathUtils.sin(angulo) * velocidad * delta;
 
         return new Vector2(dx, dy);
+    }
+
+    @Override
+    public void aplicarFisica(Fisica fisica, Mapa mapa, float delta) {
+
+    }
+
+    @Override
+    public void actualizar(float delta) {
+
     }
 
     @Override

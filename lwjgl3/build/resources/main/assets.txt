@@ -12,5 +12,9 @@ hormiga.png
 mira.png
 prueba.png
 pruebaFondoJuego.jpg
+pruebaMapa1.png
+pruebaMapa2.png
+pruebaMapa3.png
+pruebaMapa4.png
 roca.png
 sonido_click.mp3

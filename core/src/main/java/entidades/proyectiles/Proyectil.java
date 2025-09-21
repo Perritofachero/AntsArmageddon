@@ -13,20 +13,20 @@ public abstract class Proyectil extends Entidad {
     protected float angulo;
     protected boolean activo;
     protected int danio;
-    protected GestorColisiones gestor;
+    protected GestorColisiones gestorColisiones;
     protected Personaje ejecutor;
     protected float tiempoGracia = 2f;
     protected float tiempoTranscurrido = 0f;
     protected Vector2 posAnterior = new Vector2();
     //protected float peso; despues lo usaremos
 
-    public Proyectil(float x, float y, float angulo, float velocidad, int danio, GestorColisiones gestor, Personaje ejecutor) {
-        super(x, y);
+    public Proyectil(float x, float y, float angulo, float velocidad, int danio, GestorColisiones gestorColisiones, Personaje ejecutor) {
+        super(x, y, gestorColisiones);
         this.velocidad = velocidad;
         this.angulo = angulo;
         this.danio = danio;
         this.activo = true;
-        this.gestor = gestor;
+        this.gestorColisiones = gestorColisiones;
         this.ejecutor = ejecutor;
     }
 
@@ -43,12 +43,10 @@ public abstract class Proyectil extends Entidad {
             ignorar = ejecutor;
         }
 
-        Colisionable impactado = gestor.verificarTrayectoria(
+        Colisionable impactado = gestorColisiones.verificarTrayectoria(
             new Vector2(x + hitbox.width / 2f, y + hitbox.height / 2f),
             new Vector2(x + hitbox.width / 2f + movimiento.x, y + hitbox.height / 2f + movimiento.y),
-            ignorar,
-            this
-        );
+            ignorar, this );
 
         if (impactado != null) {
             x = posAnterior.x;
@@ -60,7 +58,7 @@ public abstract class Proyectil extends Entidad {
         } else {
             x += movimiento.x;
             y += movimiento.y;
-            update();
+            updateHitbox();
         }
 
         System.out.println("x:" + this.x + " y:" + this.y);
@@ -68,7 +66,7 @@ public abstract class Proyectil extends Entidad {
 
     public void desactivar() {
         activo = false;
-        gestor.removerObjeto(this);
+        gestorColisiones.removerObjeto(this);
     }
 
     protected abstract Vector2 calcularMovimiento(float delta);
