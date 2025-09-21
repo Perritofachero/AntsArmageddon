@@ -14,16 +14,14 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Borde.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorTurno.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorTurno.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/LanzaRoca.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/LanzaRoca.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" afterDir="false" />
@@ -31,9 +29,6 @@
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Roca.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Roca.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/Constantes.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/utils/Constantes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

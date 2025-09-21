@@ -7,6 +7,11 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.1] - 2025-09-21
+
+### Changed
+- Fix bugs implementacion gravedad.
+- Interaccion proyectiles mapa.
 
 ## [0.4.0] - 2025-09-21
 

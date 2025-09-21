@@ -8,6 +8,7 @@ import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorJuego;
 import Gameplay.Gestores.GestorProyectiles;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -94,7 +95,6 @@ public class GameScreen implements Screen {
         gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, borde);
 
         int turnoInicial = gestorJuego.getTurnoActual();
-        controles.get(turnoInicial).setPersonaje(gestorJuego.getPersonajeActivo());
         Gdx.input.setInputProcessor(controles.get(turnoInicial));
         turnoAnterior = turnoInicial;
     }
@@ -102,7 +102,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         gestorJuego.actualizar(delta, fisica, mapa);
-
         procesarEntradaJugador(delta);
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
@@ -116,23 +115,19 @@ public class GameScreen implements Screen {
 
         batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
         batch.begin();
+        batch.enableBlending();
+
         spriteMapa.draw(batch);
         mapa.render(batch);
 
-        //gestorJuego.renderEntidades(batch);
         gestorJuego.renderPersonajes(batch, hud);
         gestorJuego.renderProyectiles(batch);
 
         hud.mostrarContador(batch, gestorJuego.getTiempoActual(), camaraPersonaje);
+
         batch.end();
 
-        /*
-        ShapeRenderer sr = new ShapeRenderer();
-        gestorJuego.getGestorColisiones().renderDebugHitboxes(sr, camaraPersonaje);
-        mapa.renderDebugMapaHitbox(sr, camaraPersonaje);
-        gestorJuego.renderDebugEntidades(sr, camaraPersonaje);
-        sr.dispose();
-        */
+        mapa.renderDebugMapaHitbox(shapeRenderer, camaraPersonaje);
 
         escenario.act(delta);
         escenario.draw();
@@ -144,7 +139,6 @@ public class GameScreen implements Screen {
         int turnoActual = gestorJuego.getTurnoActual();
         if (turnoActual != turnoAnterior) {
             ControlesJugador control = controles.get(turnoActual);
-            control.setPersonaje(gestorJuego.getPersonajeActivo());
             Gdx.input.setInputProcessor(control);
             turnoAnterior = turnoActual;
         }

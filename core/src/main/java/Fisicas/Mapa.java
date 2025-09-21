@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Mapa {
@@ -23,6 +24,10 @@ public class Mapa {
     private void cargarMapa(String ruta) {
         pixmap = new Pixmap(Gdx.files.internal(ruta));
         textura = new Texture(pixmap);
+    }
+
+    public Pixmap getPixmap() {
+        return pixmap;
     }
 
     public boolean esSolido(int x, int y) {
@@ -46,20 +51,35 @@ public class Mapa {
         return false;
     }
 
-    public void destruir(int centroX, int centroY, int radio) {
+    public void destruir(float xMundo, float yMundo, int radio) {
+        int centroX = mundoAX((int)xMundo);
+        int centroY = mundoAY((int)yMundo);
+
+        boolean cambiado = false;
+
         for (int x = -radio; x <= radio; x++) {
             for (int y = -radio; y <= radio; y++) {
-                if (x * x + y * y <= radio * radio) {
+                if (x*x + y*y <= radio*radio) {
                     int posX = centroX + x;
                     int posY = centroY + y;
                     if (posX >= 0 && posY >= 0 && posX < pixmap.getWidth() && posY < pixmap.getHeight()) {
                         pixmap.drawPixel(posX, posY, 0x00000000);
+                        cambiado = true;
                     }
                 }
             }
         }
-        textura.dispose();
-        textura = new Texture(pixmap);
+
+        if (cambiado) {
+            if (textura != null) textura.dispose();
+            textura = new Texture(pixmap);
+        }
+    }
+
+    public void render(SpriteBatch batch) {
+        if (textura != null) {
+            batch.draw(textura, 0, 0);
+        }
     }
 
     public void renderDebugMapaHitbox(ShapeRenderer sr, Camara camara) {
@@ -82,8 +102,9 @@ public class Mapa {
         if (textura != null) textura.dispose();
     }
 
-    public void render(SpriteBatch batch) { batch.draw(textura, 0, 0); }
-    private int mundoAY(int yMundo) { return pixmap.getHeight() - 1 - yMundo; }
+    private int mundoAX(int xMundo) { return MathUtils.clamp(xMundo, 0, pixmap.getWidth() - 1); }
+    private int mundoAY(int yMundo) { return MathUtils.clamp(pixmap.getHeight() - 1 - yMundo, 0, pixmap.getHeight() - 1); }
+
     public int getWidth() { return pixmap.getWidth(); }
     public int getHeight() { return pixmap.getHeight(); }
 }

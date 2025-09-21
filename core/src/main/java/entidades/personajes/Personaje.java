@@ -17,21 +17,18 @@ import java.util.List;
 
 public abstract class Personaje extends Entidad {
 
-    protected GestorColisiones gestorColisiones;
     protected GestorProyectiles gestorProyectiles;
-    protected Sprite sprite;
-    protected Texture textura;
     protected Mirilla mirilla;
     protected List<Movimiento> movimientos;
-    protected Vector2 velocidadVector = new Vector2();
     protected boolean direccion;
     protected int vida, vidaMaxima;
-    protected float velocidadX, velocidadY;
-    protected boolean sobreSuelo, activo;
+    protected boolean activo;
+    protected float velocidadX;
+    protected Vector2 velocidadVector = new Vector2();
 
-    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y, int vida, int vidaMaxima, float velocidadX, float velocidadY) {
+    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y, int vida, int vidaMaxima, float velocidadX) {
         super(x, y, gestorColisiones);
-        this.gestorColisiones = gestorColisiones;
+
         this.gestorProyectiles = gestorProyectiles;
         this.textura = textura;
         this.sprite = new Sprite(textura);
@@ -41,10 +38,9 @@ public abstract class Personaje extends Entidad {
 
         this.vida = vida;
         this.vidaMaxima = vidaMaxima;
-        this.velocidadX = velocidadX;
-        this.velocidadY = velocidadY;
         this.direccion = false;
         this.activo = true;
+        this.velocidadX = velocidadX;
 
         if (!direccion) sprite.flip(true, false);
 
@@ -64,31 +60,30 @@ public abstract class Personaje extends Entidad {
         updateHitbox();
     }
 
-    public void mover(float deltaX, float deltaY, float deltaTiempo) {
-        float nuevaX = this.x + deltaX * velocidadX * deltaTiempo;
-        float nuevaY = this.y + deltaY * velocidadY * deltaTiempo;
+    public void mover(float deltaX, float deltaTiempo) {
+        if (deltaX == 0) return;
 
         if (deltaX < 0) {
             direccion = false;
             if (!sprite.isFlipX()) sprite.flip(true, false);
-        } else if (deltaX > 0) {
+        } else {
             direccion = true;
             if (sprite.isFlipX()) sprite.flip(true, false);
         }
 
-        boolean puedeMover = gestorColisiones.verificarMovimiento(this, nuevaX, nuevaY);
+        float nuevaX = this.x + deltaX * velocidadX * deltaTiempo;
+        boolean puedeMover = gestorColisiones.verificarMovimiento(this, nuevaX, this.y);
 
         if (puedeMover) {
             this.x = nuevaX;
-            this.y = nuevaY;
             updateHitbox();
         }
     }
 
     public void saltar() {
-        if (sobreSuelo) {
-            velocidadY = Constantes.SALTO;
-            sobreSuelo = false;
+        if (sobreAlgo) {
+            velocidadVector.y = Constantes.SALTO;
+            sobreAlgo = false;
         }
     }
 

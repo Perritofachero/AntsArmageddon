@@ -46,7 +46,7 @@ public class GestorJuego {
         gestorTurno.correrContador(delta);
         revisarPersonajesMuertos();
         gestorEntidades.actualizar(delta, fisica, mapa);
-        gestorProyectiles.actualizar(delta);
+        gestorProyectiles.actualizar(delta, mapa);
     }
 
     public void procesarEntradaJugador(ControlesJugador control, float delta) {
@@ -56,8 +56,17 @@ public class GestorJuego {
         Personaje activo = getPersonajeActivo();
 
         if (activo != null) {
-            activo.mover(control.getX(), control.getY(), delta);
+            if (control.getX() != 0 || control.getY() != 0) {
+                activo.mover(control.getX(), delta);
+                activo.ocultarMirilla();
+            }
 
+            if (control.getSaltar()) {
+                activo.saltar();
+            }
+            if (control.getApuntarDir() != 0) {
+                activo.apuntar(control.getApuntarDir());
+            }
             if (control.getMovimientoSeleccionado() >= 0) {
                 activo.usarMovimiento(control.getMovimientoSeleccionado());
                 control.resetMovimientoSeleccionado();

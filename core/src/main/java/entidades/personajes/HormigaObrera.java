@@ -9,8 +9,7 @@ import managers.GestorAssets;
 public class HormigaObrera extends Personaje {
 
     public HormigaObrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
-        super(GestorAssets.get("prueba.png", Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 80, 80, 100f, 100f);
+        super(GestorAssets.get("prueba.png", Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 80, 150f);
     }
 
     @Override

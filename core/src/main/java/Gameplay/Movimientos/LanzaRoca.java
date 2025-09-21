@@ -9,7 +9,7 @@ import entidades.proyectiles.Roca;
 public class LanzaRoca extends MovimientoRango {
 
     public LanzaRoca(String nombre, Texture textura, int cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown, velocidad, danio, gestorProyectiles);
+        super(nombre, textura, cooldown, 1000, danio, gestorProyectiles);
     }
 
     @Override
