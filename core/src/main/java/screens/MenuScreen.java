@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -17,6 +16,7 @@ import hud.EventosBoton;
 import hud.FabricaBotones;
 import managers.GestorAssets;
 import utils.Constantes;
+import utils.RecursosGlobales;
 
 public class MenuScreen implements Screen {
 
@@ -27,7 +27,6 @@ public class MenuScreen implements Screen {
     private OrthographicCamera camara;
     private Texture texturaFondo;
     private Sprite spriteFondo;
-    private SpriteBatch batch;
 
     public MenuScreen(AntsArmageddon juego){
         this.juego = juego;
@@ -46,8 +45,6 @@ public class MenuScreen implements Screen {
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        batch = new SpriteBatch();
-
         construirMenu();
     }
 
@@ -56,9 +53,9 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        spriteFondo.draw(batch);
-        batch.end();
+        RecursosGlobales.batch.begin();
+        spriteFondo.draw(RecursosGlobales.batch);
+        RecursosGlobales.batch.end();
 
         escenario.act(delta);
         escenario.draw();
@@ -88,7 +85,7 @@ public class MenuScreen implements Screen {
     }
 
     @Override public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
-    @Override public void dispose() { escenario.dispose(); batch.dispose(); }
+    @Override public void dispose() { escenario.dispose(); }
     @Override public void pause() { }
     @Override public void resume() { }
     @Override public void hide() { }

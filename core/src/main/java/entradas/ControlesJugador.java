@@ -22,7 +22,6 @@ public class ControlesJugador implements InputProcessor {
 
         if (keysPresionadas.contains(Input.Keys.LEFT))  { x -= 1; }
         if (keysPresionadas.contains(Input.Keys.RIGHT)) { x += 1; }
-        if (keysPresionadas.contains(Input.Keys.UP))    { y += 4; }
         if (keysPresionadas.contains(Input.Keys.DOWN))  { y -= 1; }
         if (keysPresionadas.contains(Input.Keys.SPACE)) { saltar = true; }
 

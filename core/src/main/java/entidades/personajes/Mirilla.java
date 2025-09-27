@@ -12,7 +12,7 @@ public class Mirilla {
     private Sprite sprite;
     private Personaje personaje;
     private boolean visible;
-    private float velocidadMirilla = 4f;
+    private float velocidadMirilla = 2f;
 
     public Mirilla(Personaje personaje) {
         this.personaje = personaje;

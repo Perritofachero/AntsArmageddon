@@ -17,19 +17,16 @@ import hud.EventosBoton;
 import hud.FabricaBotones;
 import managers.GestorAssets;
 import utils.Constantes;
+import utils.RecursosGlobales;
 
 public class OpcionesScreen implements Screen {
 
     private final AntsArmageddon juego;
-
     private Stage escenario;
     private FitViewport viewport;
     private OrthographicCamera camara;
-
     private Texture texturaFondo;
     private Sprite spriteFondo;
-
-    private SpriteBatch batch;
 
     public OpcionesScreen(AntsArmageddon juego){
         this.juego = juego;
@@ -48,8 +45,6 @@ public class OpcionesScreen implements Screen {
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 
-        batch = new SpriteBatch();
-
         construirMenuOpciones();
 
     }
@@ -59,9 +54,9 @@ public class OpcionesScreen implements Screen {
         Gdx.gl.glClearColor(0.5f,   0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        batch.begin();
-        spriteFondo.draw(batch);
-        batch.end();
+        RecursosGlobales.batch.begin();
+        spriteFondo.draw(RecursosGlobales.batch);
+        RecursosGlobales.batch.end();
 
         escenario.act(delta);
         escenario.draw();
@@ -90,7 +85,7 @@ public class OpcionesScreen implements Screen {
     }
 
     @Override public void resize(int ancho, int alto) { viewport.update(ancho, alto, true); }
-    @Override public void dispose() { escenario.dispose(); batch.dispose(); }
+    @Override public void dispose() { escenario.dispose(); }
     @Override public void pause() { }
     @Override public void resume() { }
     @Override public void hide() { }

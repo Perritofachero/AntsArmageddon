@@ -7,6 +7,16 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.2] - 2025-09-27
+
+### Added
+- Fuentes para Contador y Vida de los personajes.
+- Clase para gestionar recursos globales.
+
+### Changed
+- Antigua fuente.
+- SpriteRenderer y Batch ahora gestionados por recursosGlobales.
+
 ## [0.4.1] - 2025-09-21
 
 ### Changed

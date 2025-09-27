@@ -12,6 +12,8 @@ import entradas.ControlesJugador;
 import hud.Hud;
 import managers.ScreenManager;
 import screens.GameOverScreen;
+import utils.RecursosGlobales;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,11 +76,11 @@ public class GestorJuego {
         }
     }
 
-    public void renderPersonajes(SpriteBatch batch, Hud hud) {
+    public void renderPersonajes(Hud hud) {
         for (Jugador jugadorAux : jugadores) {
             for (Personaje personajeAux : jugadorAux.getPersonajes()) {
-                personajeAux.render(batch);
-                hud.mostrarVida(batch, personajeAux);
+                personajeAux.render(RecursosGlobales.batch);
+                hud.mostrarVida(personajeAux);
             }
         }
     }

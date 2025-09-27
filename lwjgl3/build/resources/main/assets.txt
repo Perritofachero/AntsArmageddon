@@ -3,10 +3,17 @@
 3.png
 4.png
 Buddy.png
+HormigaObrera.png
 Mapa.png
+Rectangulo.png
+RectanguloVida.png
 botones/botones.atlas
 botones/botones.png
 fondoPantalla.png
+fonts/font_Contador.fnt
+fonts/font_Contador.png
+fonts/font_Vida.fnt
+fonts/font_Vida.png
 gameOver.png
 hormiga.png
 mira.png

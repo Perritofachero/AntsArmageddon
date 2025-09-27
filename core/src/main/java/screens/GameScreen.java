@@ -25,6 +25,8 @@ import entradas.ControlesJugador;
 import hud.Hud;
 import managers.GestorAssets;
 import utils.Constantes;
+import utils.RecursosGlobales;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +34,6 @@ public class GameScreen implements Screen {
 
     private AntsArmageddon juego;
     private Stage escenario;
-    private SpriteBatch batch;
-    private ShapeRenderer shapeRenderer;
     private Hud hud;
     private Sprite spriteMapa;
     private Camara camaraPersonaje;
@@ -52,9 +52,7 @@ public class GameScreen implements Screen {
     public void show() {
         FitViewport viewport = new FitViewport(Constantes.RESOLUCION_ANCHO, Constantes.RESOLUCION_ALTO);
         escenario = new Stage(viewport);
-        batch = new SpriteBatch();
         hud = new Hud();
-        shapeRenderer = new ShapeRenderer();
 
         spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
         spriteMapa.setPosition(0, 0);
@@ -113,21 +111,21 @@ public class GameScreen implements Screen {
             camaraPersonaje.getCamera().update();
         }
 
-        batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
-        batch.begin();
-        batch.enableBlending();
+        RecursosGlobales.batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
+        RecursosGlobales.batch.begin();
+        RecursosGlobales.batch.enableBlending();
 
-        spriteMapa.draw(batch);
-        mapa.render(batch);
+        spriteMapa.draw(RecursosGlobales.batch);
+        mapa.render(RecursosGlobales.batch);
 
-        gestorJuego.renderPersonajes(batch, hud);
-        gestorJuego.renderProyectiles(batch);
+        gestorJuego.renderPersonajes(hud);
+        gestorJuego.renderProyectiles(RecursosGlobales.batch);
 
-        hud.mostrarContador(batch, gestorJuego.getTiempoActual(), camaraPersonaje);
+        hud.mostrarContador(gestorJuego.getTiempoActual(), camaraPersonaje);
 
-        batch.end();
+        RecursosGlobales.batch.end();
 
-        mapa.renderDebugMapaHitbox(shapeRenderer, camaraPersonaje);
+        mapa.renderDebugMapaHitbox(RecursosGlobales.shapeRenderer, camaraPersonaje);
 
         escenario.act(delta);
         escenario.draw();
@@ -161,7 +159,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
         escenario.dispose();
         hud.dispose();
         spriteMapa.getTexture().dispose();

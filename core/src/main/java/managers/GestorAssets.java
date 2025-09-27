@@ -2,6 +2,7 @@ package managers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import utils.Constantes;
 
@@ -22,6 +23,11 @@ public class GestorAssets {
         assetManager.load("pruebaFondoJuego.jpg", Texture.class);
         assetManager.load("1.png", Texture.class);
         assetManager.load("gameOver.png", Texture.class);
+        assetManager.load("HormigaObrera.png", Texture.class);
+        assetManager.load("Rectangulo.png", Texture.class);
+        assetManager.load("RectanguloVida.png", Texture.class);
+        assetManager.load("fonts/font_Contador.fnt", BitmapFont.class);
+        assetManager.load("fonts/font_Vida.fnt", BitmapFont.class);
 
         assetManager.load(Constantes.FONDO_JUEGO_PRUEBA, Texture.class);
 
