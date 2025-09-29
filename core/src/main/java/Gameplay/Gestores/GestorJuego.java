@@ -7,6 +7,7 @@ import Fisicas.Mapa;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
+import entidades.personajes.BarraCarga;
 import entidades.personajes.Personaje;
 import entradas.ControlesJugador;
 import hud.Hud;
@@ -57,23 +58,33 @@ public class GestorJuego {
         control.procesarEntrada();
         Personaje activo = getPersonajeActivo();
 
-        if (activo != null) {
-            if (control.getX() != 0 || control.getY() != 0) {
-                activo.mover(control.getX(), delta);
-                activo.ocultarMirilla();
-            }
+        if (activo == null) return;
 
-            if (control.getSaltar()) {
-                activo.saltar();
-            }
-            if (control.getApuntarDir() != 0) {
-                activo.apuntar(control.getApuntarDir());
-            }
-            if (control.getMovimientoSeleccionado() >= 0) {
-                activo.usarMovimiento(control.getMovimientoSeleccionado());
-                control.resetMovimientoSeleccionado();
+        if (control.getX() != 0 || control.getY() != 0) {
+            activo.mover(control.getX(), delta);
+            activo.ocultarMirilla();
+        }
+
+        if (control.getSaltar()) {
+            activo.saltar();
+        }
+
+        if (control.getApuntarDir() != 0) {
+            activo.apuntar(control.getApuntarDir());
+        }
+
+        BarraCarga barra = activo.getBarraCarga();
+
+        if (control.getDisparoPresionado()) {
+            barra.start();
+        } else {
+            if (barra.getCargaActual() > 0) {
+                activo.usarMovimiento(0);
+                barra.reset();
             }
         }
+
+        barra.update(delta);
     }
 
     public void renderPersonajes(Hud hud) {

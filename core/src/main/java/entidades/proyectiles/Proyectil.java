@@ -18,7 +18,7 @@ public abstract class Proyectil implements Colisionable {
     protected int danio;
     protected GestorColisiones gestorColisiones;
     protected Personaje ejecutor;
-    protected float tiempoGracia = 2f;
+    protected float tiempoGracia = 0.3f;
     protected float tiempoTranscurrido = 0f;
     protected Vector2 posAnterior = new Vector2();
     protected Vector2 velocidadVector = new Vector2();
@@ -62,12 +62,6 @@ public abstract class Proyectil implements Colisionable {
         }
     }
 
-    public void impactoMapa(Mapa mapa, int radio) {
-        int centroX = (int) (x + hitbox.width / 2f);
-        int centroY = (int) (y + hitbox.height / 2f);
-        mapa.destruir(centroX, centroY, radio);
-    }
-
     public void desactivar() {
         activo = false;
         gestorColisiones.removerObjeto(this);
@@ -78,7 +72,7 @@ public abstract class Proyectil implements Colisionable {
     }
 
     protected abstract void impactoProyectil(Colisionable impactado);
-    public abstract void impactoMapa(Mapa mapa);
+    public abstract void impactoMapa(Mapa mapa, int radio);
 
     public void render(SpriteBatch batch) {
         if (sprite != null) {

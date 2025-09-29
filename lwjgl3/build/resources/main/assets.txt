@@ -3,6 +3,7 @@
 3.png
 4.png
 Buddy.png
+HormigaGuerrera.png
 HormigaObrera.png
 Mapa.png
 Rectangulo.png
@@ -19,6 +20,7 @@ hormiga.png
 mira.png
 prueba.png
 pruebaFondoJuego.jpg
+pruebaGuerrera.png
 pruebaMapa1.png
 pruebaMapa2.png
 pruebaMapa3.png

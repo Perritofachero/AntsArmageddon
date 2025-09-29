@@ -41,7 +41,6 @@ public class ControlesJugador implements InputProcessor {
     public boolean keyDown(int keycode) {
         keysPresionadas.add(keycode);
 
-        if (keycode == Input.Keys.Z) movimientoSeleccionado = 0;
         if (keycode == Input.Keys.X) movimientoSeleccionado = 1;
 
         return true;
@@ -51,6 +50,10 @@ public class ControlesJugador implements InputProcessor {
     public boolean keyUp(int keycode) {
         keysPresionadas.remove(keycode);
         return true;
+    }
+
+    public boolean getDisparoPresionado() {
+        return keysPresionadas.contains(Input.Keys.Z);
     }
 
     @Override public boolean keyTyped(char character) { return false; }

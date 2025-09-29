@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
+import entidades.personajes.HormigaGuerrera;
 import entidades.personajes.HormigaObrera;
 import entidades.personajes.Personaje;
 import entradas.ControlesJugador;
@@ -36,7 +37,6 @@ public class GameScreen implements Screen {
     private Stage escenario;
     private Hud hud;
     private Sprite spriteMapa;
-    private Camara camaraPersonaje;
     private Mapa mapa;
     private Fisica fisica;
 
@@ -57,13 +57,6 @@ public class GameScreen implements Screen {
         spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
         spriteMapa.setPosition(0, 0);
 
-        camaraPersonaje = new Camara(
-            Constantes.RESOLUCION_ANCHO,
-            Constantes.RESOLUCION_ALTO,
-            Constantes.RESOLUCION_ANCHO_MAPA,
-            Constantes.RESOLUCION_ALTO_MAPA
-        );
-
         mapa = new Mapa("pruebaMapa4.png");
         fisica = new Fisica();
 
@@ -72,12 +65,12 @@ public class GameScreen implements Screen {
         Borde borde = new Borde(gestorColisiones);
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
-        jugador1.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 200, 200));
-        jugador1.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 250, 200));
+        jugador1.agregarPersonaje(new HormigaGuerrera(gestorColisiones, gestorProyectiles, 200, 200));
+        jugador1.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 280, 200));
 
         Jugador jugador2 = new Jugador(new ArrayList<>());
         jugador2.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 400, 350));
-        jugador2.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 450, 350));
+        jugador2.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 480, 350));
 
         List<Jugador> jugadores = new ArrayList<>();
         jugadores.add(jugador1);
@@ -107,25 +100,31 @@ public class GameScreen implements Screen {
 
         Personaje activo = gestorJuego.getPersonajeActivo();
         if (activo != null) {
-            camaraPersonaje.seguirPersonaje(activo);
-            camaraPersonaje.getCamera().update();
+            RecursosGlobales.camaraPersonaje.seguirPersonaje(activo);
+            RecursosGlobales.camaraPersonaje.getCamera().update();
         }
 
-        RecursosGlobales.batch.setProjectionMatrix(camaraPersonaje.getCamera().combined);
+        RecursosGlobales.batch.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
         RecursosGlobales.batch.begin();
         RecursosGlobales.batch.enableBlending();
 
         spriteMapa.draw(RecursosGlobales.batch);
-        mapa.render(RecursosGlobales.batch);
+        mapa.render();
 
         gestorJuego.renderPersonajes(hud);
         gestorJuego.renderProyectiles(RecursosGlobales.batch);
 
-        hud.mostrarContador(gestorJuego.getTiempoActual(), camaraPersonaje);
+        hud.mostrarContador(gestorJuego.getTiempoActual(), RecursosGlobales.camaraPersonaje);
 
         RecursosGlobales.batch.end();
 
-        mapa.renderDebugMapaHitbox(RecursosGlobales.shapeRenderer, camaraPersonaje);
+        //mapa.renderDebugMapaHitbox(RecursosGlobales.shapeRenderer, camaraPersonaje);
+
+        for (Jugador j : gestorJuego.getJugadores()) {
+            for (Personaje p : j.getPersonajes()) {
+                p.renderHitbox();
+            }
+        }
 
         escenario.act(delta);
         escenario.draw();
@@ -149,7 +148,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        camaraPersonaje.getViewport().update(width, height, true);
+        RecursosGlobales.camaraPersonaje.getViewport().update(width, height, true);
         escenario.getViewport().update(width, height, true);
     }
 

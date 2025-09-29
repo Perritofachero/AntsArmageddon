@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 
 public abstract class MovimientoRango extends Movimiento {
-
     protected float velocidad;
     protected int danio;
     protected GestorProyectiles gestorProyectiles;
@@ -17,8 +16,7 @@ public abstract class MovimientoRango extends Movimiento {
         this.gestorProyectiles = gestorProyectiles;
     }
 
-    @Override
-    public abstract void ejecutar(Personaje personaje);
+    public abstract void ejecutar(Personaje personaje, float potencia);
 
     public float getVelocidad() { return velocidad; }
     public int getDano() { return danio; }

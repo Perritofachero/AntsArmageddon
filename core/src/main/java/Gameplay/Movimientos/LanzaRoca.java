@@ -9,11 +9,11 @@ import entidades.proyectiles.Roca;
 public class LanzaRoca extends MovimientoRango {
 
     public LanzaRoca(String nombre, Texture textura, int cooldown, float velocidad, int danio, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown, 1000, danio, gestorProyectiles);
+        super(nombre, textura, cooldown, 500, danio, gestorProyectiles);
     }
 
     @Override
-    public void ejecutar(Personaje personaje) {
+    public void ejecutar(Personaje personaje, float potencia) {
         float radio = 10f;
 
         float angulo = personaje.getMirilla().getAnguloRad();
@@ -24,9 +24,12 @@ public class LanzaRoca extends MovimientoRango {
         float x = poscX + MathUtils.cos(angulo) * radio * personaje.getDireccionMultiplicador();
         float y = poscY + MathUtils.sin(angulo) * radio;
 
-        Roca roca = new Roca(x, y, angulo, velocidad, danio, gestorProyectiles.getGestorColisiones(), personaje);
+        float factorVelocidad = MathUtils.lerp(0.5f, 2.0f, potencia * potencia);
+        float velocidadFinal = velocidad * factorVelocidad;
 
+        Roca roca = new Roca(x, y, angulo, velocidadFinal, danio, gestorProyectiles.getGestorColisiones(), personaje);
         gestorProyectiles.agregar(roca);
-        System.out.println("Creando roca en x=" + x + ", y=" + y + " con angulo=" + angulo);
+
     }
 }
+

@@ -7,6 +7,14 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.3] - 2025-09-29
+
+### Added
+- Radio destruccion para proyectiles.
+- Destruccion del mapa
+- Movimiento sobre superficies inclinadas.
+- Barra de carga para lanzar proyectiles.
+
 ## [0.4.2] - 2025-09-27
 
 ### Added

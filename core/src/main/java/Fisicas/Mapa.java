@@ -2,12 +2,14 @@ package Fisicas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import utils.RecursosGlobales;
 
 public class Mapa {
 
@@ -15,9 +17,15 @@ public class Mapa {
     private Texture textura;
     private final String ruta;
     private final Color colorTemp = new Color();
+    private final float escala;
 
     public Mapa(String ruta) {
+        this(ruta, 1f);
+    }
+
+    public Mapa(String ruta, float escala) {
         this.ruta = ruta;
+        this.escala = escala <= 0 ? 1f : escala;
         cargarMapa(ruta);
     }
 
@@ -32,60 +40,59 @@ public class Mapa {
 
     public boolean esSolido(int x, int y) {
         if (x < 0 || y < 0 || x >= pixmap.getWidth() || y >= pixmap.getHeight()) return false;
+        int xPixmap = mundoAX(x);
         int yPixmap = mundoAY(y);
-        Color.rgba8888ToColor(colorTemp, pixmap.getPixel(x, yPixmap));
+        Color.rgba8888ToColor(colorTemp, pixmap.getPixel(xPixmap, yPixmap));
         return colorTemp.a > 0.05f;
     }
 
-    public boolean colisiona(Rectangle hitbox) {
-        int inicioX = Math.max(0, (int) hitbox.x);
-        int finX = Math.min(pixmap.getWidth(), (int) (hitbox.x + hitbox.width));
-        int inicioY = Math.max(0, (int) hitbox.y);
-        int finY = Math.min(pixmap.getHeight(), (int) (hitbox.y + hitbox.height));
+    public boolean colisiona(Rectangle hitboxMundo) {
+        int inicioX = Math.max(0, mundoAX((int) hitboxMundo.x));
+        int finX = Math.min(pixmap.getWidth(), mundoAX((int) (hitboxMundo.x + hitboxMundo.width)));
+        int inicioY = Math.max(0, mundoAY((int) (hitboxMundo.y + hitboxMundo.height)));
+        int finY = Math.min(pixmap.getHeight(), mundoAY((int) hitboxMundo.y));
 
         for (int x = inicioX; x < finX; x++) {
             for (int y = inicioY; y < finY; y++) {
-                if (esSolido(x, y)) return true;
+                Color.rgba8888ToColor(colorTemp, pixmap.getPixel(x, y));
+                if (colorTemp.a > 0.05f) return true;
             }
         }
         return false;
     }
 
     public void destruir(float xMundo, float yMundo, int radio) {
-        int centroX = mundoAX((int)xMundo);
-        int centroY = mundoAY((int)yMundo);
+        int centroXpix = mundoAX((int) xMundo);
+        int centroYpix = mundoAY((int) yMundo);
 
-        boolean cambiado = false;
-
-        for (int x = -radio; x <= radio; x++) {
-            for (int y = -radio; y <= radio; y++) {
-                if (x*x + y*y <= radio*radio) {
-                    int posX = centroX + x;
-                    int posY = centroY + y;
-                    if (posX >= 0 && posY >= 0 && posX < pixmap.getWidth() && posY < pixmap.getHeight()) {
-                        pixmap.drawPixel(posX, posY, 0x00000000);
-                        cambiado = true;
-                    }
-                }
-            }
+        if (centroXpix < 0 || centroYpix < 0 || centroXpix >= pixmap.getWidth() || centroYpix >= pixmap.getHeight()) {
+            Gdx.app.log("Mapa", "destruir fuera de rango: (" + centroXpix + "," + centroYpix + ")");
+            return;
         }
 
-        if (cambiado) {
-            if (textura != null) textura.dispose();
-            textura = new Texture(pixmap);
-        }
+        pixmap.setBlending(Pixmap.Blending.None);
+        pixmap.setColor(0, 0, 0, 0);
+        pixmap.fillCircle(centroXpix, centroYpix, radio);
+
+        if (textura != null) textura.dispose();
+        textura = new Texture(pixmap);
+        Gdx.app.log("Mapa", "Destrucción en pix: (" + centroXpix + "," + centroYpix + ") radio=" + radio);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
+        SpriteBatch batch = RecursosGlobales.batch;
         if (textura != null) {
             batch.draw(textura, 0, 0);
         }
     }
 
-    public void renderDebugMapaHitbox(ShapeRenderer sr, Camara camara) {
+    public void renderDebugMapaHitbox() {
+        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
+        Camara camara = RecursosGlobales.camaraPersonaje;
+
         sr.setProjectionMatrix(camara.getCamera().combined);
         sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(new Color(1,0,0,0.3f));
+        sr.setColor(new Color(1, 0, 0, 0.3f));
 
         for (int x = 0; x < pixmap.getWidth(); x += 4) {
             for (int y = 0; y < pixmap.getHeight(); y += 4) {
@@ -102,9 +109,16 @@ public class Mapa {
         if (textura != null) textura.dispose();
     }
 
-    private int mundoAX(int xMundo) { return MathUtils.clamp(xMundo, 0, pixmap.getWidth() - 1); }
-    private int mundoAY(int yMundo) { return MathUtils.clamp(pixmap.getHeight() - 1 - yMundo, 0, pixmap.getHeight() - 1); }
+    private int mundoAX(int xMundoPixels) {
+        return MathUtils.clamp(xMundoPixels, 0, pixmap.getWidth() - 1);
+    }
+
+    private int mundoAY(int yMundoPixels) {
+        return MathUtils.clamp(pixmap.getHeight() - 1 - yMundoPixels, 0, pixmap.getHeight() - 1);
+    }
 
     public int getWidth() { return pixmap.getWidth(); }
     public int getHeight() { return pixmap.getHeight(); }
+    public float getEscala() { return escala; }
 }
+

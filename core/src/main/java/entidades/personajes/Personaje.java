@@ -4,14 +4,19 @@ import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.GestorProyectiles;
 import Gameplay.Movimientos.Movimiento;
+import Gameplay.Movimientos.MovimientoRango;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import entidades.Entidad;
 import utils.Constantes;
+import utils.RecursosGlobales;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +30,7 @@ public abstract class Personaje extends Entidad {
     protected boolean activo;
     protected float velocidadX;
     protected Vector2 velocidadVector = new Vector2();
+    protected BarraCarga barraCarga;
 
     public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y, int vida, int vidaMaxima, float velocidadX) {
         super(x, y, gestorColisiones);
@@ -33,14 +39,21 @@ public abstract class Personaje extends Entidad {
         this.textura = textura;
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
-        this.hitbox.setWidth(sprite.getWidth());
-        this.hitbox.setHeight(sprite.getHeight());
+
+        float margenX = 2f;
+        float margenY = 3f;
+        float nuevaAncho = sprite.getWidth() - 4 * margenX;
+        float nuevaAlto = sprite.getHeight() - 4 * margenY;
+        //Reduciomos la hitbox manualmente
+
+        this.hitbox.set(x + margenX, y + margenY, nuevaAncho, nuevaAlto);
 
         this.vida = vida;
         this.vidaMaxima = vidaMaxima;
         this.direccion = false;
         this.activo = true;
         this.velocidadX = velocidadX;
+        this.barraCarga = new BarraCarga();
 
         if (!direccion) sprite.flip(true, false);
 
@@ -72,11 +85,41 @@ public abstract class Personaje extends Entidad {
         }
 
         float nuevaX = this.x + deltaX * velocidadX * deltaTiempo;
+
         boolean puedeMover = gestorColisiones.verificarMovimiento(this, nuevaX, this.y);
 
         if (puedeMover) {
             this.x = nuevaX;
             updateHitbox();
+
+            //Ascenso y descenso para ajustar tolerancia de subida y bajada de pendietnes.
+
+            int maxDescenso = 4;
+
+            for (int x = 1; x <= maxDescenso; x++) {
+                float nuevaY = this.y - x;
+                if (!gestorColisiones.verificarMovimiento(this, this.x, nuevaY)) {
+                    this.y = this.y - (x - 1);
+                    updateHitbox();
+                    break;
+                }
+            }
+        } else {
+            boolean pudoSubir = false;
+            int maxAscenso = 4;
+
+            for (int x = 1; x <= maxAscenso; x++) {
+                float nuevaY = this.y + x;
+                if (gestorColisiones.verificarMovimiento(this, nuevaX, nuevaY)) {
+                    this.x = nuevaX;
+                    this.y = nuevaY;
+                    updateHitbox();
+                    pudoSubir = true;
+                    break;
+                }
+            }
+
+            if (!pudoSubir) { /*Para poner algo cuando choque*/}
         }
     }
 
@@ -88,10 +131,21 @@ public abstract class Personaje extends Entidad {
     }
 
     public void usarMovimiento(int indice) {
-        if (indice >= 0 && indice < movimientos.size()) {
-            movimientos.get(indice).ejecutar(this);
+        if (indice < 0 || indice >= movimientos.size()) return;
+
+        Movimiento movimiento = movimientos.get(indice);
+
+        if (movimiento instanceof MovimientoRango rango) {
+            float potencia = barraCarga.getCargaNormalizada();
+
+            if (potencia > 0f) {
+                rango.ejecutar(this, potencia);
+                barraCarga.reset();
+                System.out.println("Disparando movimiento de rango con potencia " + potencia);
+            }
+        } else {
+            //ejecutar movimiento de otro tipo
         }
-        System.out.println("Utilizando movimiento");
     }
 
     public void apuntar(int direccion) {
@@ -100,12 +154,26 @@ public abstract class Personaje extends Entidad {
     }
 
     public void render(SpriteBatch batch) {
-        if (!activo) { return; }
-        sprite.setPosition(this.x, this.y);
+        if (!activo) return;
+
+        float offsetVisual = -5f;
+        sprite.setPosition(this.x, this.y + offsetVisual);
         sprite.draw(batch);
+
         mirilla.actualizarPosicion();
         mirilla.render(batch);
+
+        if (barraCarga.getCargaActual() > 0f) {
+            batch.end();
+
+            float barraAncho = sprite.getWidth();
+            float barraAlto = 5f;
+            barraCarga.render(x, y - barraAlto - 2f, barraAncho, barraAlto);
+
+            batch.begin();
+        }
     }
+
 
     public void recibirDanio(int danio) {
         this.vida -= danio;
@@ -132,8 +200,22 @@ public abstract class Personaje extends Entidad {
         }
     }
 
+    public void renderHitbox() {
+        if (!activo) return;
+
+        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
+
+        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
+
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.setColor(Color.RED);
+        sr.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        sr.end();
+    }
+
     protected abstract void inicializarMovimientos();
 
+    public BarraCarga getBarraCarga() { return this.barraCarga; }
     public boolean getActivo() { return this.activo; }
     public int getDireccionMultiplicador() { return direccion ? -1 : 1; }
     public float getX() { return this.x; }
