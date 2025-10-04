@@ -15,7 +15,7 @@ public class HormigaObrera extends Personaje {
     @Override
     protected void inicializarMovimientos() {
         Texture texturaMovimiento = GestorAssets.get("1.png", Texture.class);
-        movimientos.add(new LanzaRoca("Lanzar Roca", texturaMovimiento, 1, 300f, 25, gestorProyectiles));
+        movimientos.add(new LanzaRoca("Lanzar Roca", texturaMovimiento, 1, 300f, gestorProyectiles));
 
     }
 

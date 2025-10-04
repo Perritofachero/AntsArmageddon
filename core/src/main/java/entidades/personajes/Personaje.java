@@ -174,6 +174,14 @@ public abstract class Personaje extends Entidad {
         }
     }
 
+    public float distanciaAlCentro(float x, float y) {
+        float centroX = this.getX() + this.getSprite().getWidth() / 2f;
+        float centroY = this.getY() + this.getSprite().getHeight() / 2f;
+
+        float dx = centroX - x;
+        float dy = centroY - y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
 
     public void recibirDanio(int danio) {
         this.vida -= danio;

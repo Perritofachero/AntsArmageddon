@@ -19,19 +19,17 @@
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/IMovimiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/IMovimiento.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/LanzaRoca.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/LanzaRoca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Movimiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Movimiento.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoRango.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoRango.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaGuerrera.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaGuerrera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Proyectil.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Proyectil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Roca.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Roca.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/managers/GestorAssets.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/managers/GestorAssets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/utils/RecursosGlobales.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/utils/RecursosGlobales.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +98,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/AldHambulillah/AntsArmageddon&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/aaaAA/AntsArmageddon&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/adria/IdeaProjects/Ants Armageddon/src/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,

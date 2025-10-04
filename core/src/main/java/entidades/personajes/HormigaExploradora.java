@@ -6,10 +6,10 @@ import Gameplay.Movimientos.LanzaRoca;
 import com.badlogic.gdx.graphics.Texture;
 import managers.GestorAssets;
 
-public class HormigaGuerrera extends Personaje{
+public class HormigaExploradora extends  Personaje {
 
-    public HormigaGuerrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
-        super(GestorAssets.get("HormigaGuerrera.png", Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 80, 150f);
+    public HormigaExploradora(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
+        super(GestorAssets.get("HormigaExploradora.png", Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 80, 150f);
     }
 
     @Override

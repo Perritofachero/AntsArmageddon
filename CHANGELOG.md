@@ -7,6 +7,16 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.4] - 2025-10-04
+
+### Added
+- Radio de expansion para proyectiles.
+- Hormiga Exploradora.
+- Debug radio de afeccion del proyectil.
+
+### Changed
+- Forma en la que los proyectiles detonan.
+
 ## [0.4.3] - 2025-09-29
 
 ### Added

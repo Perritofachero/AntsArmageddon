@@ -8,6 +8,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
+import entidades.personajes.Personaje;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -52,6 +54,27 @@ public class GestorColisiones {
         return null;
     }
 
+    public List<Colisionable> getColisionablesRadio(float x, float y, float radio) {
+        List<Colisionable> dentroDelRadio = new ArrayList<>();
+        float radio2 = radio * radio;
+
+        for (Colisionable c : colisionables) {
+            Rectangle hitbox = c.getHitbox();
+            float centroX = hitbox.x + hitbox.width / 2f;
+            float centroY = hitbox.y + hitbox.height / 2f;
+
+            float dx = centroX - x;
+            float dy = centroY - y;
+            float dist2 = dx * dx + dy * dy;
+
+            if (dist2 <= radio2) {
+                dentroDelRadio.add(c);
+            }
+        }
+
+        return dentroDelRadio;
+    }
+
     public void agregarObjeto(Colisionable objeto) {
         if (!colisionables.contains(objeto)) {
             colisionables.add(objeto);
@@ -73,4 +96,5 @@ public class GestorColisiones {
 
     public List<Colisionable> getColisionables() { return colisionables; }
     public void removerObjeto(Colisionable objeto) { colisionables.remove(objeto); }
+    public Mapa getMapa() { return this.mapa; }
 }

@@ -28,8 +28,9 @@ public class GestorProyectiles {
             proyectil.mover(delta);
 
             if (mapa.colisiona(proyectil.getHitbox())) {
-                proyectil.impactoMapa(mapa, 10);
-                proyectil.desactivar();
+                float centroX = proyectil.getHitbox().x + proyectil.getHitbox().width / 2f;
+                float centroY = proyectil.getHitbox().y + proyectil.getHitbox().height / 2f;
+                proyectil.detonar(centroX, centroY);
             }
 
             if (!proyectil.isActivo()) {

@@ -1,7 +1,6 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
-import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,10 +9,9 @@ import managers.GestorAssets;
 
 public class Roca extends Proyectil {
 
-    private int radioDestruccion = 50;
+    public Roca(float x, float y, float angulo, float velocidadBase, GestorColisiones gestorColisiones, Personaje ejecutor) {
+        super(x, y, angulo, velocidadBase, 10, gestorColisiones, ejecutor, 80, 140);
 
-    public Roca(float x, float y, float angulo, float velocidad, int dano, GestorColisiones gestorColisiones, Personaje ejecutor) {
-        super(x, y, angulo, velocidad, dano, gestorColisiones, ejecutor);
         this.textura = GestorAssets.get("roca.png", Texture.class);
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
@@ -22,23 +20,29 @@ public class Roca extends Proyectil {
     }
 
     @Override
-    protected void impactoProyectil(Colisionable impactado) {
-        if (impactado instanceof Personaje) {
-            ((Personaje) impactado).recibirDanio(danio);
+    public void detonar(float centroX, float centroY) {
+        gestorColisiones.getMapa().destruir(centroX, centroY, this.radioDestruccion);
+
+        for (Colisionable colisionable : gestorColisiones.getColisionablesRadio(centroX, centroY, this.radioExpansion)) {
+            if (colisionable instanceof Personaje personaje && personaje.getActivo()) {
+                float distancia = personaje.distanciaAlCentro(centroX, centroY);
+
+                if (distancia <= radioDestruccion) {
+                    personaje.recibirDanio(danio);
+
+                } else {
+                    float factor = Math.max(0, 1 - (distancia - radioDestruccion) / (radioExpansion - radioDestruccion));
+                    int danioFinal = (int)(danio * factor);
+                    if (danioFinal > 0) {
+                        personaje.recibirDanio(danioFinal);
+                    }
+                }
+            } else if (colisionable instanceof Proyectil p) {
+                p.desactivar();
+            }
         }
-        this.activo = false;
-    }
-
-    @Override
-    public void impactoMapa(Mapa mapa, int radio) {
-        float centroXMundo = x + hitbox.getWidth() / 2f;
-        float centroYMundo = y + hitbox.getHeight() / 2f;
-
-        mapa.destruir(centroXMundo, centroYMundo, this.radioDestruccion);
 
         this.activo = false;
     }
-
-    public int getRadioDestruccion() { return radioDestruccion; }
 
 }

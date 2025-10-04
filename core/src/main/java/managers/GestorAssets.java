@@ -27,6 +27,7 @@ public class GestorAssets {
         assetManager.load("Rectangulo.png", Texture.class);
         assetManager.load("RectanguloVida.png", Texture.class);
         assetManager.load("HormigaGuerrera.png", Texture.class);
+        assetManager.load("HormigaExploradora.png", Texture.class);
         assetManager.load("fonts/font_Contador.fnt", BitmapFont.class);
         assetManager.load("fonts/font_Vida.fnt", BitmapFont.class);
 

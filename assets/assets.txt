@@ -3,6 +3,7 @@
 3.png
 4.png
 Buddy.png
+HormigaExploradora.png
 HormigaGuerrera.png
 HormigaObrera.png
 Mapa.png

@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
+import entidades.personajes.HormigaExploradora;
 import entidades.personajes.HormigaGuerrera;
 import entidades.personajes.HormigaObrera;
 import entidades.personajes.Personaje;
@@ -65,8 +66,8 @@ public class GameScreen implements Screen {
         Borde borde = new Borde(gestorColisiones);
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
-        jugador1.agregarPersonaje(new HormigaGuerrera(gestorColisiones, gestorProyectiles, 200, 200));
-        jugador1.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 280, 200));
+        jugador1.agregarPersonaje(new HormigaExploradora(gestorColisiones, gestorProyectiles, 200, 200));
+        jugador1.agregarPersonaje(new HormigaGuerrera(gestorColisiones, gestorProyectiles, 280, 200));
 
         Jugador jugador2 = new Jugador(new ArrayList<>());
         jugador2.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, 400, 350));
