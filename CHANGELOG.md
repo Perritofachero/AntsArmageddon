@@ -7,6 +7,16 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.4] - 2025-10-07
+
+### Added
+- Proyectiles balisticos y granadas.
+- Gestor fisicas.
+
+### Changed
+- Raycast centralizado en gestor fisicas.
+- Fix bug de la gestion de colisiones.
+
 ## [0.4.4] - 2025-10-04
 
 ### Added

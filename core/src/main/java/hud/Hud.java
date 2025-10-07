@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entidades.personajes.Personaje;
 import managers.GestorAssets;
+import utils.Constantes;
 import utils.RecursosGlobales;
 
 public class Hud {
@@ -14,8 +15,8 @@ public class Hud {
     private final GlyphLayout layout;
 
     public Hud() {
-        this.fuenteContador = GestorAssets.get("fonts/font_Contador.fnt", BitmapFont.class);
-        this.fuenteVida = GestorAssets.get("fonts/font_Vida.fnt", BitmapFont.class);
+        this.fuenteContador = GestorAssets.get(Constantes.FONT_CONTADOR, BitmapFont.class);
+        this.fuenteVida = GestorAssets.get(Constantes.FONT_VIDA, BitmapFont.class);
         this.layout = new GlyphLayout();
     }
 

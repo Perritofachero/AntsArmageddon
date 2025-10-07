@@ -40,7 +40,7 @@ public class MenuScreen implements Screen {
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        texturaFondo = GestorAssets.get(Constantes.FONDO_JUEGO, Texture.class);
+        texturaFondo = GestorAssets.get(Constantes.FONDO_PANTALLA, Texture.class);
         spriteFondo = new Sprite(texturaFondo);
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -68,7 +68,7 @@ public class MenuScreen implements Screen {
         ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(EventosBoton.irMenuOpciones(juego));
         ImageButton salir = FabricaBotones.SALIR.crearBoton(EventosBoton.salirJuego());
 
-        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_BOTONES, Sound.class);
+        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
 
         FabricaBotones.agregarSonido(jugar, sonidoClick);
         FabricaBotones.agregarSonido(opciones, sonidoClick);

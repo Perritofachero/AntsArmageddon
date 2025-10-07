@@ -27,4 +27,29 @@ public class Limite implements Colisionable {
         return hitbox;
     }
 
+    @Override
+    public void desactivar() {}
+
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
+
+    @Override
+    public void setX(float x) {
+
+    }
+
+    @Override
+    public void setY(float y) {
+
+    }
+
+    @Override
+    public boolean getActivo() { return false; }
 }

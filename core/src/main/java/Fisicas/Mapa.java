@@ -2,7 +2,6 @@ package Fisicas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,10 +31,6 @@ public class Mapa {
     private void cargarMapa(String ruta) {
         pixmap = new Pixmap(Gdx.files.internal(ruta));
         textura = new Texture(pixmap);
-    }
-
-    public Pixmap getPixmap() {
-        return pixmap;
     }
 
     public boolean esSolido(int x, int y) {
@@ -120,5 +115,8 @@ public class Mapa {
     public int getWidth() { return pixmap.getWidth(); }
     public int getHeight() { return pixmap.getHeight(); }
     public float getEscala() { return escala; }
+    public Pixmap getPixmap() {
+        return pixmap;
+    }
 }
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -40,7 +39,7 @@ public class OpcionesScreen implements Screen {
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        texturaFondo = GestorAssets.get(Constantes.FONDO_JUEGO, Texture.class);
+        texturaFondo = GestorAssets.get(Constantes.FONDO_PANTALLA, Texture.class);
         spriteFondo = new Sprite(texturaFondo);
 
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
@@ -68,7 +67,7 @@ public class OpcionesScreen implements Screen {
         ImageButton sonido = FabricaBotones.SONIDO.crearBoton(() -> System.out.println("Boton opc1 presionado"));
         ImageButton volver = FabricaBotones.VOLVER.crearBoton(EventosBoton.salirMenuOpciones(juego));
 
-        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_BOTONES, Sound.class);
+        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
 
         FabricaBotones.agregarSonido(opc1, sonidoClick);
         FabricaBotones.agregarSonido(sonido, sonidoClick);

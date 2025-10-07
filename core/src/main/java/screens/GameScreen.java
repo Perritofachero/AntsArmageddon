@@ -1,21 +1,18 @@
 package screens;
 
 import Fisicas.Borde;
-import Fisicas.Camara;
 import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.GestorFisica;
 import Gameplay.Gestores.GestorJuego;
 import Gameplay.Gestores.GestorProyectiles;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
@@ -28,7 +25,6 @@ import hud.Hud;
 import managers.GestorAssets;
 import utils.Constantes;
 import utils.RecursosGlobales;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +35,9 @@ public class GameScreen implements Screen {
     private Hud hud;
     private Sprite spriteMapa;
     private Mapa mapa;
-    private Fisica fisica;
 
     private GestorJuego gestorJuego;
+
     private List<ControlesJugador> controles = new ArrayList<>();
     private int turnoAnterior = -1;
 
@@ -55,14 +51,15 @@ public class GameScreen implements Screen {
         escenario = new Stage(viewport);
         hud = new Hud();
 
-        spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO_PRUEBA, Texture.class));
+        spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO, Texture.class));
         spriteMapa.setPosition(0, 0);
 
-        mapa = new Mapa("pruebaMapa4.png");
-        fisica = new Fisica();
+        mapa = new Mapa(Constantes.MAPA_4);
 
         GestorColisiones gestorColisiones = new GestorColisiones(mapa);
-        GestorProyectiles gestorProyectiles = new GestorProyectiles(gestorColisiones);
+        Fisica fisica = new Fisica();
+        GestorFisica gestorFisica = new GestorFisica(fisica, gestorColisiones);
+        GestorProyectiles gestorProyectiles = new GestorProyectiles(gestorColisiones, gestorFisica);
         Borde borde = new Borde(gestorColisiones);
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
@@ -84,7 +81,7 @@ public class GameScreen implements Screen {
         controles.add(control1);
         controles.add(control2);
 
-        gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, borde);
+        gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, borde, fisica);
 
         int turnoInicial = gestorJuego.getTurnoActual();
         Gdx.input.setInputProcessor(controles.get(turnoInicial));
@@ -93,7 +90,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        gestorJuego.actualizar(delta, fisica, mapa);
+        gestorJuego.actualizar(delta, mapa);
         procesarEntradaJugador(delta);
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
@@ -119,8 +116,6 @@ public class GameScreen implements Screen {
 
         RecursosGlobales.batch.end();
 
-        //mapa.renderDebugMapaHitbox(RecursosGlobales.shapeRenderer, camaraPersonaje);
-
         for (Jugador j : gestorJuego.getJugadores()) {
             for (Personaje p : j.getPersonajes()) {
                 p.renderHitbox();
@@ -135,9 +130,8 @@ public class GameScreen implements Screen {
 
     private void actualizarTurno() {
         int turnoActual = gestorJuego.getTurnoActual();
-        if (turnoActual != turnoAnterior) {
-            ControlesJugador control = controles.get(turnoActual);
-            Gdx.input.setInputProcessor(control);
+        if (turnoActual != turnoAnterior && turnoActual >= 0 && turnoActual < controles.size()) {
+            Gdx.input.setInputProcessor(controles.get(turnoActual));
             turnoAnterior = turnoActual;
         }
     }

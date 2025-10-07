@@ -2,6 +2,7 @@ package Gameplay.Movimientos;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import entidades.personajes.Personaje;
 
 public abstract class Movimiento implements IMovimiento {
 
@@ -17,9 +18,11 @@ public abstract class Movimiento implements IMovimiento {
         this.cooldown = cooldown;
     }
 
+    public abstract void ejecutar(Personaje personaje, float potencia);
 
     public String getNombre() { return nombre; }
     public Sprite getSprite() { return sprite; }
     public int getCooldown() { return cooldown; }
     public void setCooldown(int cooldown) { this.cooldown = cooldown; }
+
 }

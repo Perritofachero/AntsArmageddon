@@ -7,6 +7,7 @@ import Fisicas.Mapa;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
+import entidades.Entidad;
 import entidades.personajes.BarraCarga;
 import entidades.personajes.Personaje;
 import entradas.ControlesJugador;
@@ -25,17 +26,22 @@ public class GestorJuego {
     private GestorColisiones gestorColisiones;
     private GestorProyectiles gestorProyectiles;
     private GestorEntidades gestorEntidades;
+    private GestorFisica gestorFisica;
+    private Fisica fisica;
     private Borde borde;
 
-    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, Borde borde) {
+    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones,
+                       GestorProyectiles gestorProyectiles, Borde borde, Fisica fisica) {
         this.jugadores.addAll(jugadores);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
+        this.fisica = fisica;
         this.borde = borde;
 
         this.gestorTurno = new GestorTurno(new ArrayList<>(this.jugadores));
-
         this.gestorEntidades = new GestorEntidades();
+
+        this.gestorFisica = new GestorFisica(fisica, gestorColisiones);
 
         for (Jugador jugadorAux : this.jugadores) {
             for (Personaje personajeAux : jugadorAux.getPersonajes()) {
@@ -45,46 +51,49 @@ public class GestorJuego {
         }
     }
 
-    public void actualizar(float delta, Fisica fisica, Mapa mapa) {
+    public void actualizar(float delta, Mapa mapa) {
         gestorTurno.correrContador(delta);
         revisarPersonajesMuertos();
-        gestorEntidades.actualizar(delta, fisica, mapa);
-        gestorProyectiles.actualizar(delta, mapa);
+
+        for (Entidad entidad : gestorEntidades.getEntidades()) {
+            if (entidad instanceof Personaje personaje) {
+                gestorFisica.aplicarFisica(personaje, delta);
+            }
+            entidad.actualizar(delta);
+        }
+
+        gestorProyectiles.actualizar(delta);
     }
 
     public void procesarEntradaJugador(ControlesJugador control, float delta) {
-        if (control == null || getJugadorActivo() == null) return;
+        if (control == null) return;
 
-        control.procesarEntrada();
         Personaje activo = getPersonajeActivo();
-
         if (activo == null) return;
 
-        if (control.getX() != 0 || control.getY() != 0) {
-            activo.mover(control.getX(), delta);
+        control.procesarEntrada();
+
+        float x = control.getX();
+        float y = control.getY();
+        if (x != 0 || y != 0) {
+            activo.mover(x, y, delta);
             activo.ocultarMirilla();
         }
 
-        if (control.getSaltar()) {
-            activo.saltar();
-        }
+        if (control.getSaltar()) activo.saltar();
+        if (control.getApuntarDir() != 0) activo.apuntar(control.getApuntarDir());
 
-        if (control.getApuntarDir() != 0) {
-            activo.apuntar(control.getApuntarDir());
-        }
-
+        activo.setMovimientoSeleccionado(control.getMovimientoSeleccionado());
         BarraCarga barra = activo.getBarraCarga();
-
-        if (control.getDisparoPresionado()) {
-            barra.start();
-        } else {
-            if (barra.getCargaActual() > 0) {
-                activo.usarMovimiento(0);
+        if (barra != null) {
+            if (control.getDisparoPresionado()) barra.start();
+            if (control.getDisparoLiberado()) {
+                activo.usarMovimiento();
                 barra.reset();
+                control.resetDisparoLiberado();
             }
+            barra.update(delta);
         }
-
-        barra.update(delta);
     }
 
     public void renderPersonajes(Hud hud) {
@@ -98,36 +107,28 @@ public class GestorJuego {
 
     private void revisarPersonajesMuertos() {
         List<Jugador> jugadoresSinPersonajes = new ArrayList<>();
-
         for (Jugador jugador : jugadores) {
             List<Personaje> muertos = new ArrayList<>();
             for (Personaje personaje : jugador.getPersonajes()) {
-                if (!personaje.getActivo()) { muertos.add(personaje); }
+                if (!personaje.getActivo()) muertos.add(personaje);
             }
-
-            for (Personaje personaje : muertos) {
-                jugador.removerPersonaje(personaje);
-            }
-
-            if (!jugador.estaVivo()) {
-                jugadoresSinPersonajes.add(jugador);
-            }
+            for (Personaje personaje : muertos) jugador.removerPersonaje(personaje);
+            if (!jugador.estaVivo()) jugadoresSinPersonajes.add(jugador);
         }
-
         jugadores.removeAll(jugadoresSinPersonajes);
 
-        if (jugadores.size() <= 1) { ScreenManager.setScreen(new GameOverScreen(ScreenManager.returnJuego())); }
+        if (jugadores.size() <= 1) {
+            ScreenManager.setScreen(new GameOverScreen(ScreenManager.returnJuego()));
+        }
     }
 
     public void renderEntidades(SpriteBatch batch) { gestorEntidades.render(batch); }
-
     public void renderDebugEntidades(ShapeRenderer sr, Camara camara) { gestorEntidades.renderDebug(sr, camara); }
+    public void renderProyectiles(SpriteBatch batch) { gestorProyectiles.render(batch); }
 
     public Personaje getPersonajeActivo() {
         Jugador activo = getJugadorActivo();
-        if (activo != null && !activo.getPersonajes().isEmpty()) {
-            return activo.getPersonajeActivo();
-        }
+        if (activo != null && !activo.getPersonajes().isEmpty()) return activo.getPersonajeActivo();
         return null;
     }
 
@@ -136,7 +137,7 @@ public class GestorJuego {
     public float getTiempoActual() { return gestorTurno.getTiempoActual(); }
     public List<Jugador> getJugadores() { return jugadores; }
     public GestorProyectiles getGestorProyectiles() { return gestorProyectiles; }
-    public GestorColisiones getGestorColisiones() { return this.gestorColisiones; }
-    public void renderProyectiles(SpriteBatch batch) { gestorProyectiles.render(batch); }
+    public GestorColisiones getGestorColisiones() { return gestorColisiones; }
     public Borde getMapa() { return borde; }
 }
+

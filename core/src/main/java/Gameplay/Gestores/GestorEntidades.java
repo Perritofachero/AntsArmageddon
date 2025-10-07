@@ -1,8 +1,6 @@
 package Gameplay.Gestores;
 
 import Fisicas.Camara;
-import Fisicas.Fisica;
-import Fisicas.Mapa;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,10 +13,8 @@ public class GestorEntidades {
 
     private List<Entidad> entidades = new ArrayList<>();
 
-    public void actualizar(float delta, Fisica fisica, Mapa mapa) {
+    public void actualizar(float delta) {
         for (Entidad entidadAux : entidades) {
-            entidadAux.aplicarFisica(fisica, mapa, delta);
-
             entidadAux.actualizar(delta);
         }
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import managers.GestorAssets;
+import utils.Constantes;
 
 public class Mirilla {
 
@@ -16,7 +17,7 @@ public class Mirilla {
 
     public Mirilla(Personaje personaje) {
         this.personaje = personaje;
-        this.textura = GestorAssets.get("mira.png", Texture.class);
+        this.textura = GestorAssets.get(Constantes.MIRA, Texture.class);
         this.sprite = new Sprite(textura);
         this.angulo = personaje.getDireccion() ? 0 : 180;
         actualizarPosicion();

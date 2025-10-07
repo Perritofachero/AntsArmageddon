@@ -1,6 +1,5 @@
 package Gameplay.Gestores;
 
-import Fisicas.Mapa;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import entidades.proyectiles.Proyectil;
 import java.util.ArrayList;
@@ -11,9 +10,11 @@ public class GestorProyectiles {
 
     private final List<Proyectil> proyectiles = new ArrayList<>();
     private final GestorColisiones gestorColisiones;
+    private final GestorFisica gestorFisicas;
 
-    public GestorProyectiles(GestorColisiones gestorColisiones) {
+    public GestorProyectiles(GestorColisiones gestorColisiones, GestorFisica gestorFisicas) {
         this.gestorColisiones = gestorColisiones;
+        this.gestorFisicas = gestorFisicas;
     }
 
     public void agregar(Proyectil proyectil) {
@@ -21,19 +22,13 @@ public class GestorProyectiles {
         gestorColisiones.agregarObjeto(proyectil);
     }
 
-    public void actualizar(float delta, Mapa mapa) {
+    public void actualizar(float delta) {
         Iterator<Proyectil> it = proyectiles.iterator();
         while (it.hasNext()) {
             Proyectil proyectil = it.next();
-            proyectil.mover(delta);
+            proyectil.mover(delta, gestorFisicas);
 
-            if (mapa.colisiona(proyectil.getHitbox())) {
-                float centroX = proyectil.getHitbox().x + proyectil.getHitbox().width / 2f;
-                float centroY = proyectil.getHitbox().y + proyectil.getHitbox().height / 2f;
-                proyectil.detonar(centroX, centroY);
-            }
-
-            if (!proyectil.isActivo()) {
+            if (!proyectil.getActivo()) {
                 proyectil.dispose();
                 it.remove();
             }
@@ -43,7 +38,7 @@ public class GestorProyectiles {
     public void render(SpriteBatch batch) {
         batch.enableBlending();
         for (Proyectil proyectil : proyectiles) {
-            if (proyectil.isActivo()) proyectil.render(batch);
+            if (proyectil.getActivo()) proyectil.render(batch);
         }
     }
 

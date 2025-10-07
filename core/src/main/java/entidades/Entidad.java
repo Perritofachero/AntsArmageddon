@@ -1,13 +1,12 @@
 package entidades;
 
-import Fisicas.Fisica;
-import Fisicas.Mapa;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entidad implements Colisionable {
 
@@ -16,26 +15,57 @@ public abstract class Entidad implements Colisionable {
     protected Sprite sprite;
     protected Texture textura;
     protected boolean sobreAlgo;
+    protected Vector2 velocidad;
     protected GestorColisiones gestorColisiones;
 
-    public Entidad(float x, float y, GestorColisiones gestorColisiones) {
+    public Entidad(float x, float y, Texture textura, GestorColisiones gestorColisiones) {
         this.x = x;
         this.y = y;
+        this.textura = textura;
         this.gestorColisiones = gestorColisiones;
-        this.hitbox = new Rectangle(x, y, 0, 0);
-        this.sobreAlgo = verificarSobreAlgo(gestorColisiones);
+
+        if (textura != null) {
+            this.sprite = new Sprite(textura);
+            this.sprite.setPosition(x, y);
+        }
+
+        float ancho = textura != null ? textura.getWidth() : 0;
+        float alto = textura != null ? textura.getHeight() : 0;
+        this.hitbox = new Rectangle(x, y, ancho, alto);
+
+        this.sobreAlgo = false;
+        this.velocidad = new Vector2(0, 0);
     }
 
-    public boolean verificarSobreAlgo(GestorColisiones gestorColisiones) {
-        Rectangle rect = new Rectangle(hitbox.x, hitbox.y - 1, hitbox.width, 1);
-        return gestorColisiones.colisionaConAlgo(this, rect);
+    public void updateHitbox() {
+        hitbox.setPosition(x, y);
     }
 
-    protected void updateHitbox() { hitbox.setPosition(x, y); }
-    public abstract void aplicarFisica(Fisica fisica, Mapa mapa, float delta);
+    @Override public Rectangle getHitboxPosicion(float x, float y) {
+        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
+    }
+
+    @Override public void desactivar() {}
+    public Rectangle getHitbox() { return hitbox; }
     public abstract void actualizar(float delta);
     public abstract void render(SpriteBatch batch);
-    @Override public Rectangle getHitboxPosicion(float x, float y) { return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight()); }
-    public Rectangle getHitbox() { return hitbox; }
     public void dispose() {}
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
+    public Vector2 getVelocidad() { return this.velocidad; }
+    public float getWidth() { return hitbox.getWidth(); }
+    public float getHeight() { return hitbox.getHeight(); }
+    public void setVelocidad(Vector2 velocidad) { this.velocidad.set(velocidad); }
+    public boolean getSobreAlgo() { return this.sobreAlgo; }
+    public void setSobreAlgo(boolean newSobreAlgo) { this.sobreAlgo = newSobreAlgo; }
+
+    public void setPosicion(float x, float y) {
+        this.x = x;
+        this.y = y;
+        updateHitbox();
+    }
+
 }
+

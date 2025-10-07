@@ -7,11 +7,9 @@ import utils.Constantes;
 
 public class Fisica {
 
-    private final float gravedad = Constantes.GRAVEDAD;
-
     public Vector2 aplicarGravedad(Vector2 velocidad, float delta, boolean enSuelo) {
         if (!enSuelo) {
-            velocidad.y += gravedad * delta;
+            velocidad.y += Constantes.GRAVEDAD * delta;
         }
         return velocidad;
     }

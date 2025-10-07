@@ -12,26 +12,42 @@ public class GestorAssets {
 
     public static void load() {
 
+        // Botones
         assetManager.load(Constantes.ATLAS_BOTONES, TextureAtlas.class);
-        assetManager.load("sonido_click.mp3", Sound.class);
-        assetManager.load("fondoPantalla.png", Texture.class);
-        assetManager.load("Mapa.png", Texture.class);
-        assetManager.load("hormiga.png", Texture.class);
-        assetManager.load("mira.png", Texture.class);
-        assetManager.load("roca.png", Texture.class);
-        assetManager.load("prueba.png", Texture.class);
-        assetManager.load("pruebaFondoJuego.jpg", Texture.class);
-        assetManager.load("1.png", Texture.class);
-        assetManager.load("gameOver.png", Texture.class);
-        assetManager.load("HormigaObrera.png", Texture.class);
-        assetManager.load("Rectangulo.png", Texture.class);
-        assetManager.load("RectanguloVida.png", Texture.class);
-        assetManager.load("HormigaGuerrera.png", Texture.class);
-        assetManager.load("HormigaExploradora.png", Texture.class);
-        assetManager.load("fonts/font_Contador.fnt", BitmapFont.class);
-        assetManager.load("fonts/font_Vida.fnt", BitmapFont.class);
+        assetManager.load("Botones/botones.png", Texture.class);
+        assetManager.load("Sonidos/sonido_click.mp3", Sound.class);
 
-        assetManager.load(Constantes.FONDO_JUEGO_PRUEBA, Texture.class);
+        // Fondos
+        assetManager.load("fondoPantalla.png", Texture.class);
+        assetManager.load("pruebaFondoJuego.jpg", Texture.class);
+        assetManager.load("gameOver.png", Texture.class);
+
+        // Mapas
+        assetManager.load("Mapas/pruebaMapa1.png", Texture.class);
+        assetManager.load("Mapas/pruebaMapa2.png", Texture.class);
+        assetManager.load("Mapas/pruebaMapa3.png", Texture.class);
+        assetManager.load("Mapas/pruebaMapa4.png", Texture.class);
+
+        // Personajes
+        assetManager.load("Personajes/HormigaObrera.png", Texture.class);
+        assetManager.load("Personajes/HormigaGuerrera.png", Texture.class);
+        assetManager.load("Personajes/HormigaExploradora.png", Texture.class);
+        assetManager.load("Personajes/mira.png", Texture.class);
+
+        // Proyectiles
+        assetManager.load("Proyectiles/roca.png", Texture.class);
+        assetManager.load("Proyectiles/nectar.png", Texture.class);
+        assetManager.load("Proyectiles/granada.png", Texture.class);
+
+        // Otros assets
+        assetManager.load("1.png", Texture.class);
+        assetManager.load("2.png", Texture.class);
+        assetManager.load("3.png", Texture.class);
+        assetManager.load("4.png", Texture.class);
+
+        // Fuentes
+        assetManager.load("Fonts/font_Contador.fnt", BitmapFont.class);
+        assetManager.load("Fonts/font_Vida.fnt", BitmapFont.class);
 
         assetManager.finishLoading();
     }

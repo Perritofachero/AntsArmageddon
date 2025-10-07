@@ -8,11 +8,14 @@ import java.util.Set;
 public class ControlesJugador implements InputProcessor {
 
     private final Set<Integer> keysPresionadas = new HashSet<>();
-    private int movimientoSeleccionado = -1;
+    private int movimientoSeleccionado = 0;
 
     private float x, y;
     private boolean saltar;
     private int apuntarDir;
+
+    private boolean disparoPresionado = false;
+    private boolean disparoLiberado = false;
 
     public void procesarEntrada() {
         this.x = 0;
@@ -35,13 +38,24 @@ public class ControlesJugador implements InputProcessor {
     public int getApuntarDir() { return apuntarDir; }
 
     public int getMovimientoSeleccionado() { return movimientoSeleccionado; }
-    public void resetMovimientoSeleccionado() { movimientoSeleccionado = -1; }
+
+    public boolean getDisparoPresionado() { return disparoPresionado; }
+    public boolean getDisparoLiberado() { return disparoLiberado; }
 
     @Override
     public boolean keyDown(int keycode) {
         keysPresionadas.add(keycode);
 
-        if (keycode == Input.Keys.X) movimientoSeleccionado = 1;
+        switch (keycode) {
+            case Input.Keys.NUM_1: movimientoSeleccionado = 0; break;
+            case Input.Keys.NUM_2: movimientoSeleccionado = 1; break;
+            case Input.Keys.NUM_3: movimientoSeleccionado = 2; break;
+        }
+
+        if (keycode == Input.Keys.Z) {
+            disparoPresionado = true;
+            disparoLiberado = false;
+        }
 
         return true;
     }
@@ -49,12 +63,16 @@ public class ControlesJugador implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         keysPresionadas.remove(keycode);
+
+        if (keycode == Input.Keys.Z) {
+            disparoPresionado = false;
+            disparoLiberado = true;
+        }
+
         return true;
     }
 
-    public boolean getDisparoPresionado() {
-        return keysPresionadas.contains(Input.Keys.Z);
-    }
+    public void resetDisparoLiberado() { disparoLiberado = false; }
 
     @Override public boolean keyTyped(char character) { return false; }
     @Override public boolean touchDown(int screenX, int screenY, int pointer, int button) { return false; }
