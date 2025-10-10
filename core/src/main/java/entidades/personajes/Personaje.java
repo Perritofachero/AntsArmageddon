@@ -1,7 +1,11 @@
 package entidades.personajes;
 
 import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Movimientos.Melee.Aranazo;
 import Gameplay.Movimientos.Movimiento;
+import Gameplay.Movimientos.MovimientoMelee;
+import Gameplay.Movimientos.MovimientoRango;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -136,12 +140,18 @@ public abstract class Personaje extends Entidad {
     public void usarMovimiento() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return;
 
-        Movimiento movimiento = movimientos.get(movimientoSeleccionado);
-        float potencia = barraCarga.getCargaNormalizada();
-        if (potencia <= 0f) return;
+        Movimiento movimientoUsado = movimientos.get(movimientoSeleccionado);
 
-        movimiento.ejecutar(this, potencia);
-        barraCarga.reset();
+        if(movimientoUsado instanceof MovimientoRango movimientoRango){
+            float potencia = barraCarga.getCargaNormalizada();
+            if (potencia <= 0f) return;
+
+            movimientoRango.ejecutar(this, potencia);
+            barraCarga.reset();
+        } else if(movimientoUsado instanceof MovimientoMelee movimientoMelee){
+            movimientoMelee.ejecutar(this);
+        } //hacer uno mas para movimiento estado
+
     }
 
     @Override
@@ -167,6 +177,12 @@ public abstract class Personaje extends Entidad {
             barraCarga.render(x, y - 7f, sprite.getWidth(), 5f);
             batch.begin();
         }
+        Movimiento movimientoActual = getMovimientoSeleccionado();
+        if (movimientoActual instanceof Aranazo ara) {
+            batch.end();
+            ara.renderDebug(RecursosGlobales.shapeRenderer, Gdx.graphics.getDeltaTime());
+            batch.begin();
+        }
     }
 
     public void recibirDanio(int danio) {
@@ -187,17 +203,7 @@ public abstract class Personaje extends Entidad {
 
     public void setMovimientoSeleccionado(int indice) {
         if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
-    }
-
-    public void renderHitbox() {
-        if (!activo) return;
-
-        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
-        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.setColor(Color.RED);
-        sr.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        sr.end();
+        System.out.print("Movimiento seleccionado: "+movimientos.get(indice));
     }
 
     public void apuntar(int direccion) {
@@ -212,6 +218,17 @@ public abstract class Personaje extends Entidad {
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
+    public void renderHitbox() {
+        if (!activo) return;
+
+        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
+        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
+        sr.begin(ShapeRenderer.ShapeType.Line);
+        sr.setColor(Color.RED);
+        sr.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        sr.end();
+    }
+
     public void mostrarMirilla() { mirilla.mostrarMirilla(); }
     public void ocultarMirilla() { mirilla.ocultarMirilla(); }
     public BarraCarga getBarraCarga() { return barraCarga; }
@@ -222,6 +239,11 @@ public abstract class Personaje extends Entidad {
     public Sprite getSprite() { return sprite; }
     public Mirilla getMirilla() { return mirilla; }
     public List<Movimiento> getMovimientos() { return movimientos; }
+    public GestorColisiones getGestorColisiones() { return this.gestorColisiones; }
+    public Movimiento getMovimientoSeleccionado() {
+        if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
+        return movimientos.get(movimientoSeleccionado);
+    }
 
     protected abstract void inicializarMovimientos();
 

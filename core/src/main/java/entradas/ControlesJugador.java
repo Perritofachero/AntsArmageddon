@@ -47,9 +47,13 @@ public class ControlesJugador implements InputProcessor {
         keysPresionadas.add(keycode);
 
         switch (keycode) {
-            case Input.Keys.NUM_1: movimientoSeleccionado = 0; break;
-            case Input.Keys.NUM_2: movimientoSeleccionado = 1; break;
-            case Input.Keys.NUM_3: movimientoSeleccionado = 2; break;
+            case Input.Keys.NUM_1: movimientoSeleccionado = 0; System.out.println("Seleccionado 1"); break;
+            case Input.Keys.NUM_2: movimientoSeleccionado = 1; System.out.println("Seleccionado 2"); break;
+            case Input.Keys.NUM_3: movimientoSeleccionado = 2; System.out.println("Seleccionado 3"); break;
+            case Input.Keys.NUM_4: movimientoSeleccionado = 3; System.out.println("Seleccionado 4"); break;
+            case Input.Keys.NUM_5: movimientoSeleccionado = 4; System.out.println("Seleccionado 5"); break;
+            case Input.Keys.NUM_6: movimientoSeleccionado = 5; System.out.println("Seleccionado 6"); break;
+            case Input.Keys.NUM_7: movimientoSeleccionado = 6; System.out.println("Seleccionado 7"); break;
         }
 
         if (keycode == Input.Keys.Z) {

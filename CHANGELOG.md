@@ -7,6 +7,17 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.5] - 2025-10-10
+
+### Added
+- Movimientos Melee.
+- Movimiento melee Arañazo.
+- Logica de ejecucion de distintos tipos de movimientos.
+
+### Changed
+- Fix de deteccion de colisiones de proyectiles.
+- Fix bug movimiento proyectiles contra bordes del mapa.
+
 ## [0.4.4] - 2025-10-07
 
 ### Added

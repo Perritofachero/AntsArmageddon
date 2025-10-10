@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.GranadaMano;
+import managers.GestorAssets;
+import utils.Constantes;
 
 public class LanzaGranada extends MovimientoRango {
 
-    public LanzaGranada(String nombre, Texture textura, int cooldown, float velocidad, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown, velocidad, gestorProyectiles);
+    public LanzaGranada(GestorProyectiles gestorProyectiles) {
+        super("Lanza Roca", GestorAssets.get(Constantes.PNG_2, Texture.class), 300f, gestorProyectiles);
     }
 
     @Override

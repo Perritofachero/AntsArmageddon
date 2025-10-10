@@ -6,12 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.Roca;
+import managers.GestorAssets;
+import utils.Constantes;
 
 public class LanzaRoca extends MovimientoRango {
 
-    public LanzaRoca(String nombre, Texture textura, int cooldown, float velocidad, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown, velocidad, gestorProyectiles);
+    public LanzaRoca(GestorProyectiles gestorProyectiles) {
+        super("Lanza Roca", GestorAssets.get(Constantes.PNG_2, Texture.class), 300f, gestorProyectiles);
     }
+//Ajustar las variables y el texture para los movimientos mas adelante
 
     @Override
     protected Proyectil crearProyectil(float x, float y, float angulo, float velocidad, Personaje ejecutor) {

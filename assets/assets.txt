@@ -2,12 +2,6 @@
 2.png
 3.png
 4.png
-Botones/botones.atlas
-Botones/botones.png
-Fonts/font_Contador.fnt
-Fonts/font_Contador.png
-Fonts/font_Vida.fnt
-Fonts/font_Vida.png
 Mapas/pruebaMapa1.png
 Mapas/pruebaMapa2.png
 Mapas/pruebaMapa3.png
@@ -20,6 +14,12 @@ Proyectiles/granada.png
 Proyectiles/nectar.png
 Proyectiles/roca.png
 Sonidos/sonido_click.mp3
+botones/botones.atlas
+botones/botones.png
 fondoPantalla.png
+fonts/font_Contador.fnt
+fonts/font_Contador.png
+fonts/font_Vida.fnt
+fonts/font_Vida.png
 gameOver.png
 pruebaFondoJuego.jpg

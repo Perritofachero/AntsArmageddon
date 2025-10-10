@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.Nectar;
+import managers.GestorAssets;
+import utils.Constantes;
 
 public class LanzaNectar extends MovimientoRango {
 
-    public LanzaNectar(String nombre, Texture textura, int cooldown, float velocidad, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown, velocidad, gestorProyectiles);
+    public LanzaNectar(GestorProyectiles gestorProyectiles) {
+        super("Lanza Nectar", GestorAssets.get(Constantes.PNG_2, Texture.class), 300f, gestorProyectiles);
     }
 
     @Override

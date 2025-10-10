@@ -4,6 +4,9 @@ import Fisicas.Borde;
 import Fisicas.Camara;
 import Fisicas.Fisica;
 import Fisicas.Mapa;
+import Gameplay.Movimientos.Movimiento;
+import Gameplay.Movimientos.MovimientoMelee;
+import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
@@ -84,16 +87,29 @@ public class GestorJuego {
         if (control.getApuntarDir() != 0) activo.apuntar(control.getApuntarDir());
 
         activo.setMovimientoSeleccionado(control.getMovimientoSeleccionado());
+        Movimiento movimientoActual = activo.getMovimientoSeleccionado();
         BarraCarga barra = activo.getBarraCarga();
-        if (barra != null) {
-            if (control.getDisparoPresionado()) barra.start();
+
+        if (movimientoActual instanceof MovimientoRango) {
+            //System.out.print("Ejecutando un movimiento rango");
+            if (barra != null) {
+                if (control.getDisparoPresionado()) barra.start();
+                if (control.getDisparoLiberado()) {
+                    activo.usarMovimiento();
+                    barra.reset();
+                    control.resetDisparoLiberado();
+                }
+                barra.update(delta);
+            }
+        }
+
+        else if (movimientoActual instanceof MovimientoMelee) {
             if (control.getDisparoLiberado()) {
                 activo.usarMovimiento();
-                barra.reset();
                 control.resetDisparoLiberado();
             }
-            barra.update(delta);
         }
+
     }
 
     public void renderPersonajes(Hud hud) {

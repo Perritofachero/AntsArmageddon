@@ -173,6 +173,18 @@ public class GestorColisiones {
         return false;
     }
 
+    public List<Colisionable> getColisionablesEnRect(Rectangle area, Colisionable ignorar) {
+        List<Colisionable> resultado = new ArrayList<>();
+        for (Colisionable c : colisionables) {
+            if (c == ignorar) continue;
+            if (!c.getActivo()) continue;
+            if (area.overlaps(c.getHitbox())) {
+                resultado.add(c);
+            }
+        }
+        return resultado;
+    }
+
     public boolean impactoHorizontal(Proyectil proyectil) {
         Rectangle hitbox = proyectil.getHitbox();
         Vector2 vel = proyectil.getVelocidadVector();

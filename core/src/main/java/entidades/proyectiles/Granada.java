@@ -9,6 +9,8 @@ import utils.Constantes;
 
 public class Granada extends Proyectil {
 
+    //granadas no estan chocando con los limites del mapa
+
     private float tiempoVida;
     private float tiempoTranscurridoExplosion = 0f;
     private float coeficienteRebote = 0.6f;

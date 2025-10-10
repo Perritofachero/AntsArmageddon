@@ -7,12 +7,12 @@ import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 
 public abstract class MovimientoRango extends Movimiento {
-    protected float velocidad;
+    protected float velocidadBase;
     protected GestorProyectiles gestorProyectiles;
 
-    public MovimientoRango(String nombre, Texture textura, int cooldown, float velocidad, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura, cooldown);
-        this.velocidad = velocidad;
+    public MovimientoRango(String nombre, Texture textura, float velocidadBase, GestorProyectiles gestorProyectiles) {
+        super(nombre, textura);
+        this.velocidadBase = velocidadBase;
         this.gestorProyectiles = gestorProyectiles;
     }
 
@@ -27,7 +27,7 @@ public abstract class MovimientoRango extends Movimiento {
         float y = poscY + MathUtils.sin(angulo) * offset;
 
         float factorVelocidad = MathUtils.lerp(0.5f, 2.0f, potencia * potencia);
-        float velocidadFinal = velocidad * factorVelocidad;
+        float velocidadFinal = velocidadBase * factorVelocidad;
 
         Proyectil proyectil = crearProyectil(x, y, angulo, velocidadFinal, personaje);
         gestorProyectiles.agregar(proyectil);
@@ -35,5 +35,5 @@ public abstract class MovimientoRango extends Movimiento {
 
     protected abstract Proyectil crearProyectil(float x, float y, float angulo, float velocidad, Personaje ejecutor);
 
-    public float getVelocidad() { return velocidad; }
+    public float getVelocidadBase() { return velocidadBase; }
 }
