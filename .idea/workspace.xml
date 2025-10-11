@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ee0bfa-838b-4590-9fc2-a89030fb04c9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.13/fileHashes/fileHashes.bin" afterDir="false" />
@@ -14,26 +16,41 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/build/reports/problems/problems-report.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/tmp/jar/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Borde.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Borde.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Camara.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Camara.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Colisionable.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Colisionable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Fisica.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Fisica.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Fisicas/Mapa.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorColisiones.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorEntidades.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorEntidades.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorFisica.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorFisica.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorJuego.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Gestores/GestorProyectiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/IMovimiento.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Melee/Aranazo.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Melee/Aranazo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Movimiento.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Movimiento.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoRango.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoRango.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaGranada.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaGranada.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaNectar.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaNectar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaRoca.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/Rango/LanzaRoca.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoMelee.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/Gameplay/Movimientos/MovimientoMelee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Entidad.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/Limite.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/Limite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaExploradora.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaExploradora.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaGuerrera.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaGuerrera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/HormigaObrera.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/BarraCarga.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/BarraCarga.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Mirilla.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Mirilla.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/personajes/Personaje.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Granada.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Granada.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entradas/ControlesJugador.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/resources/main/assets.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Proyectil.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/Proyectil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilBalistico.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilBalistico.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilExplosivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilExplosivo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilesBalisticos/GranadaMano.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/entidades/proyectiles/ProyectilesBalisticos/GranadaMano.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/hud/EventosBoton.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/hud/EventosBoton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/managers/GestorAssets.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/managers/GestorAssets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/GameOverScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/GameOverScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/MenuScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/OpcionesScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/main/java/screens/PauseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/main/java/screens/PauseScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/lwjgl3/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -104,7 +121,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/AAAAAA/AntsArmageddon&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/adria/Desktop/AAJAJAJAJA/AntsArmageddon&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/adria/IdeaProjects/Ants Armageddon/src/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,

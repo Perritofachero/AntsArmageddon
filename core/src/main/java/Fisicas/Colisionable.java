@@ -9,8 +9,6 @@ public interface Colisionable {
     void desactivar();
     float getX();
     float getY();
-    void setX(float x);
-    void setY(float y);
     boolean getActivo();
 
 }

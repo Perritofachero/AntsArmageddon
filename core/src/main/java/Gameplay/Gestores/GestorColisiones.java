@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
-import entidades.proyectiles.Proyectil;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,85 +14,63 @@ public class GestorColisiones {
 
     private final List<Colisionable> colisionables;
     private final Mapa mapa;
-    private final Rectangle tempRect = new Rectangle();
+    private final Rectangle rectTemporal = new Rectangle();
 
     public GestorColisiones(Mapa mapa) {
         this.mapa = mapa;
         this.colisionables = new ArrayList<>();
     }
 
+
     public boolean verificarSobreAlgo(Colisionable objeto) {
         Rectangle hitbox = objeto.getHitbox();
 
         if (haySueloDebajo(hitbox, 1)) return true;
 
-        for (Colisionable otro : colisionables) {
-            if (otro == objeto) continue;
-            Rectangle r = otro.getHitbox();
-            boolean tocaVertical = hitbox.y - 1 <= r.y + r.height && hitbox.y > r.y + r.height;
-            boolean dentroX = hitbox.x + hitbox.width > r.x && hitbox.x < r.x + r.width;
+        for (Colisionable colisionable : colisionables) {
+            if (colisionable == objeto || !colisionable.getActivo()) continue;
+            Rectangle rect = colisionable.getHitbox();
+
+            boolean tocaVertical = hitbox.y - 1 <= rect.y + rect.height && hitbox.y > rect.y + rect.height;
+            boolean dentroX = hitbox.x + hitbox.width > rect.x && hitbox.x < rect.x + rect.width;
+
             if (tocaVertical && dentroX) return true;
         }
 
         return false;
     }
 
-    public boolean colisionaConAlgo(Colisionable ejecutor, Rectangle area) {
-        for (Colisionable otro : colisionables) {
-            if (otro == ejecutor) continue;
-            if (area.overlaps(otro.getHitbox())) return true;
-        }
-        return mapa != null && mapa.colisiona(area);
-    }
-
     public boolean verificarMovimiento(Colisionable objeto, float nuevaX, float nuevaY) {
-        tempRect.set(objeto.getHitbox());
-        tempRect.setPosition(nuevaX, nuevaY);
-        return !colisionaConAlgo(objeto, tempRect);
+        return verificarMovimiento(objeto, nuevaX, nuevaY, null);
     }
 
     public boolean verificarMovimiento(Colisionable objeto, float nuevaX, float nuevaY, Personaje ignorar) {
-        tempRect.set(objeto.getHitbox());
-        tempRect.setPosition(nuevaX, nuevaY);
+        rectTemporal.set(objeto.getHitbox());
+        rectTemporal.setPosition(nuevaX, nuevaY);
 
-        for (Colisionable c : colisionables) {
-            if (c == objeto) continue;
-            if (c == ignorar) continue;
-            if (!c.getActivo()) continue;
-
-            if (tempRect.overlaps(c.getHitbox())) {
-                return false;
-            }
+        for (Colisionable colisionable : colisionables) {
+            if (colisionable == objeto || colisionable == ignorar || !colisionable.getActivo()) continue;
+            if (rectTemporal.overlaps(colisionable.getHitbox())) return false;
         }
 
-        if (mapa != null && mapa.colisiona(tempRect)) {
-            return false;
-        }
-
-        return true;
+        return mapa == null || !mapa.colisiona(rectTemporal);
     }
 
-    public float buscarYsuelo(Rectangle hitbox, int maxDescenso) {
-        for (int i = 0; i <= maxDescenso; i++) {
-            if (mapa.colisiona(new Rectangle(hitbox.x, hitbox.y - i, hitbox.width, 1))) {
-                return hitbox.y - i + 1;
-            }
+    private float buscarColisionSuelo(Rectangle hitbox, int maxDescenso) {
+        for (int x = 1; x <= maxDescenso; x++) {
+            rectTemporal.set(hitbox.x, hitbox.y - x, hitbox.width, 1);
+            if (mapa.colisiona(rectTemporal)) return x;
         }
-        return hitbox.y;
+        return -1;
     }
 
     public boolean haySueloDebajo(Rectangle hitbox, int maxDescenso) {
-        for (int i = 1; i <= maxDescenso; i++) {
-            if (mapa.colisiona(new Rectangle(hitbox.x, hitbox.y - i, hitbox.width, 1))) return true;
-        }
-        return false;
+        return buscarColisionSuelo(hitbox, maxDescenso) != -1;
     }
 
-    public boolean hayTechoArriba(Rectangle hitbox, int maxAltura) {
-        for (int i = 1; i <= maxAltura; i++) {
-            if (mapa.colisiona(new Rectangle(hitbox.x, hitbox.y + hitbox.height + i, hitbox.width, 1))) return true;
-        }
-        return false;
+    public float buscarYsuelo(Rectangle hitbox, int maxDescenso) {
+        float descenso = buscarColisionSuelo(hitbox, maxDescenso);
+        return descenso != -1 ? hitbox.y - descenso + 1 : hitbox.y;
     }
 
     public Vector2 trayectoriaColisionaMapa(Vector2 inicio, Vector2 fin) {
@@ -101,46 +78,35 @@ public class GestorColisiones {
 
         float dx = fin.x - inicio.x;
         float dy = fin.y - inicio.y;
-        int pasos = (int) Math.ceil(Math.sqrt(dx * dx + dy * dy));
+        float distancia = (float) Math.sqrt(dx * dx + dy * dy);
+        int pasos = (int) Math.ceil(distancia);
         if (pasos <= 0) return null;
 
         float pasoX = dx / pasos;
         float pasoY = dy / pasos;
 
-        for (int i = 0; i <= pasos; i++) {
-            int px = MathUtils.floor(inicio.x + pasoX * i);
-            int py = MathUtils.floor(inicio.y + pasoY * i);
+        for (int x = 0; x <= pasos; x++) {
+            int px = MathUtils.floor(inicio.x + pasoX * x);
+            int py = MathUtils.floor(inicio.y + pasoY * x);
             if (mapa.esSolido(px, py)) return new Vector2(px, py);
         }
-        return null;
-    }
 
-    public List<Colisionable> getColisionablesRadio(float x, float y, float radio) {
-        List<Colisionable> resultado = new ArrayList<>();
-        float radio2 = radio * radio;
-        for (Colisionable c : colisionables) {
-            Rectangle r = c.getHitbox();
-            float cx = r.x + r.width / 2f;
-            float cy = r.y + r.height / 2f;
-            float dx = cx - x;
-            float dy = cy - y;
-            if (dx * dx + dy * dy <= radio2) resultado.add(c);
-        }
-        return resultado;
+        return null;
     }
 
     public Colisionable verificarTrayectoria(Vector2 inicio, Vector2 fin, Colisionable ignorar, Colisionable self) {
         Colisionable colisionado = null;
-        float distanciaMin = Float.MAX_VALUE;
+        float distanciaMinima = Float.MAX_VALUE;
 
-        for (Colisionable otro : colisionables) {
-            if (otro == ignorar || otro == self) continue;
-            Rectangle rect = otro.getHitbox();
+        for (Colisionable colisionable : colisionables) {
+            if (colisionable == ignorar || colisionable == self || !colisionable.getActivo()) continue;
+            Rectangle rect = colisionable.getHitbox();
+
             if (Intersector.intersectSegmentRectangle(inicio, fin, rect)) {
-                float dist = inicio.dst2(rect.x + rect.width / 2f, rect.y + rect.height / 2f);
-                if (dist < distanciaMin) {
-                    distanciaMin = dist;
-                    colisionado = otro;
+                float distancia = inicio.dst2(rect.x + rect.width / 2f, rect.y + rect.height / 2f);
+                if (distancia < distanciaMinima) {
+                    distanciaMinima = distancia;
+                    colisionado = colisionable;
                 }
             }
         }
@@ -148,52 +114,38 @@ public class GestorColisiones {
         return colisionado;
     }
 
+    public List<Colisionable> getColisionablesRadio(float x, float y, float radio) {
+        List<Colisionable> resultado = new ArrayList<>();
+        float radio2 = radio * radio;
 
-    public void agregarObjeto(Colisionable objeto) {
-        if (!colisionables.contains(objeto)) colisionables.add(objeto);
-    }
+        for (Colisionable colisionable : colisionables) {
+            if (!colisionable.getActivo()) continue;
+            Rectangle rect = colisionable.getHitbox();
+            float cx = rect.x + rect.width / 2f;
+            float cy = rect.y + rect.height / 2f;
+            float dx = cx - x;
+            float dy = cy - y;
+            if (dx * dx + dy * dy <= radio2) resultado.add(colisionable);
+        }
 
-    public void removerObjeto(Colisionable objeto) {
-        colisionables.remove(objeto);
-    }
-
-    public List<Colisionable> getColisionables() {
-        return colisionables;
-    }
-
-    public Mapa getMapa() {
-        return mapa;
-    }
-
-    public boolean impactoVertical(Proyectil proyectil) {
-        Rectangle hitbox = proyectil.getHitbox();
-        Vector2 vel = proyectil.getVelocidadVector();
-        if (vel.y < 0 && haySueloDebajo(hitbox, 1)) return true;
-        if (vel.y > 0 && hayTechoArriba(hitbox, 1)) return true;
-        return false;
+        return resultado;
     }
 
     public List<Colisionable> getColisionablesEnRect(Rectangle area, Colisionable ignorar) {
         List<Colisionable> resultado = new ArrayList<>();
-        for (Colisionable c : colisionables) {
-            if (c == ignorar) continue;
-            if (!c.getActivo()) continue;
-            if (area.overlaps(c.getHitbox())) {
-                resultado.add(c);
-            }
+        for (Colisionable colisionable : colisionables) {
+            if (colisionable == ignorar || !colisionable.getActivo()) continue;
+            if (area.overlaps(colisionable.getHitbox())) resultado.add(colisionable);
         }
         return resultado;
     }
 
-    public boolean impactoHorizontal(Proyectil proyectil) {
-        Rectangle hitbox = proyectil.getHitbox();
-        Vector2 vel = proyectil.getVelocidadVector();
-        Rectangle derecha = new Rectangle(hitbox.x + hitbox.width + vel.x * 0.016f, hitbox.y, 1, hitbox.height);
-        if (colisionaConAlgo(proyectil, derecha)) return true;
-        Rectangle izquierda = new Rectangle(hitbox.x + vel.x * 0.016f - 1, hitbox.y, 1, hitbox.height);
-        if (colisionaConAlgo(proyectil, izquierda)) return true;
-        return false;
+    public void agregarObjeto(Colisionable objeto) {
+        if (!colisionables.contains(objeto))
+            colisionables.add(objeto);
     }
+    public void removerObjeto(Colisionable objeto) { colisionables.remove(objeto); }
+    public List<Colisionable> getColisionables() { return colisionables; }
+    public Mapa getMapa() { return mapa; }
+
 }
-
-

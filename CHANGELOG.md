@@ -7,6 +7,14 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.6] - 2025-10-11
+
+### Added
+- Clase ScreenMenus que comparte logica para los menus.
+
+### Changed
+- Todo el codigo se reviso y cambio para eliminar redundancias, evitar errores y refactorizar.
+
 ## [0.4.5] - 2025-10-10
 
 ### Added

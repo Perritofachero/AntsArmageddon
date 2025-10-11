@@ -1,5 +1,6 @@
 package managers;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -8,46 +9,46 @@ import utils.Constantes;
 
 public class GestorAssets {
 
-    private static final com.badlogic.gdx.assets.AssetManager assetManager = new com.badlogic.gdx.assets.AssetManager();
+    private static final AssetManager assetManager = new AssetManager();
 
     public static void load() {
 
-        // Botones
+        // --- Botones ---
         assetManager.load(Constantes.ATLAS_BOTONES, TextureAtlas.class);
-        assetManager.load("Botones/botones.png", Texture.class);
-        assetManager.load("Sonidos/sonido_click.mp3", Sound.class);
+        assetManager.load(Constantes.BOTONES_PNG, Texture.class);
+        assetManager.load(Constantes.SONIDO_CLICK, Sound.class);
 
-        // Fondos
-        assetManager.load("fondoPantalla.png", Texture.class);
-        assetManager.load("pruebaFondoJuego.jpg", Texture.class);
-        assetManager.load("gameOver.png", Texture.class);
+        // --- Fondos ---
+        assetManager.load(Constantes.FONDO_PANTALLA, Texture.class);
+        assetManager.load(Constantes.FONDO_JUEGO, Texture.class);
+        assetManager.load(Constantes.GAME_OVER, Texture.class);
 
-        // Mapas
-        assetManager.load("Mapas/pruebaMapa1.png", Texture.class);
-        assetManager.load("Mapas/pruebaMapa2.png", Texture.class);
-        assetManager.load("Mapas/pruebaMapa3.png", Texture.class);
-        assetManager.load("Mapas/pruebaMapa4.png", Texture.class);
+        // --- Mapas ---
+        assetManager.load(Constantes.MAPA_1, Texture.class);
+        assetManager.load(Constantes.MAPA_2, Texture.class);
+        assetManager.load(Constantes.MAPA_3, Texture.class);
+        assetManager.load(Constantes.MAPA_4, Texture.class);
 
-        // Personajes
-        assetManager.load("Personajes/HormigaObrera.png", Texture.class);
-        assetManager.load("Personajes/HormigaGuerrera.png", Texture.class);
-        assetManager.load("Personajes/HormigaExploradora.png", Texture.class);
-        assetManager.load("Personajes/mira.png", Texture.class);
+        // --- Personajes ---
+        assetManager.load(Constantes.HORMIGA_OBRERA, Texture.class);
+        assetManager.load(Constantes.HORMIGA_GUERRERA, Texture.class);
+        assetManager.load(Constantes.HORMIGA_EXPLORADORA, Texture.class);
+        assetManager.load(Constantes.MIRA, Texture.class);
 
-        // Proyectiles
-        assetManager.load("Proyectiles/roca.png", Texture.class);
-        assetManager.load("Proyectiles/nectar.png", Texture.class);
-        assetManager.load("Proyectiles/granada.png", Texture.class);
+        // --- Proyectiles ---
+        assetManager.load(Constantes.ROCA, Texture.class);
+        assetManager.load(Constantes.NECTAR, Texture.class);
+        assetManager.load(Constantes.GRANADA, Texture.class);
 
-        // Otros assets
-        assetManager.load("1.png", Texture.class);
-        assetManager.load("2.png", Texture.class);
-        assetManager.load("3.png", Texture.class);
-        assetManager.load("4.png", Texture.class);
+        // --- Otros assets ---
+        assetManager.load(Constantes.PNG_1, Texture.class);
+        assetManager.load(Constantes.PNG_2, Texture.class);
+        assetManager.load(Constantes.PNG_3, Texture.class);
+        assetManager.load(Constantes.PNG_4, Texture.class);
 
-        // Fuentes
-        assetManager.load("Fonts/font_Contador.fnt", BitmapFont.class);
-        assetManager.load("Fonts/font_Vida.fnt", BitmapFont.class);
+        // --- Fuentes ---
+        assetManager.load(Constantes.FONT_CONTADOR, BitmapFont.class);
+        assetManager.load(Constantes.FONT_VIDA, BitmapFont.class);
 
         assetManager.finishLoading();
     }

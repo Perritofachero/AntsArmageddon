@@ -25,10 +25,11 @@ public abstract class Personaje extends Entidad {
     protected List<Movimiento> movimientos;
     protected boolean direccion;
     protected int vida, vidaMaxima;
-    protected boolean activo;
     protected float velocidadX;
     protected BarraCarga barraCarga;
     private int movimientoSeleccionado = 0;
+
+    //Agregar fisicas de knockback
 
     public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                      float x, float y, int vida, int vidaMaxima, float velocidadX) {
@@ -43,7 +44,6 @@ public abstract class Personaje extends Entidad {
         float margenY = 3f;
         float nuevaAncho = sprite.getWidth() - 4 * margenX;
         float nuevaAlto = sprite.getHeight() - 4 * margenY;
-
         this.hitbox.set(x + margenX, y + margenY, nuevaAncho, nuevaAlto);
 
         this.vida = vida;
@@ -84,13 +84,11 @@ public abstract class Personaje extends Entidad {
         if (puedeMoverX) {
             x = nuevaX;
         } else {
-            boolean pudoSubir = false;
             int maxAscenso = 4;
             for (int i = 1; i <= maxAscenso; i++) {
                 if (gestorColisiones.verificarMovimiento(this, nuevaX, y + i)) {
                     x = nuevaX;
                     y += i;
-                    pudoSubir = true;
                     break;
                 }
             }
@@ -114,7 +112,7 @@ public abstract class Personaje extends Entidad {
                 }
             }
             sobreAlgo = false;
-        } else if (deltaY < 0) {
+        } else {
             while (y > destinoY) {
                 if (gestorColisiones.verificarMovimiento(this, x, y - pasoY)) {
                     y -= pasoY;
@@ -133,7 +131,6 @@ public abstract class Personaje extends Entidad {
         if (sobreAlgo) {
             velocidad.y = Constantes.SALTO;
             sobreAlgo = false;
-            System.out.println("Saltando");
         }
     }
 
@@ -142,16 +139,14 @@ public abstract class Personaje extends Entidad {
 
         Movimiento movimientoUsado = movimientos.get(movimientoSeleccionado);
 
-        if(movimientoUsado instanceof MovimientoRango movimientoRango){
+        if (movimientoUsado instanceof MovimientoRango movimientoRango) {
             float potencia = barraCarga.getCargaNormalizada();
             if (potencia <= 0f) return;
-
             movimientoRango.ejecutar(this, potencia);
             barraCarga.reset();
-        } else if(movimientoUsado instanceof MovimientoMelee movimientoMelee){
+        } else if (movimientoUsado instanceof MovimientoMelee movimientoMelee) {
             movimientoMelee.ejecutar(this);
-        } //hacer uno mas para movimiento estado
-
+        }
     }
 
     @Override
@@ -177,6 +172,7 @@ public abstract class Personaje extends Entidad {
             barraCarga.render(x, y - 7f, sprite.getWidth(), 5f);
             batch.begin();
         }
+
         Movimiento movimientoActual = getMovimientoSeleccionado();
         if (movimientoActual instanceof Aranazo ara) {
             batch.end();
@@ -189,33 +185,13 @@ public abstract class Personaje extends Entidad {
         vida -= danio;
         if (vida <= 0) {
             vida = 0;
-            morir();
+            desactivar();
         }
     }
 
-    private void morir() {
+    @Override
+    public void desactivar() {
         activo = false;
-        if (gestorColisiones != null) {
-            gestorColisiones.removerObjeto(this);
-        }
-        dispose();
-    }
-
-    public void setMovimientoSeleccionado(int indice) {
-        if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
-        System.out.print("Movimiento seleccionado: "+movimientos.get(indice));
-    }
-
-    public void apuntar(int direccion) {
-        mirilla.mostrarMirilla();
-        mirilla.cambiarAngulo(direccion);
-    }
-
-    public float distanciaAlCentro(float x, float y) {
-        float centroX = this.getX() + this.getSprite().getWidth() / 2f;
-        float centroY = this.getY() + this.getSprite().getHeight() / 2f;
-        float dx = centroX - x; float dy = centroY - y;
-        return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
     public void renderHitbox() {
@@ -229,17 +205,33 @@ public abstract class Personaje extends Entidad {
         sr.end();
     }
 
+    public void setMovimientoSeleccionado(int indice) {
+        if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
+    }
+
+    public void apuntar(int direccion) {
+        mirilla.mostrarMirilla();
+        mirilla.cambiarAngulo(direccion);
+    }
+
+    public float distanciaAlCentro(float x, float y) {
+        float centroX = this.getX() + this.getSprite().getWidth() / 2f;
+        float centroY = this.getY() + this.getSprite().getHeight() / 2f;
+        float dx = centroX - x;
+        float dy = centroY - y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
     public void mostrarMirilla() { mirilla.mostrarMirilla(); }
     public void ocultarMirilla() { mirilla.ocultarMirilla(); }
+
     public BarraCarga getBarraCarga() { return barraCarga; }
-    public boolean getActivo() { return activo; }
     public int getDireccionMultiplicador() { return direccion ? -1 : 1; }
     public int getVida() { return vida; }
     public boolean getDireccion() { return direccion; }
     public Sprite getSprite() { return sprite; }
     public Mirilla getMirilla() { return mirilla; }
     public List<Movimiento> getMovimientos() { return movimientos; }
-    public GestorColisiones getGestorColisiones() { return this.gestorColisiones; }
     public Movimiento getMovimientoSeleccionado() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
         return movimientos.get(movimientoSeleccionado);
@@ -247,5 +239,5 @@ public abstract class Personaje extends Entidad {
 
     protected abstract void inicializarMovimientos();
 
-    @Override public void dispose() { }
+    @Override public void dispose() {}
 }

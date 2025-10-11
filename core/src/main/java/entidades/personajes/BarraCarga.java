@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utils.RecursosGlobales;
 
 public class BarraCarga {
+
     private float cargaActual = 0f;
     private final float CARGA_MAXIMA = 1f;
     private final float TIEMPO_CARGA = 1.5f;

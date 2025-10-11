@@ -15,6 +15,9 @@ public class Camara {
     private float mapWidth;
     private float mapHeight;
 
+    private static final float LERP_FACTOR = 0.1f;
+
+
     public Camara(float worldWidth, float worldHeight, float mapWidth, float mapHeight) {
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(worldWidth, worldHeight, camera);
@@ -34,14 +37,11 @@ public class Camara {
         float targetX = MathUtils.clamp(targetPosition.x, halfWidth, mapWidth - halfWidth);
         float targetY = MathUtils.clamp(targetPosition.y, halfHeight, mapHeight - halfHeight);
 
-        float lerpFactor = 0.1f;
+        Vector3 pos = camera.position;
+        pos.x += (targetX - pos.x) * LERP_FACTOR;
+        pos.y += (targetY - pos.y) * LERP_FACTOR;
 
-        Vector3 position = camera.position;
-
-        position.x += (targetX - position.x) * lerpFactor;
-        position.y += (targetY - position.y) * lerpFactor;
-
-        camera.position.set(position.x, position.y, 0);
+        camera.position.set(pos.x, pos.y, 0);
         camera.update();
     }
 

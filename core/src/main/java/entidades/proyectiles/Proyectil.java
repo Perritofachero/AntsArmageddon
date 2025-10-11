@@ -1,6 +1,7 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
+import Fisicas.Fisica;
 import Gameplay.Gestores.GestorFisica;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,13 +22,12 @@ public abstract class Proyectil implements Colisionable {
     protected GestorColisiones gestorColisiones;
     protected Personaje ejecutor;
 
-    protected boolean activo = true;
+    protected boolean activo;
     protected int danio;
     protected Vector2 posAnterior = new Vector2();
     protected Vector2 velocidadVector = new Vector2();
 
     protected float tiempoTranscurrido = 0f;
-
     protected boolean impacto = false;
 
     public Proyectil(float x, float y, float angulo, float velocidad, int danio,
@@ -41,11 +41,11 @@ public abstract class Proyectil implements Colisionable {
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
         this.hitbox = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
+        this.activo = true;
 
         this.velocidadVector.x = (float) Math.cos(angulo) * velocidad *
             (ejecutor != null ? ejecutor.getDireccionMultiplicador() : 1);
         this.velocidadVector.y = (float) Math.sin(angulo) * velocidad;
-
     }
 
     public void mover(float delta, GestorFisica gestorFisica) {
@@ -59,62 +59,59 @@ public abstract class Proyectil implements Colisionable {
             return;
         }
 
-        aplicarFisica(delta);
-
-        Personaje ignorar = (ejecutor != null && tiempoTranscurrido < Constantes.TIEMPO_GRACIA) ? ejecutor : null;
+        Personaje ignorar = (ejecutor != null && tiempoTranscurrido < Constantes.TIEMPO_GRACIA)
+            ? ejecutor : null;
 
         Vector2 nuevaPos = gestorFisica.moverProyectilConRaycast(this, delta, ignorar);
 
-        x = nuevaPos.x;
-        y = nuevaPos.y;
-        updateHitbox();
+        setPosicion(nuevaPos.x, nuevaPos.y);
     }
-
 
     public void setPosicion(float x, float y) {
         this.x = x;
         this.y = y;
-        if (hitbox != null) hitbox.setPosition(x, y);
+        updateHitbox();
         if (sprite != null) sprite.setPosition(x, y);
     }
 
-    public void aplicarFisica(float delta) {
-        velocidadVector.y += Constantes.GRAVEDAD * delta;
+    public void aplicarFisica(float delta, Fisica fisica) {
+        fisica.aplicarGravedad(velocidadVector, delta);
     }
 
-    protected Vector2 centroHitbox() {
-        return new Vector2(x + hitbox.getWidth() / 2f, y + hitbox.getHeight() / 2f);
-    }
-
-    public void desactivar() {
-        activo = false;
-        gestorColisiones.removerObjeto(this);
-    }
-
-    public abstract void impactar(float centroX, float centroY);
-    protected void updateHitbox() { if (hitbox != null) hitbox.setPosition(x, y); }
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public Vector2 getVelocidadVector() { return velocidadVector; }
-    public Personaje getEjecutor() { return ejecutor; }
-    public float getTiempoTranscurrido() { return tiempoTranscurrido; }
-    public boolean getActivo() { return activo; }
-    @Override public Rectangle getHitbox() { return hitbox; }
-    @Override public Rectangle getHitboxPosicion(float x, float y) { return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight()); }
-
-    public void setImpacto(boolean valor) { this.impacto = valor; }
-    public boolean getImpacto() { return this.impacto; }
-
-    @Override public void setX(float x) { }
-
-    @Override public void setY(float y) { }
+    public void desactivar() { activo = false; }
 
     public void render(SpriteBatch batch) {
         if (sprite != null && activo) {
-            sprite.setPosition(x, y);
             sprite.draw(batch);
         }
     }
+
+
+    protected void updateHitbox() { if (hitbox != null) hitbox.setPosition(x, y); }
+
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public boolean getActivo() { return activo; }
+    public Vector2 getVelocidadVector() { return velocidadVector; }
+    public Personaje getEjecutor() { return ejecutor; }
+    public float getTiempoTranscurrido() { return tiempoTranscurrido; }
+    public boolean getImpacto() { return impacto; }
+    public void setImpacto(boolean valor) { this.impacto = valor; }
+    public abstract void impactar(float centroX, float centroY);
+
+    @Override public Rectangle getHitbox() { return hitbox; }
+
+    @Override public Rectangle getHitboxPosicion(float x, float y) {
+        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
+    }
+
+    protected Vector2 centroHitbox() {
+        return new Vector2(
+            x + hitbox.getWidth() / 2f,
+            y + hitbox.getHeight() / 2f
+        );
+    }
+
 
     public void dispose() {}
 }

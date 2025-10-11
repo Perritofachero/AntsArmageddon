@@ -9,7 +9,7 @@ import com.principal.AntsArmageddon;
 import managers.GestorAssets;
 
 public class GameOverScreen implements Screen {
-
+//Hacer que extienda de ScreensMenus
     private AntsArmageddon juego;
     private SpriteBatch batch;
     private Sprite spriteFondo;

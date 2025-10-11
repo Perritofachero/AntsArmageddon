@@ -9,8 +9,6 @@ import utils.Constantes;
 
 public class Granada extends Proyectil {
 
-    //granadas no estan chocando con los limites del mapa
-
     private float tiempoVida;
     private float tiempoTranscurridoExplosion = 0f;
     private float coeficienteRebote = 0.6f;
@@ -18,6 +16,9 @@ public class Granada extends Proyectil {
 
     private int radioDestruccion;
     private int radioExpansion;
+
+    //Por el momento mantenemos granada como hijo de proyectil aunque no use alguno de sus metodos
+    //sigue funcionando. Tal vez en un futuro la saquemos.
 
     public Granada(float x, float y, float angulo, float velocidad, int danio,
                    GestorColisiones gestorColisiones, Personaje ejecutor,
@@ -41,8 +42,6 @@ public class Granada extends Proyectil {
             return;
         }
 
-        aplicarFisica(delta);
-
         Personaje ignorar = (ejecutor != null && tiempoTranscurrido < Constantes.TIEMPO_GRACIA) ? ejecutor : null;
 
         float nuevaX = x + velocidadVector.x * delta;
@@ -51,11 +50,8 @@ public class Granada extends Proyectil {
         boolean colisionX = !gestorColisiones.verificarMovimiento(this, nuevaX, y, ignorar);
         boolean colisionY = !gestorColisiones.verificarMovimiento(this, x, nuevaY, ignorar);
 
-        if (colisionX) {
-            velocidadVector.x *= -coeficienteRebote;
-        } else {
-            x = nuevaX;
-        }
+        if (colisionX) velocidadVector.x *= -coeficienteRebote;
+        else x = nuevaX;
 
         if (colisionY) {
             velocidadVector.y *= -coeficienteRebote;
@@ -64,9 +60,7 @@ public class Granada extends Proyectil {
             y = nuevaY;
         }
 
-        if (velocidadVector.len2() < VELOCIDAD_MINIMA) {
-            velocidadVector.setZero();
-        }
+        if (velocidadVector.len2() < VELOCIDAD_MINIMA) velocidadVector.setZero();
 
         updateHitbox();
         if (sprite != null) sprite.setPosition(x, y);
@@ -95,5 +89,5 @@ public class Granada extends Proyectil {
         return 1f - (distancia - radioDestruccion) / (radioExpansion - radioDestruccion);
     }
 
-    @Override public void impactar(float centroX, float centroY) { }
+    @Override  public void impactar(float centroX, float centroY) { }
 }

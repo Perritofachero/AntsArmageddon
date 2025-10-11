@@ -15,48 +15,29 @@ public class Limite implements Colisionable {
     }
 
     public void draw(ShapeRenderer renderer) {
+        if (!activo) return;
         renderer.setColor(Color.YELLOW);
         renderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
 
-    @Override
-    public Rectangle getHitbox() {
+    @Override public Rectangle getHitbox() {
         return hitbox;
     }
-
-    @Override
-    public Rectangle getHitboxPosicion(float x, float y) {
+    @Override public Rectangle getHitboxPosicion(float x, float y) {
         return hitbox;
     }
-
-    @Override
-    public void desactivar() {
+    @Override public void desactivar() {
         activo = false;
     }
-
-    @Override
-    public float getX() {
+    @Override public float getX() {
         return hitbox.x;
     }
-
-    @Override
-    public float getY() {
+    @Override public float getY() {
         return hitbox.y;
     }
-
-    @Override
-    public void setX(float x) {
-        hitbox.x = x;
-    }
-
-    @Override
-    public void setY(float y) {
-        hitbox.y = y;
-    }
-
-    @Override
-    public boolean getActivo() {
+    @Override public boolean getActivo() {
         return activo;
     }
+
 }
 

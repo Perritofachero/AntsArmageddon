@@ -10,11 +10,11 @@ public class GestorProyectiles {
 
     private final List<Proyectil> proyectiles = new ArrayList<>();
     private final GestorColisiones gestorColisiones;
-    private final GestorFisica gestorFisicas;
+    private final GestorFisica gestorFisica;
 
-    public GestorProyectiles(GestorColisiones gestorColisiones, GestorFisica gestorFisicas) {
+    public GestorProyectiles(GestorColisiones gestorColisiones, GestorFisica gestorFisica) {
         this.gestorColisiones = gestorColisiones;
-        this.gestorFisicas = gestorFisicas;
+        this.gestorFisica = gestorFisica;
     }
 
     public void agregar(Proyectil proyectil) {
@@ -22,28 +22,35 @@ public class GestorProyectiles {
         gestorColisiones.agregarObjeto(proyectil);
     }
 
+    private void removerProyectil(Proyectil proyectil) {
+        gestorColisiones.removerObjeto(proyectil);
+        proyectil.dispose();
+    }
+
     public void actualizar(float delta) {
         Iterator<Proyectil> it = proyectiles.iterator();
         while (it.hasNext()) {
             Proyectil proyectil = it.next();
-            proyectil.mover(delta, gestorFisicas);
-
             if (!proyectil.getActivo()) {
-                proyectil.dispose();
+                removerProyectil(proyectil);
                 it.remove();
+                continue;
             }
+            proyectil.aplicarFisica(delta, gestorFisica.getFisica());
+            proyectil.mover(delta, gestorFisica);
         }
     }
 
     public void render(SpriteBatch batch) {
-        batch.enableBlending();
         for (Proyectil proyectil : proyectiles) {
             if (proyectil.getActivo()) proyectil.render(batch);
         }
     }
 
     public void dispose() {
-        for (Proyectil proyectil : proyectiles) proyectil.dispose();
+        for (Proyectil proyectil : proyectiles) {
+            removerProyectil(proyectil);
+        }
         proyectiles.clear();
     }
 

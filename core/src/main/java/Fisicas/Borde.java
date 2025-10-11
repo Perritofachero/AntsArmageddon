@@ -11,13 +11,14 @@ public class Borde {
     private Limite limiteSuperior, limiteInferior, limiteIzquierdo, limiteDerecho;
 
     public Borde(GestorColisiones gestor) {
-        int ancho = Constantes.RESOLUCION_ANCHO_MAPA;
-        int alto  = Constantes.RESOLUCION_ALTO_MAPA;
+        final int ancho = Constantes.RESOLUCION_ANCHO_MAPA;
+        final int alto  = Constantes.RESOLUCION_ALTO_MAPA;
+        final int grosor = 10;
 
-        limiteSuperior  = new Limite(0, alto, ancho, 10);
-        limiteInferior  = new Limite(0, -10, ancho, 10);
-        limiteIzquierdo = new Limite(-10, 0, 10, alto);
-        limiteDerecho   = new Limite(ancho, 0, 10, alto);
+        limiteSuperior  = new Limite(0, alto, ancho, grosor);
+        limiteInferior  = new Limite(0, -grosor, ancho, grosor);
+        limiteIzquierdo = new Limite(-grosor, 0, grosor, alto);
+        limiteDerecho   = new Limite(ancho, 0, grosor, alto);
 
         gestor.agregarObjeto(limiteSuperior);
         gestor.agregarObjeto(limiteInferior);
@@ -25,18 +26,16 @@ public class Borde {
         gestor.agregarObjeto(limiteDerecho);
     }
 
-    public void draw(ShapeRenderer shapeRenderer, Camara camara) {
-        shapeRenderer.setProjectionMatrix(camara.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+    public void draw(ShapeRenderer sr, Camara camara) {
+        sr.setProjectionMatrix(camara.getCamera().combined);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
 
-        limiteSuperior.draw(shapeRenderer);
-        limiteInferior.draw(shapeRenderer);
-        limiteIzquierdo.draw(shapeRenderer);
-        limiteDerecho.draw(shapeRenderer);
+        limiteSuperior.draw(sr);
+        limiteInferior.draw(sr);
+        limiteIzquierdo.draw(sr);
+        limiteDerecho.draw(sr);
 
-        shapeRenderer.end();
-
-        shapeRenderer.setColor(Color.WHITE);
-
+        sr.end();
+        sr.setColor(Color.WHITE);
     }
 }

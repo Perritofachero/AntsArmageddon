@@ -16,15 +16,9 @@ public class Mapa {
     private Texture textura;
     private final String ruta;
     private final Color colorTemp = new Color();
-    private final float escala;
 
     public Mapa(String ruta) {
-        this(ruta, 1f);
-    }
-
-    public Mapa(String ruta, float escala) {
         this.ruta = ruta;
-        this.escala = escala <= 0 ? 1f : escala;
         cargarMapa(ruta);
     }
 
@@ -57,21 +51,29 @@ public class Mapa {
     }
 
     public void destruir(float xMundo, float yMundo, int radio) {
-        int centroXpix = mundoAX((int) xMundo);
-        int centroYpix = mundoAY((int) yMundo);
+        int centroX = mundoAX((int) xMundo);
+        int centroY = mundoAY((int) yMundo);
 
-        if (centroXpix < 0 || centroYpix < 0 || centroXpix >= pixmap.getWidth() || centroYpix >= pixmap.getHeight()) {
-            Gdx.app.log("Mapa", "destruir fuera de rango: (" + centroXpix + "," + centroYpix + ")");
+        if (!estaDentro(centroX, centroY)) {
+            Gdx.app.log("Mapa", "Destrucción fuera de rango: (" + centroX + "," + centroY + ")");
             return;
         }
 
         pixmap.setBlending(Pixmap.Blending.None);
         pixmap.setColor(0, 0, 0, 0);
-        pixmap.fillCircle(centroXpix, centroYpix, radio);
+        pixmap.fillCircle(centroX, centroY, radio);
 
+        recargarTextura();
+        Gdx.app.log("Mapa", "Destrucción en: (" + centroX + "," + centroY + "), radio=" + radio);
+    }
+
+    private boolean estaDentro(int x, int y) {
+        return x >= 0 && y >= 0 && x < pixmap.getWidth() && y < pixmap.getHeight();
+    }
+
+    private void recargarTextura() {
         if (textura != null) textura.dispose();
         textura = new Texture(pixmap);
-        Gdx.app.log("Mapa", "Destrucción en pix: (" + centroXpix + "," + centroYpix + ") radio=" + radio);
     }
 
     public void render() {
@@ -114,7 +116,6 @@ public class Mapa {
 
     public int getWidth() { return pixmap.getWidth(); }
     public int getHeight() { return pixmap.getHeight(); }
-    public float getEscala() { return escala; }
     public Pixmap getPixmap() {
         return pixmap;
     }

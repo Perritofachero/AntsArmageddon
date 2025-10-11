@@ -8,12 +8,17 @@ import utils.Constantes;
 
 public class Mirilla {
 
-    private float x, y, angulo, radio = 50, anguloRad;
-    private Texture textura;
-    private Sprite sprite;
-    private Personaje personaje;
-    private boolean visible;
-    private float velocidadMirilla = 2f;
+    private float x, y;
+    private float angulo;      
+    private float anguloRad;
+    private float radio = 50f;
+
+    private final Texture textura;
+    private final Sprite sprite;
+    private final Personaje personaje;
+
+    private boolean visible = false;
+    private final float velocidadMirilla = 2f;
 
     public Mirilla(Personaje personaje) {
         this.personaje = personaje;

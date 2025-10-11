@@ -21,6 +21,8 @@ public abstract class ProyectilExplosivo extends Proyectil {
 
     @Override
     public void mover(float delta, GestorFisica gestorFisica) {
+        if (!activo) return;
+
         super.mover(delta, gestorFisica);
 
         if (getImpacto() && activo) {
@@ -37,7 +39,7 @@ public abstract class ProyectilExplosivo extends Proyectil {
             if (c instanceof Personaje personaje && personaje.getActivo()) {
                 float distancia = personaje.distanciaAlCentro(centroX, centroY);
                 float factor = (distancia <= radioDestruccion) ? 1f : factorDeDanio(distancia);
-                int danioFinal = (int)(danio * factor);
+                int danioFinal = (int) (danio * factor);
                 if (danioFinal > 0) personaje.recibirDanio(danioFinal);
             } else if (!(c instanceof Personaje)) {
                 c.desactivar();

@@ -15,6 +15,7 @@ public abstract class Entidad implements Colisionable {
     protected Sprite sprite;
     protected Texture textura;
     protected boolean sobreAlgo;
+    protected boolean activo;
     protected Vector2 velocidad;
     protected GestorColisiones gestorColisiones;
 
@@ -33,39 +34,41 @@ public abstract class Entidad implements Colisionable {
         float alto = textura != null ? textura.getHeight() : 0;
         this.hitbox = new Rectangle(x, y, ancho, alto);
 
+        this.activo = true;
         this.sobreAlgo = false;
         this.velocidad = new Vector2(0, 0);
     }
 
-    public void updateHitbox() {
-        hitbox.setPosition(x, y);
-    }
-
-    @Override public Rectangle getHitboxPosicion(float x, float y) {
-        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
-    }
-
-    @Override public void desactivar() {}
-    public Rectangle getHitbox() { return hitbox; }
-    public abstract void actualizar(float delta);
-    public abstract void render(SpriteBatch batch);
-    public void dispose() {}
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public void setX(float x) { this.x = x; }
-    public void setY(float y) { this.y = y; }
-    public Vector2 getVelocidad() { return this.velocidad; }
-    public float getWidth() { return hitbox.getWidth(); }
-    public float getHeight() { return hitbox.getHeight(); }
-    public void setVelocidad(Vector2 velocidad) { this.velocidad.set(velocidad); }
-    public boolean getSobreAlgo() { return this.sobreAlgo; }
-    public void setSobreAlgo(boolean newSobreAlgo) { this.sobreAlgo = newSobreAlgo; }
+    public void updateHitbox() { hitbox.setPosition(x, y); }
 
     public void setPosicion(float x, float y) {
         this.x = x;
         this.y = y;
         updateHitbox();
+        if (sprite != null) sprite.setPosition(x, y);
     }
 
-}
+    public abstract void actualizar(float delta);
+    public abstract void render(SpriteBatch batch);
 
+    public void dispose() {}
+
+    @Override public void desactivar() { activo = false; }
+    @Override public boolean getActivo() { return activo; }
+    @Override public Rectangle getHitbox() { return hitbox; }
+
+    @Override public Rectangle getHitboxPosicion(float x, float y) {
+        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
+    }
+
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
+    public Vector2 getVelocidad() { return velocidad; }
+    public void setVelocidad(Vector2 velocidad) { this.velocidad.set(velocidad); }
+    public float getWidth() { return hitbox.getWidth(); }
+    public float getHeight() { return hitbox.getHeight(); }
+    public boolean getSobreAlgo() { return sobreAlgo; }
+    public void setSobreAlgo(boolean sobreAlgo) { this.sobreAlgo = sobreAlgo; }
+}

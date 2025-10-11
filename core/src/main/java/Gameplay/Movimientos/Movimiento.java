@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import entidades.personajes.Personaje;
 
-public abstract class Movimiento implements IMovimiento {
+public abstract class Movimiento {
 
     protected String nombre;
     protected Texture textura;
@@ -18,5 +18,6 @@ public abstract class Movimiento implements IMovimiento {
 
     public String getNombre() { return nombre; }
     public Sprite getSprite() { return sprite; }
+    public void dispose() {}
 
 }

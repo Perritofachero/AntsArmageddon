@@ -39,18 +39,20 @@ public class ProyectilBalistico extends Proyectil {
 
         for (Colisionable c : gestorColisiones.getColisionables()) {
             if (c == this) continue;
+
             if (c instanceof Personaje personaje && c.getHitbox().overlaps(hitbox)) {
                 personaje.recibirDanio(danio);
                 desactivar();
                 return;
             }
         }
+
         clavarse(centroX, centroY);
     }
 
     private void clavarse(float centroX, float centroY) {
         updateHitbox();
-        velocidadVector.set(0, 0);
+        velocidadVector.setZero();
         clavado = true;
     }
 }
