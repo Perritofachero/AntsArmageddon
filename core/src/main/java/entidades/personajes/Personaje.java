@@ -1,5 +1,6 @@
 package entidades.personajes;
 
+import Fisicas.Camara;
 import Gameplay.Gestores.GestorProyectiles;
 import Gameplay.Movimientos.Melee.Aranazo;
 import Gameplay.Movimientos.Movimiento;
@@ -194,17 +195,6 @@ public abstract class Personaje extends Entidad {
         activo = false;
     }
 
-    public void renderHitbox() {
-        if (!activo) return;
-
-        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
-        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
-        sr.begin(ShapeRenderer.ShapeType.Line);
-        sr.setColor(Color.RED);
-        sr.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        sr.end();
-    }
-
     public void setMovimientoSeleccionado(int indice) {
         if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
     }
@@ -212,6 +202,10 @@ public abstract class Personaje extends Entidad {
     public void apuntar(int direccion) {
         mirilla.mostrarMirilla();
         mirilla.cambiarAngulo(direccion);
+    }
+
+    public void aumentarVida(int vidaRecogida) {
+        this.vida += vidaRecogida;
     }
 
     public float distanciaAlCentro(float x, float y) {
@@ -240,4 +234,14 @@ public abstract class Personaje extends Entidad {
     protected abstract void inicializarMovimientos();
 
     @Override public void dispose() {}
+
+    public void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
+        if (!activo) return;
+        shapeRenderer.setProjectionMatrix(camara.getCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+        shapeRenderer.end();
+    }
+
 }

@@ -10,6 +10,7 @@ Personajes/HormigaExploradora.png
 Personajes/HormigaGuerrera.png
 Personajes/HormigaObrera.png
 Personajes/mira.png
+PowerUps/CajaVida.png
 Proyectiles/granada.png
 Proyectiles/nectar.png
 Proyectiles/roca.png

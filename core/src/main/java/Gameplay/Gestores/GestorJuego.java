@@ -10,6 +10,7 @@ import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.principal.Jugador;
+import entidades.Entidad;
 import entidades.personajes.BarraCarga;
 import entidades.personajes.Personaje;
 import entradas.ControlesJugador;
@@ -122,6 +123,13 @@ public class GestorJuego {
         }
     }
 
+    public void renderDebug(ShapeRenderer shapeRenderer, Camara camara) {
+        gestorEntidades.renderDebug(shapeRenderer, camara);
+    }
+
+    public void renderEntidades(SpriteBatch batch) { gestorEntidades.render(batch); }
+    public void renderProyectiles(SpriteBatch batch) { gestorProyectiles.render(batch); }
+
     public void renderPersonajes(Hud hud) {
         for (Jugador jugador : jugadores) {
             for (Personaje personaje : jugador.getPersonajes()) {
@@ -137,16 +145,14 @@ public class GestorJuego {
         return null;
     }
 
-    public void renderEntidades(SpriteBatch batch) { gestorEntidades.render(batch); }
-    public void renderDebugEntidades(ShapeRenderer sr, Camara camara) { gestorEntidades.renderDebug(sr, camara); }
-    public void renderProyectiles(SpriteBatch batch) { gestorProyectiles.render(batch); }
+    public void agregarEntidad(Entidad entidad) {
+        gestorEntidades.agregarEntidad(entidad);
+    }
 
     public Jugador getJugadorActivo() { return gestorTurno.getJugadorActivo(); }
     public int getTurnoActual() { return gestorTurno.getTurnoActual(); }
     public float getTiempoActual() { return gestorTurno.getTiempoActual(); }
     public List<Jugador> getJugadores() { return jugadores; }
-    public GestorProyectiles getGestorProyectiles() { return gestorProyectiles; }
     public GestorColisiones getGestorColisiones() { return gestorColisiones; }
-    public Borde getMapa() { return borde; }
 }
 

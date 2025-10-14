@@ -1,10 +1,8 @@
 package Gameplay.Gestores;
 
 import Fisicas.Camara;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import entidades.Entidad;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,20 +41,6 @@ public class GestorEntidades {
         }
     }
 
-    public void renderDebug(ShapeRenderer shapeRenderer, Camara camara) {
-        shapeRenderer.setProjectionMatrix(camara.getCamera().combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.RED);
-
-        for (Entidad entidad : entidades) {
-            if (!entidad.getActivo()) continue;
-            Rectangle hitbox = entidad.getHitbox();
-            shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-        }
-
-        shapeRenderer.end();
-    }
-
     public void agregarEntidad(Entidad entidad) {
         if (!entidades.contains(entidad)) {
             entidades.add(entidad);
@@ -81,4 +65,12 @@ public class GestorEntidades {
         }
         entidades.clear();
     }
+
+    public void renderDebug(ShapeRenderer shapeRenderer, Camara camara) {
+        for (Entidad entidad : entidades) {
+            if (!entidad.getActivo()) continue;
+            entidad.renderHitbox(shapeRenderer, camara);
+        }
+    }
+
 }

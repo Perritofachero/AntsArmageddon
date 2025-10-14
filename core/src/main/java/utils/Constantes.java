@@ -43,6 +43,9 @@ public class Constantes {
     public static final String NECTAR = "Proyectiles/nectar.png";
     public static final String GRANADA = "Proyectiles/granada.png";
 
+    // PowerUps
+    public static final String CAJA_VIDA = "PowerUps/CajaVida.png";
+
     // Otros assets
     public static final String PNG_1 = "1.png";
     public static final String PNG_2 = "2.png";

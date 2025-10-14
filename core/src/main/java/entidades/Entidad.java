@@ -1,9 +1,11 @@
 package entidades;
 
+import Fisicas.Camara;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
@@ -71,4 +73,6 @@ public abstract class Entidad implements Colisionable {
     public float getHeight() { return hitbox.getHeight(); }
     public boolean getSobreAlgo() { return sobreAlgo; }
     public void setSobreAlgo(boolean sobreAlgo) { this.sobreAlgo = sobreAlgo; }
+
+    public abstract void renderHitbox(ShapeRenderer shapeRenderer, Camara camara);
 }

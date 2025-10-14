@@ -20,6 +20,8 @@ import entidades.personajes.HormigaExploradora;
 import entidades.personajes.HormigaGuerrera;
 import entidades.personajes.HormigaObrera;
 import entidades.personajes.Personaje;
+import entidades.personajes.PowerUps.CajaVida;
+import entidades.personajes.PowerUps.PowerUp;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.GestorAssets;
@@ -83,6 +85,9 @@ public class GameScreen implements Screen {
 
         gestorJuego = new GestorJuego(jugadores, gestorColisiones, gestorProyectiles, borde, fisica);
 
+        PowerUp cajaVida = new CajaVida(600, 500, gestorColisiones);
+        gestorJuego.agregarEntidad(cajaVida);
+
         int turnoInicial = gestorJuego.getTurnoActual();
         Gdx.input.setInputProcessor(controles.get(turnoInicial));
         turnoAnterior = turnoInicial;
@@ -109,6 +114,7 @@ public class GameScreen implements Screen {
         spriteMapa.draw(RecursosGlobales.batch);
         mapa.render();
 
+        gestorJuego.renderEntidades(RecursosGlobales.batch);
         gestorJuego.renderPersonajes(hud);
         gestorJuego.renderProyectiles(RecursosGlobales.batch);
 
@@ -116,11 +122,7 @@ public class GameScreen implements Screen {
 
         RecursosGlobales.batch.end();
 
-        for (Jugador j : gestorJuego.getJugadores()) {
-            for (Personaje p : j.getPersonajes()) {
-                p.renderHitbox();
-            }
-        }
+        gestorJuego.renderDebug(RecursosGlobales.shapeRenderer, RecursosGlobales.camaraPersonaje);
 
         escenario.act(delta);
         escenario.draw();

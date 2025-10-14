@@ -50,6 +50,9 @@ public class GestorAssets {
         assetManager.load(Constantes.FONT_CONTADOR, BitmapFont.class);
         assetManager.load(Constantes.FONT_VIDA, BitmapFont.class);
 
+        // --- PowerUps ---
+        assetManager.load(Constantes.CAJA_VIDA, Texture.class);
+
         assetManager.finishLoading();
     }
 

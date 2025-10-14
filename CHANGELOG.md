@@ -7,6 +7,13 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.7] - 2025-10-14
+
+### Added
+- Power Ups.
+- Power Up vida.
+- Render Debug Hitboxes centralizado.
+
 ## [0.4.6] - 2025-10-11
 
 ### Added
