@@ -4,6 +4,7 @@ import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorFisica;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 
 public class ProyectilBalistico extends Proyectil {
@@ -40,11 +41,27 @@ public class ProyectilBalistico extends Proyectil {
         for (Colisionable c : gestorColisiones.getColisionables()) {
             if (c == this) continue;
 
-            if (c instanceof Personaje personaje && c.getHitbox().overlaps(hitbox)) {
-                personaje.recibirDanio(danio);
+            if (c instanceof Personaje personaje && c.getActivo()) {
+
+                // Calcular dirección del knockback (desde el proyectil hacia el personaje)
+                float centroProyectilX = centroHitbox().x;
+                float centroProyectilY = centroHitbox().y;
+                float dx = personaje.getX() + personaje.getWidth() / 2f - centroProyectilX;
+                float dy = personaje.getY() + personaje.getHeight() / 2f - centroProyectilY;
+                Vector2 dir = new Vector2(dx, dy).nor();
+
+                // Escalar fuerza
+                float fuerzaBase = 300f; // ajustá según el proyectil
+                float fuerzaX = dir.x * fuerzaBase;
+                float fuerzaY = dir.y * fuerzaBase * 0.6f;
+
+                // Aplicar daño + knockback
+                personaje.recibirDanio(danio, fuerzaX, fuerzaY);
+
                 desactivar();
                 return;
             }
+
         }
 
         clavarse(centroX, centroY);

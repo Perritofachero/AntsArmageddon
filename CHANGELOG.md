@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.8] - 2025-10-15
+
+### Added
+- Fisicas personaje.
+- Fisicas de Knockback.
+- Gestor de spawn.
+- Power ups
+- Spawn de personajes randomizado y power ups por turno
+
 ## [0.4.7] - 2025-10-14
 
 ### Added

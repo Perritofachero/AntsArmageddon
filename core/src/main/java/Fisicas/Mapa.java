@@ -83,24 +83,6 @@ public class Mapa {
         }
     }
 
-    public void renderDebugMapaHitbox() {
-        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
-        Camara camara = RecursosGlobales.camaraPersonaje;
-
-        sr.setProjectionMatrix(camara.getCamera().combined);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(new Color(1, 0, 0, 0.3f));
-
-        for (int x = 0; x < pixmap.getWidth(); x += 4) {
-            for (int y = 0; y < pixmap.getHeight(); y += 4) {
-                if (esSolido(x, y)) {
-                    sr.rect(x, y, 4, 4);
-                }
-            }
-        }
-        sr.end();
-    }
-
     public void dispose() {
         if (pixmap != null) pixmap.dispose();
         if (textura != null) textura.dispose();
@@ -118,6 +100,24 @@ public class Mapa {
     public int getHeight() { return pixmap.getHeight(); }
     public Pixmap getPixmap() {
         return pixmap;
+    }
+
+    public void renderDebugMapaHitbox() {
+        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
+        Camara camara = RecursosGlobales.camaraPersonaje;
+
+        sr.setProjectionMatrix(camara.getCamera().combined);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        sr.setColor(new Color(1, 0, 0, 0.3f));
+
+        for (int x = 0; x < pixmap.getWidth(); x += 4) {
+            for (int y = 0; y < pixmap.getHeight(); y += 4) {
+                if (esSolido(x, y)) {
+                    sr.rect(x, y, 4, 4);
+                }
+            }
+        }
+        sr.end();
     }
 }
 

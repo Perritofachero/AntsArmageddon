@@ -13,7 +13,7 @@ import utils.Constantes;
 public class HormigaExploradora extends Personaje {
 
     public HormigaExploradora(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
-        super(GestorAssets.get(Constantes.HORMIGA_EXPLORADORA, Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 80, 150f);
+        super(GestorAssets.get(Constantes.HORMIGA_EXPLORADORA, Texture.class), gestorColisiones, gestorProyectiles, x, y, 9999, 80, 150f);
     }
 
     @Override

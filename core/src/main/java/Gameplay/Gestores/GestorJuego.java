@@ -1,6 +1,5 @@
 package Gameplay.Gestores;
 
-import Fisicas.Borde;
 import Fisicas.Camara;
 import Fisicas.Fisica;
 import Fisicas.Mapa;
@@ -9,10 +8,13 @@ import Gameplay.Movimientos.MovimientoMelee;
 import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.principal.Jugador;
 import entidades.Entidad;
 import entidades.personajes.BarraCarga;
 import entidades.personajes.Personaje;
+import entidades.personajes.PowerUps.CajaVida;
+import entidades.personajes.PowerUps.PowerUp;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.ScreenManager;
@@ -29,21 +31,21 @@ public class GestorJuego {
     private GestorProyectiles gestorProyectiles;
     private GestorEntidades gestorEntidades;
     private GestorFisica gestorFisica;
-    private Fisica fisica;
-    private Borde borde;
+    private GestorSpawn gestorSpawn;
+
+    private int turnoAnterior = -1;
 
     public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones,
-                       GestorProyectiles gestorProyectiles, Borde borde, Fisica fisica) {
+                       GestorProyectiles gestorProyectiles, GestorSpawn gestorSpawn, Fisica fisica) {
         this.jugadores.addAll(jugadores);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
-        this.fisica = fisica;
-        this.borde = borde;
 
         this.gestorTurno = new GestorTurno(new ArrayList<>(this.jugadores));
 
         this.gestorFisica = new GestorFisica(fisica, gestorColisiones);
         this.gestorEntidades = new GestorEntidades(gestorFisica, gestorColisiones);
+        this.gestorSpawn = gestorSpawn;
 
         for (Jugador jugador : this.jugadores) {
             for (Personaje personaje : jugador.getPersonajes()) {
@@ -60,6 +62,11 @@ public class GestorJuego {
         gestorEntidades.actualizar(delta);
         gestorProyectiles.actualizar(delta);
 
+        int turnoActual = gestorTurno.getTurnoActual();
+        if (turnoActual != turnoAnterior) {
+            turnoAnterior = turnoActual;
+            generarPowerUp();
+        }
     }
 
     public void procesarEntradaJugador(ControlesJugador control, float delta) {
@@ -120,6 +127,15 @@ public class GestorJuego {
 
         if (jugadores.size() <= 1) {
             ScreenManager.setScreen(new GameOverScreen(ScreenManager.returnJuego()));
+        }
+    }
+
+    private void generarPowerUp() {
+        Vector2 spawnPower = gestorSpawn.generarSpawnPowerUp(8f);
+        if (spawnPower != null) {
+            PowerUp nuevoPower = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
+            agregarEntidad(nuevoPower);
+            System.out.println("PowerUp generado en: " + spawnPower);
         }
     }
 

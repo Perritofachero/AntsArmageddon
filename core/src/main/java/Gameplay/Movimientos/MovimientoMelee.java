@@ -57,7 +57,7 @@ public abstract class MovimientoMelee extends Movimiento {
 
         for (Colisionable c : colisionados) {
             if (c instanceof Personaje enemigo && enemigo != atacante && enemigo.getActivo()) {
-                enemigo.recibirDanio(danio);
+                enemigo.recibirDanio(danio, 1f, 1f);
             }
         }
     }

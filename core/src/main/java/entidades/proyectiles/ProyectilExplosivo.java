@@ -4,6 +4,7 @@ import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorFisica;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 
 public abstract class ProyectilExplosivo extends Proyectil {
@@ -34,17 +35,31 @@ public abstract class ProyectilExplosivo extends Proyectil {
     @Override
     public void impactar(float centroX, float centroY) {
         gestorColisiones.getMapa().destruir(centroX, centroY, radioDestruccion);
-
         for (Colisionable c : gestorColisiones.getColisionablesRadio(centroX, centroY, radioExpansion)) {
             if (c instanceof Personaje personaje && personaje.getActivo()) {
+
                 float distancia = personaje.distanciaAlCentro(centroX, centroY);
                 float factor = (distancia <= radioDestruccion) ? 1f : factorDeDanio(distancia);
                 int danioFinal = (int) (danio * factor);
-                if (danioFinal > 0) personaje.recibirDanio(danioFinal);
+
+                if (danioFinal > 0) {
+                    // Calcular dirección de fuerza (radial desde el centro de explosión)
+                    Vector2 dir = new Vector2(
+                        personaje.getX() + personaje.getWidth() / 2f - centroX,
+                        personaje.getY() + personaje.getHeight() / 2f - centroY
+                    ).nor();
+
+                    float fuerzaBase = 450f;
+                    float fuerzaX = dir.x * fuerzaBase * factor;
+                    float fuerzaY = dir.y * fuerzaBase * factor * 0.8f;
+
+                    personaje.recibirDanio(danioFinal, fuerzaX, fuerzaY);
+                }
             } else if (!(c instanceof Personaje)) {
                 c.desactivar();
             }
         }
+
 
         desactivar();
     }

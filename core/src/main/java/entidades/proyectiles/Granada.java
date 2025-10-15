@@ -4,6 +4,7 @@ import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorFisica;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 import utils.Constantes;
 
@@ -68,17 +69,30 @@ public class Granada extends Proyectil {
 
     private void explotar() {
         gestorColisiones.getMapa().destruir(centroHitbox().x, centroHitbox().y, radioDestruccion);
-
         for (Colisionable c : gestorColisiones.getColisionablesRadio(centroHitbox().x, centroHitbox().y, radioExpansion)) {
             if (c instanceof Personaje personaje && personaje.getActivo()) {
+
                 float distancia = personaje.distanciaAlCentro(x, y);
                 float factor = (distancia <= radioDestruccion) ? 1f : factorDeDanio(distancia);
-                int danioFinal = (int)(danio * factor);
-                if (danioFinal > 0) personaje.recibirDanio(danioFinal);
+                int danioFinal = (int) (danio * factor);
+
+                if (danioFinal > 0) {
+                    Vector2 dir = new Vector2(
+                        personaje.getX() + personaje.getWidth() / 2f - x,
+                        personaje.getY() + personaje.getHeight() / 2f - y
+                    ).nor();
+
+                    float fuerzaBase = 500f;
+                    float fuerzaX = dir.x * fuerzaBase * factor;
+                    float fuerzaY = dir.y * fuerzaBase * factor;
+
+                    personaje.recibirDanio(danioFinal, fuerzaX, fuerzaY);
+                }
             } else if (!(c instanceof Personaje)) {
                 c.desactivar();
             }
         }
+
 
         desactivar();
     }

@@ -28,9 +28,8 @@ public abstract class Personaje extends Entidad {
     protected int vida, vidaMaxima;
     protected float velocidadX;
     protected BarraCarga barraCarga;
+    protected FisicaPersonaje fisicas;
     private int movimientoSeleccionado = 0;
-
-    //Agregar fisicas de knockback
 
     public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                      float x, float y, int vida, int vidaMaxima, float velocidadX) {
@@ -58,82 +57,17 @@ public abstract class Personaje extends Entidad {
 
         this.mirilla = new Mirilla(this);
         this.movimientos = new ArrayList<>();
+        this.fisicas = new FisicaPersonaje(this, gestorColisiones);
 
         inicializarMovimientos();
     }
 
     public void mover(float deltaX, float deltaY, float deltaTiempo) {
-        moverX(deltaX, deltaTiempo);
-        moverY(deltaY, deltaTiempo);
-        updateHitbox();
+        fisicas.moverHorizontal(deltaX, deltaTiempo);
+        fisicas.moverVertical(deltaY, deltaTiempo);
     }
 
-    private void moverX(float deltaX, float deltaTiempo) {
-        if (deltaX == 0) return;
-
-        if (deltaX < 0) {
-            direccion = false;
-            if (!sprite.isFlipX()) sprite.flip(true, false);
-        } else {
-            direccion = true;
-            if (sprite.isFlipX()) sprite.flip(true, false);
-        }
-
-        float nuevaX = x + deltaX * velocidadX * deltaTiempo;
-        boolean puedeMoverX = gestorColisiones.verificarMovimiento(this, nuevaX, y);
-
-        if (puedeMoverX) {
-            x = nuevaX;
-        } else {
-            int maxAscenso = 4;
-            for (int i = 1; i <= maxAscenso; i++) {
-                if (gestorColisiones.verificarMovimiento(this, nuevaX, y + i)) {
-                    x = nuevaX;
-                    y += i;
-                    break;
-                }
-            }
-        }
-    }
-
-    private void moverY(float deltaY, float deltaTiempo) {
-        if (deltaY == 0) return;
-
-        float destinoY = y + deltaY * velocidad.y * deltaTiempo;
-        float pasoY = 1f;
-
-        if (deltaY > 0) {
-            while (y < destinoY) {
-                if (gestorColisiones.verificarMovimiento(this, x, y + pasoY)) {
-                    y += pasoY;
-                } else {
-                    y = (float)Math.floor(y);
-                    velocidad.y = 0;
-                    break;
-                }
-            }
-            sobreAlgo = false;
-        } else {
-            while (y > destinoY) {
-                if (gestorColisiones.verificarMovimiento(this, x, y - pasoY)) {
-                    y -= pasoY;
-                } else {
-                    y = (float)Math.ceil(y);
-                    velocidad.y = 0;
-                    sobreAlgo = true;
-                    break;
-                }
-            }
-            if (velocidad.y != 0) sobreAlgo = false;
-        }
-    }
-
-    public void saltar() {
-        if (sobreAlgo) {
-            velocidad.y = Constantes.SALTO;
-            sobreAlgo = false;
-        }
-    }
+    public void saltar() { fisicas.saltar(Constantes.SALTO); }
 
     public void usarMovimiento() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return;
@@ -154,6 +88,7 @@ public abstract class Personaje extends Entidad {
     public void actualizar(float delta) {
         if (!activo) return;
 
+        fisicas.actualizar(delta);
         barraCarga.update(delta);
         mirilla.actualizarPosicion();
     }
@@ -182,18 +117,17 @@ public abstract class Personaje extends Entidad {
         }
     }
 
-    public void recibirDanio(int danio) {
+    public void recibirDanio(int danio, float fuerzaX, float fuerzaY) {
         vida -= danio;
         if (vida <= 0) {
             vida = 0;
             desactivar();
+        } else {
+            fisicas.aplicarKnockback(fuerzaX, fuerzaY);
         }
     }
 
-    @Override
-    public void desactivar() {
-        activo = false;
-    }
+    @Override public void desactivar() { activo = false; }
 
     public void setMovimientoSeleccionado(int indice) {
         if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
@@ -204,9 +138,7 @@ public abstract class Personaje extends Entidad {
         mirilla.cambiarAngulo(direccion);
     }
 
-    public void aumentarVida(int vidaRecogida) {
-        this.vida += vidaRecogida;
-    }
+    public void aumentarVida(int vidaRecogida) { this.vida += vidaRecogida; }
 
     public float distanciaAlCentro(float x, float y) {
         float centroX = this.getX() + this.getSprite().getWidth() / 2f;
@@ -226,6 +158,10 @@ public abstract class Personaje extends Entidad {
     public Sprite getSprite() { return sprite; }
     public Mirilla getMirilla() { return mirilla; }
     public List<Movimiento> getMovimientos() { return movimientos; }
+    public float getVelocidadX() { return this.velocidadX; }
+    public void setDireccion(boolean direccion) { this.direccion = direccion; }
+    public FisicaPersonaje getFisicas() { return fisicas;}
+
     public Movimiento getMovimientoSeleccionado() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
         return movimientos.get(movimientoSeleccionado);
@@ -243,5 +179,4 @@ public abstract class Personaje extends Entidad {
         shapeRenderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
         shapeRenderer.end();
     }
-
 }

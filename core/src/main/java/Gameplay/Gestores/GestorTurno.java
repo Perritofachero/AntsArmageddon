@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GestorTurno {
 
-    private final float TIEMPO_POR_TURNO = 500f;
+    private final float TIEMPO_POR_TURNO = 5f;
 
     private int turnoActual = 0;
     private float tiempoActual = TIEMPO_POR_TURNO;
