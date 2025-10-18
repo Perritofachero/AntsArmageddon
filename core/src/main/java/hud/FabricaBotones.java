@@ -15,7 +15,8 @@ public enum FabricaBotones {
     VOLVER("volver_up", "volver_over", "volver_down"),
     JUGAR("jugar_up", "jugar_over", "jugar_down"),
     OPCIONES("opciones_up", "opciones_over", "opciones_down"),
-    SALIR("salir_up", "salir_over", "salir_down");
+    SALIR("salir_up", "salir_over", "salir_down"),
+    RANDOM("random_up", "random_over", "random_down");
 
     private final String up;
     private final String over;
@@ -27,35 +28,33 @@ public enum FabricaBotones {
         this.down = down;
     }
 
-    public ImageButton crearBoton(Runnable evento) {
-        TextureAtlas atlas = GestorAssets.get(Constantes.ATLAS_BOTONES, TextureAtlas.class);
-        ImageButton.ImageButtonStyle estilo = new ImageButton.ImageButtonStyle();
-
-        estilo.up   = new TextureRegionDrawable(atlas.findRegion(up));
-        estilo.over = new TextureRegionDrawable(atlas.findRegion(over));
-        estilo.down = new TextureRegionDrawable(atlas.findRegion(down));
-
+    public ImageButton crearBoton(TextureAtlas atlas, Sound sonido, Runnable evento) {
+        ImageButton.ImageButtonStyle estilo = crearEstilo(atlas);
         ImageButton boton = new ImageButton(estilo);
 
         boton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (evento != null) {
-                    evento.run();
-                }
+                if (sonido != null) sonido.play();
+                if (evento != null) evento.run();
             }
         });
 
         return boton;
     }
 
-    public static void agregarSonido(ImageButton boton, Sound sonido) {
-        boton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sonido.play();
-            }
-        });
+    public ImageButton crearBoton(Sound sonido, Runnable evento) {
+        TextureAtlas atlas = GestorAssets.get(Constantes.ATLAS_BOTONES, TextureAtlas.class);
+        return crearBoton(atlas, sonido, evento);
+    }
 
+    public ImageButton.ImageButtonStyle crearEstilo(TextureAtlas atlas) {
+        ImageButton.ImageButtonStyle estilo = new ImageButton.ImageButtonStyle();
+        estilo.up = new TextureRegionDrawable(atlas.findRegion(up));
+        estilo.over = new TextureRegionDrawable(atlas.findRegion(over));
+        if (down != null) {
+            estilo.down = new TextureRegionDrawable(atlas.findRegion(down));
+        }
+        return estilo;
     }
 }

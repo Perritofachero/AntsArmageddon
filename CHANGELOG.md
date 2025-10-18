@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.9] - 2025-10-17
+
+### Added
+- Implementacion inicial del menu pre juego.
+- Nuevos botones.
+
+### Changed
+- Fabrica botones ahora tiene una sobrecarga para pasar o no sonido.
+
 ## [0.4.8] - 2025-10-15
 
 ### Added

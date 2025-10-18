@@ -5,6 +5,7 @@ import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,7 @@ import entidades.personajes.PowerUps.PowerUp;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.GestorAssets;
+import managers.ScreenManager;
 import utils.Constantes;
 import utils.RecursosGlobales;
 import java.util.ArrayList;
@@ -115,6 +117,12 @@ public class GameScreen implements Screen {
         gestorJuego.actualizar(delta, mapa);
         procesarEntradaJugador(delta);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            ScreenManager.setScreen(new PauseScreen(juego));
+            return; // detener el resto del render mientras está pausado
+        }
+
+
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -150,6 +158,7 @@ public class GameScreen implements Screen {
     private void actualizarTurno() {
         int turnoActual = gestorJuego.getTurnoActual();
         if (turnoActual != turnoAnterior && turnoActual >= 0 && turnoActual < controles.size()) {
+            controles.get(turnoAnterior).reset();
             Gdx.input.setInputProcessor(controles.get(turnoActual));
             turnoAnterior = turnoActual;
         }

@@ -8,8 +8,12 @@ import utils.Constantes;
 
 public class Mirilla {
 
+    //Que la mirilla se muestre siempre que el personaje no se este moviendo
+    //Que su angulo se guarde, asi cuando se mueve, se oculta, y cuando se queda quieto vuelve aparecer
+    //En el ultimo angulo que estuvo
+
     private float x, y;
-    private float angulo;      
+    private float angulo;
     private float anguloRad;
     private float radio = 50f;
 

@@ -9,6 +9,9 @@ import java.util.Random;
 
 public class GestorSpawn {
 
+    //Reveer el spawn, porque tiende a espawnear siempre a la izquierda ya que es el primer lugar que revisa
+    //randomizar las posibles regiones de spawn para evitar eso.
+
     private final Mapa mapa;
     private final Random random = new Random();
     private final List<Vector2> puntosValidos = new ArrayList<>();

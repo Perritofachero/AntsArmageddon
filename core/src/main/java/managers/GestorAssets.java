@@ -34,6 +34,8 @@ public class GestorAssets {
         assetManager.load(Constantes.HORMIGA_GUERRERA, Texture.class);
         assetManager.load(Constantes.HORMIGA_EXPLORADORA, Texture.class);
         assetManager.load(Constantes.MIRA, Texture.class);
+        assetManager.load(Constantes.ATLAS_CUADRO_PERSONAJES, TextureAtlas.class);
+
 
         // --- Proyectiles ---
         assetManager.load(Constantes.ROCA, Texture.class);
@@ -45,6 +47,7 @@ public class GestorAssets {
         assetManager.load(Constantes.PNG_2, Texture.class);
         assetManager.load(Constantes.PNG_3, Texture.class);
         assetManager.load(Constantes.PNG_4, Texture.class);
+        assetManager.load(Constantes.ATLAS_OPCIONES, TextureAtlas.class);
 
         // --- Fuentes ---
         assetManager.load(Constantes.FONT_CONTADOR, BitmapFont.class);

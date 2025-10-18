@@ -17,14 +17,12 @@ public class MenuScreen extends ScreenMenus {
 
     @Override
     protected void construirUI() {
-        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(EventosBoton.irJuego(juego));
-        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(EventosBoton.irMenuOpciones(juego));
-        ImageButton salir = FabricaBotones.SALIR.crearBoton(EventosBoton.salirJuego());
 
         Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
-        FabricaBotones.agregarSonido(jugar, sonidoClick);
-        FabricaBotones.agregarSonido(opciones, sonidoClick);
-        FabricaBotones.agregarSonido(salir, sonidoClick);
+
+        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(sonidoClick, EventosBoton.irJuego(juego));
+        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(sonidoClick, EventosBoton.irMenuOpciones(juego));
+        ImageButton salir = FabricaBotones.SALIR.crearBoton(sonidoClick, EventosBoton.salirJuego());
 
         Table table = new Table();
         table.setFillParent(true);

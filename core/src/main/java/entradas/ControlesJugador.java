@@ -76,6 +76,17 @@ public class ControlesJugador implements InputProcessor {
         return true;
     }
 
+    public void reset() {
+        keysPresionadas.clear();
+        disparoPresionado = false;
+        disparoLiberado = false;
+        x = 0;
+        y = 0;
+        saltar = false;
+        apuntarDir = 0;
+    }
+
+
     public void resetDisparoLiberado() { disparoLiberado = false; }
 
     @Override public boolean keyTyped(char character) { return false; }

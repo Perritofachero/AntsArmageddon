@@ -18,6 +18,9 @@ public class Constantes {
 
     // Botones
     public static final String ATLAS_BOTONES = "Botones/botones.atlas";
+    public static final String ATLAS_CUADRO_PERSONAJES = "Personajes/Cuadro_Hormigas.atlas";
+    public static final String ATLAS_OPCIONES = "Botones/opciones.atlas";
+    public static final String OPCIONES_PNG = "Botones/opciones.png";
     public static final String BOTONES_PNG = "Botones/botones.png";
     public static final String SONIDO_CLICK = "Sonidos/sonido_click.mp3";
 
@@ -37,6 +40,7 @@ public class Constantes {
     public static final String HORMIGA_GUERRERA = "Personajes/HormigaGuerrera.png";
     public static final String HORMIGA_EXPLORADORA = "Personajes/HormigaExploradora.png";
     public static final String MIRA = "Personajes/mira.png";
+    public static final String PNG_CUADRO_PERSONAJES = "Personajes/Cuadro_Hormigas.png";
 
     // Proyectiles
     public static final String ROCA = "Proyectiles/roca.png";

@@ -17,14 +17,12 @@ public class OpcionesScreen extends ScreenMenus {
 
     @Override
     protected void construirUI() {
-        ImageButton sonido = FabricaBotones.SONIDO.crearBoton(() -> System.out.println("Sonido presionado"));
-        ImageButton graficos = FabricaBotones.OPC1.crearBoton(() -> System.out.println("Gráficos presionado"));
-        ImageButton volver = FabricaBotones.VOLVER.crearBoton(EventosBoton.salirMenuOpciones(juego));
 
         Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
-        FabricaBotones.agregarSonido(sonido, sonidoClick);
-        FabricaBotones.agregarSonido(graficos, sonidoClick);
-        FabricaBotones.agregarSonido(volver, sonidoClick);
+
+        ImageButton sonido = FabricaBotones.SONIDO.crearBoton(sonidoClick, EventosBoton.descomponerAtlas());
+        ImageButton graficos = FabricaBotones.OPC1.crearBoton(sonidoClick, EventosBoton.irPreGameScreen(juego));
+        ImageButton volver = FabricaBotones.VOLVER.crearBoton(sonidoClick, EventosBoton.salirMenuOpciones(juego));
 
         Table table = new Table();
         table.setFillParent(true);

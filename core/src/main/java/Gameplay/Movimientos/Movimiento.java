@@ -6,6 +6,8 @@ import entidades.personajes.Personaje;
 
 public abstract class Movimiento {
 
+    //Agregar usos, asi se pueden acabar y los power ups pueden dar usos de habilidades
+
     protected String nombre;
     protected Texture textura;
     protected Sprite sprite;

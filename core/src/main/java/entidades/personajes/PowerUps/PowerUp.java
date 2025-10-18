@@ -14,7 +14,7 @@ import entidades.personajes.Personaje;
 public abstract class PowerUp extends Entidad {
 
     protected Rectangle areaRecoleccion;
-    protected float extraArea = 3f;
+    protected float extraArea = 5f;
 
     public PowerUp(float x, float y, Texture textura, GestorColisiones gestorColisiones) {
         super(x, y, textura, gestorColisiones);
