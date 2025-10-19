@@ -21,22 +21,18 @@ public class PauseScreen extends ScreenMenus {
 
     @Override
     protected void construirUI() {
-        // Fondo semitransparente (oscurece el juego de fondo)
         Image fondoTransparente = new Image(new Texture(Gdx.files.internal(Constantes.FONDO_PANTALLA)));
         fondoTransparente.setColor(0, 0, 0, 0.6f);
         fondoTransparente.setFillParent(true);
         escenario.addActor(fondoTransparente);
 
         Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
-        // --- Botones ---
         ImageButton botonReanudar = FabricaBotones.OPC1.crearBoton(sonidoClick, () -> {
-            // 🔹 Reanuda el juego volviendo a la pantalla anterior (GameScreen)
             ScreenManager.setScreen(new GameScreen(juego));
         });
 
         ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(sonidoClick, EventosBoton.salirMenuOpciones(juego));
 
-        // --- Layout centrado ---
         Table tabla = new Table();
         tabla.setFillParent(true);
         tabla.center();

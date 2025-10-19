@@ -10,6 +10,9 @@ import managers.GestorAssets;
 import utils.Constantes;
 
 public enum FabricaBotones {
+
+    //Tratar de ver si podemos unificar fabrica botones con los botones ciclicos
+
     OPC1("opc_up", "opc_over", "opc_down"),
     SONIDO("sonido_up", "sonido_over", "sonido_down"),
     VOLVER("volver_up", "volver_over", "volver_down"),

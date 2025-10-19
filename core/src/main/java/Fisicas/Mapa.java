@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import utils.RecursosGlobales;
 
 public class Mapa {
+
+    //Que el mapa sea de 3000x1300 y que este en el centro del mapa, dejando espacio en izquierda
+    //y derecha para que los personaje se caigan y todo eso. Masomenos 2500x800 la resolucion del terreno.
 
     private Pixmap pixmap;
     private Texture textura;
@@ -102,22 +104,5 @@ public class Mapa {
         return pixmap;
     }
 
-    public void renderDebugMapaHitbox() {
-        ShapeRenderer sr = RecursosGlobales.shapeRenderer;
-        Camara camara = RecursosGlobales.camaraPersonaje;
-
-        sr.setProjectionMatrix(camara.getCamera().combined);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(new Color(1, 0, 0, 0.3f));
-
-        for (int x = 0; x < pixmap.getWidth(); x += 4) {
-            for (int y = 0; y < pixmap.getHeight(); y += 4) {
-                if (esSolido(x, y)) {
-                    sr.rect(x, y, 4, 4);
-                }
-            }
-        }
-        sr.end();
-    }
 }
 

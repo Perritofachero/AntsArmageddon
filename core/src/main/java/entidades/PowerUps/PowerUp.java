@@ -1,4 +1,4 @@
-package entidades.personajes.PowerUps;
+package entidades.PowerUps;
 
 import Fisicas.Camara;
 import Fisicas.Colisionable;

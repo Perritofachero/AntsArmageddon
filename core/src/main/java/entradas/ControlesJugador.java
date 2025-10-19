@@ -17,16 +17,18 @@ public class ControlesJugador implements InputProcessor {
     private boolean disparoPresionado = false;
     private boolean disparoLiberado = false;
 
+    private boolean cambioMovimiento = false;
+
     public void procesarEntrada() {
         this.x = 0;
         this.y = 0;
         this.saltar = false;
         this.apuntarDir = 0;
 
-        if (keysPresionadas.contains(Input.Keys.LEFT))  { x -= 1; }
-        if (keysPresionadas.contains(Input.Keys.RIGHT)) { x += 1; }
-        if (keysPresionadas.contains(Input.Keys.DOWN))  { y -= 1; }
-        if (keysPresionadas.contains(Input.Keys.SPACE)) { saltar = true; }
+        if (keysPresionadas.contains(Input.Keys.LEFT))  x -= 1;
+        if (keysPresionadas.contains(Input.Keys.RIGHT)) x += 1;
+        if (keysPresionadas.contains(Input.Keys.DOWN))  y -= 1;
+        if (keysPresionadas.contains(Input.Keys.SPACE)) saltar = true;
 
         if (keysPresionadas.contains(Input.Keys.W)) apuntarDir = -1;
         if (keysPresionadas.contains(Input.Keys.S)) apuntarDir = 1;
@@ -42,18 +44,24 @@ public class ControlesJugador implements InputProcessor {
     public boolean getDisparoPresionado() { return disparoPresionado; }
     public boolean getDisparoLiberado() { return disparoLiberado; }
 
+    public void setCambioMovimiento(boolean valor) {
+        this.cambioMovimiento = valor;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         keysPresionadas.add(keycode);
 
-        switch (keycode) {
-            case Input.Keys.NUM_1: movimientoSeleccionado = 0; System.out.println("Seleccionado 1"); break;
-            case Input.Keys.NUM_2: movimientoSeleccionado = 1; System.out.println("Seleccionado 2"); break;
-            case Input.Keys.NUM_3: movimientoSeleccionado = 2; System.out.println("Seleccionado 3"); break;
-            case Input.Keys.NUM_4: movimientoSeleccionado = 3; System.out.println("Seleccionado 4"); break;
-            case Input.Keys.NUM_5: movimientoSeleccionado = 4; System.out.println("Seleccionado 5"); break;
-            case Input.Keys.NUM_6: movimientoSeleccionado = 5; System.out.println("Seleccionado 6"); break;
-            case Input.Keys.NUM_7: movimientoSeleccionado = 6; System.out.println("Seleccionado 7"); break;
+        if (!cambioMovimiento) {
+            switch (keycode) {
+                case Input.Keys.NUM_1: movimientoSeleccionado = 0; break;
+                case Input.Keys.NUM_2: movimientoSeleccionado = 1; break;
+                case Input.Keys.NUM_3: movimientoSeleccionado = 2; break;
+                case Input.Keys.NUM_4: movimientoSeleccionado = 3; break;
+                case Input.Keys.NUM_5: movimientoSeleccionado = 4; break;
+                case Input.Keys.NUM_6: movimientoSeleccionado = 5; break;
+                case Input.Keys.NUM_7: movimientoSeleccionado = 6; break;
+            }
         }
 
         if (keycode == Input.Keys.Z) {
@@ -85,7 +93,6 @@ public class ControlesJugador implements InputProcessor {
         saltar = false;
         apuntarDir = 0;
     }
-
 
     public void resetDisparoLiberado() { disparoLiberado = false; }
 

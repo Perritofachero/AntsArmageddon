@@ -1,4 +1,4 @@
-package entidades.personajes;
+package entidades.personajes.tiposPersonajes;
 
 import Gameplay.Gestores.GestorColisiones;
 import Gameplay.Gestores.GestorProyectiles;
@@ -7,13 +7,14 @@ import Gameplay.Movimientos.Rango.LanzaGranada;
 import Gameplay.Movimientos.Rango.LanzaNectar;
 import Gameplay.Movimientos.Rango.LanzaRoca;
 import com.badlogic.gdx.graphics.Texture;
+import entidades.personajes.Personaje;
 import managers.GestorAssets;
 import utils.Constantes;
 
-public class HormigaObrera extends Personaje {
+public class HormigaGuerrera extends Personaje {
 
-    public HormigaObrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
-        super(GestorAssets.get(Constantes.HORMIGA_OBRERA, Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 80, 150f);
+    public HormigaGuerrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles, float x, float y) {
+        super(GestorAssets.get(Constantes.HORMIGA_GUERRERA, Texture.class), gestorColisiones, gestorProyectiles, x, y, 80, 150f);
     }
 
     @Override

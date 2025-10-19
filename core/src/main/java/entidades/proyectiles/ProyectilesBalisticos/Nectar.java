@@ -9,10 +9,10 @@ import utils.Constantes;
 
 public class Nectar extends ProyectilBalistico {
 
-    public Nectar(float x, float y, float angulo, float velocidadBase, GestorColisiones gestorColisiones, Personaje ejecutor) {
-        super(x, y, angulo, velocidadBase, 10, gestorColisiones, ejecutor,
+    public Nectar(float x, float y, float angulo, float velocidadBase,
+                  GestorColisiones gestorColisiones, Personaje ejecutor) {
+        super(x, y, angulo, velocidadBase, 10, 300f, gestorColisiones, ejecutor,
             GestorAssets.get(Constantes.PNG_1, Texture.class));
-
     }
-
 }
+

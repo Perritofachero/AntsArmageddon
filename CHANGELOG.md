@@ -7,6 +7,19 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.4.10] - 2025-10-18
+
+### Changed
+- Fix de tropiezo cuando el personaje bajaba pendientes.
+- Implementacion de metodos de accion en la clase personaje.
+- Separacion de responsabilidad del procesar entrada del gestor juego.
+- Limitacion de acciones del personaje en ciertas condiciones.
+- Parametrizacion del knockback que causan los proyectiles.
+- Randomizacion de los posbiles spawns de personajes y power ups.
+- Separacion del render del movimiento melee a gestor juego.
+- Separacion de barra de carga de personaje a HUD.
+- Implementacion de area jugable, para que el personaje pueda caer del mapa.
+
 ## [0.4.9] - 2025-10-17
 
 ### Added

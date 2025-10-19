@@ -1,10 +1,13 @@
 package hud;
 
 import Fisicas.Camara;
+import Gameplay.Movimientos.Movimiento;
+import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import entidades.personajes.AtributosPersonaje.BarraCarga;
 import entidades.personajes.Personaje;
 import managers.GestorAssets;
 import utils.Constantes;
@@ -27,8 +30,7 @@ public class Hud {
         layout.setText(fuenteVida, texto);
 
         float posX = personaje.getX() + personaje.getSprite().getWidth() / 2f - layout.width / 2f;
-        float posY = personaje.getY() + personaje.getSprite().getHeight() + 20;
-
+        float posY = personaje.getY() + personaje.getSprite().getHeight() + 20f;
         float offset = 1f;
 
         fuenteVida.setColor(0, 0, 0, 1f);
@@ -41,7 +43,6 @@ public class Hud {
         fuenteVida.draw(RecursosGlobales.batch, texto, posX, posY);
     }
 
-
     public void mostrarContador(float contador, Camara camara) {
         String texto = String.format("%.2f", contador);
         layout.setText(fuenteContador, texto);
@@ -52,15 +53,28 @@ public class Hud {
         float camX = camera.position.x;
         float camY = camera.position.y;
 
-        float offsetX = viewport.getWorldWidth() / 2f - 200;
-        float offsetY = viewport.getWorldHeight() / 2f - 50;
+        float offsetX = viewport.getWorldWidth() / 2f - 200f;
+        float offsetY = viewport.getWorldHeight() / 2f - 50f;
 
-        float posX = camX + offsetX;
-        float posY = camY + offsetY;
-
-        fuenteContador.draw(RecursosGlobales.batch, texto, posX, posY);
-
+        fuenteContador.draw(RecursosGlobales.batch, texto, camX + offsetX, camY + offsetY);
     }
 
-    public void dispose() {  }
+    public void mostrarBarraCarga(Personaje personaje) {
+        if (!personaje.getActivo() || !personaje.isDisparando()) return;
+
+        Movimiento mov = personaje.getMovimientoSeleccionado();
+        if (!(mov instanceof MovimientoRango)) return;
+
+        BarraCarga barra = personaje.getBarraCarga();
+        if (barra.getCargaActual() <= 0f) return;
+
+        float x = personaje.getX();
+        float y = personaje.getY() - 7f;
+        float ancho = personaje.getSprite().getWidth();
+        float alto = 5f;
+
+        barra.render(x, y, ancho, alto);
+    }
+
+    public void dispose() { }
 }

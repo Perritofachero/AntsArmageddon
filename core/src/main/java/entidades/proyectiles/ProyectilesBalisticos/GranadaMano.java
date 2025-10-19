@@ -9,8 +9,10 @@ import utils.Constantes;
 
 public class GranadaMano extends Granada {
 
-    public GranadaMano(float x, float y, float angulo, float velocidadBase, GestorColisiones gestorColisiones, Personaje ejecutor) {
-        super(x, y, angulo, velocidadBase, 15, gestorColisiones, ejecutor, 50,
-            100, GestorAssets.get(Constantes.GRANADA, Texture.class), 3f);
+    public GranadaMano(float x, float y, float angulo, float velocidadBase,
+                       GestorColisiones gestorColisiones, Personaje ejecutor) {
+        super(x, y, angulo, velocidadBase, 15, 500f, gestorColisiones, ejecutor,
+            50, 100, GestorAssets.get(Constantes.GRANADA, Texture.class), 3f);
     }
 }
+

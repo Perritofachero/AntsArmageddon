@@ -26,11 +26,12 @@ public abstract class Proyectil implements Colisionable {
     protected int danio;
     protected Vector2 posAnterior = new Vector2();
     protected Vector2 velocidadVector = new Vector2();
+    protected float fuerzaKnockback;
 
     protected float tiempoTranscurrido = 0f;
     protected boolean impacto = false;
 
-    public Proyectil(float x, float y, float angulo, float velocidad, int danio,
+    public Proyectil(float x, float y, float angulo, float velocidad, int danio, float fuerzaKnockback,
                      GestorColisiones gestorColisiones, Personaje ejecutor, Texture textura) {
         this.x = x;
         this.y = y;
@@ -42,6 +43,7 @@ public abstract class Proyectil implements Colisionable {
         this.sprite.setPosition(x, y);
         this.hitbox = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
         this.activo = true;
+        this.fuerzaKnockback = fuerzaKnockback;
 
         this.velocidadVector.x = (float) Math.cos(angulo) * velocidad *
             (ejecutor != null ? ejecutor.getDireccionMultiplicador() : 1);
@@ -111,6 +113,9 @@ public abstract class Proyectil implements Colisionable {
             y + hitbox.getHeight() / 2f
         );
     }
+
+    public float getFuerzaKnockback() { return fuerzaKnockback; }
+    public void setFuerzaKnockback(float fuerzaKnockback) { this.fuerzaKnockback = fuerzaKnockback; }
 
 
     public void dispose() {}

@@ -6,15 +6,16 @@ import Fisicas.Mapa;
 import Gameplay.Movimientos.Movimiento;
 import Gameplay.Movimientos.MovimientoMelee;
 import Gameplay.Movimientos.MovimientoRango;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.principal.Jugador;
 import entidades.Entidad;
-import entidades.personajes.BarraCarga;
+import entidades.personajes.AtributosPersonaje.BarraCarga;
 import entidades.personajes.Personaje;
-import entidades.personajes.PowerUps.CajaVida;
-import entidades.personajes.PowerUps.PowerUp;
+import entidades.PowerUps.CajaVida;
+import entidades.PowerUps.PowerUp;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.ScreenManager;
@@ -77,40 +78,50 @@ public class GestorJuego {
 
         control.procesarEntrada();
 
+        if (activo.isDisparando()) {
+            if (control.getApuntarDir() != 0) activo.apuntar(control.getApuntarDir());
+
+            if (control.getDisparoLiberado()) {
+                activo.liberarDisparo();
+                control.resetDisparoLiberado();
+                return;
+            }
+
+            activo.actualizarDisparo(delta);
+            activo.mostrarMirilla();
+            return;
+        }
+
         float x = control.getX();
         float y = control.getY();
-        if (x != 0 || y != 0) {
-            activo.mover(x, y, delta);
+        boolean seMueve = (x != 0 || y != 0);
+
+        activo.mover(x, y, delta);
+        if (seMueve) {
             activo.ocultarMirilla();
         }
 
-        if (control.getSaltar()) activo.saltar();
-        if (control.getApuntarDir() != 0) activo.apuntar(control.getApuntarDir());
+        if (control.getSaltar()) {
+            activo.saltar();
+            activo.ocultarMirilla();
+        }
+
+        if (control.getApuntarDir() != 0) {
+            activo.apuntar(control.getApuntarDir());
+        } else if (!seMueve && activo.getSobreAlgo() && !activo.isDisparando()) {
+            activo.mostrarMirilla();
+        } else {
+            activo.ocultarMirilla();
+        }
 
         activo.setMovimientoSeleccionado(control.getMovimientoSeleccionado());
-        Movimiento movimientoActual = activo.getMovimientoSeleccionado();
-        BarraCarga barra = activo.getBarraCarga();
 
-        if (movimientoActual instanceof MovimientoRango) {
-            //System.out.print("Ejecutando un movimiento rango");
-            if (barra != null) {
-                if (control.getDisparoPresionado()) barra.start();
-                if (control.getDisparoLiberado()) {
-                    activo.usarMovimiento();
-                    barra.reset();
-                    control.resetDisparoLiberado();
-                }
-                barra.update(delta);
-            }
+        if (control.getDisparoPresionado()) {
+            activo.iniciarDisparo();
+        } else if (control.getDisparoLiberado()) {
+            activo.liberarDisparo();
+            control.resetDisparoLiberado();
         }
-
-        else if (movimientoActual instanceof MovimientoMelee) {
-            if (control.getDisparoLiberado()) {
-                activo.usarMovimiento();
-                control.resetDisparoLiberado();
-            }
-        }
-
     }
 
     private void revisarPersonajesMuertos() {
@@ -131,16 +142,28 @@ public class GestorJuego {
     }
 
     private void generarPowerUp() {
-        Vector2 spawnPower = gestorSpawn.generarSpawnPowerUp(8f);
-        if (spawnPower != null) {
-            PowerUp nuevoPower = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
-            agregarEntidad(nuevoPower);
-            System.out.println("PowerUp generado en: " + spawnPower);
+        for (int i = 0; i < 10; i++) {
+            Vector2 spawnPower = gestorSpawn.generarSpawnPowerUp(8f);
+            if (spawnPower != null) {
+                PowerUp nuevoPower = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
+                agregarEntidad(nuevoPower);
+                System.out.println("⚡ PowerUp generado en: " + spawnPower);
+            }
         }
     }
 
     public void renderDebug(ShapeRenderer shapeRenderer, Camara camara) {
         gestorEntidades.renderDebug(shapeRenderer, camara);
+
+        //Para mostrar los movimientos melee momentaneamente
+        for (Jugador j : jugadores) {
+            for (Personaje p : j.getPersonajes()) {
+                Movimiento m = p.getMovimientoSeleccionado();
+                if (m instanceof MovimientoMelee mm) {
+                    mm.renderGolpe(shapeRenderer, Gdx.graphics.getDeltaTime());
+                }
+            }
+        }
     }
 
     public void renderEntidades(SpriteBatch batch) { gestorEntidades.render(batch); }

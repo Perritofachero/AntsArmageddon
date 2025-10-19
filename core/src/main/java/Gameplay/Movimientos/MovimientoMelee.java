@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import entidades.personajes.Personaje;
-import utils.RecursosGlobales;
 import java.util.List;
 
 public abstract class MovimientoMelee extends Movimiento {
@@ -23,9 +22,11 @@ public abstract class MovimientoMelee extends Movimiento {
     protected float tiempoVisible = 0f;
     protected boolean golpeAplicado = false;
 
-    public MovimientoMelee(String nombre, Texture textura, float ancho, float alto, int danio, float distanciaGolpe, GestorColisiones gestorColisiones) {
-        super(nombre, textura);
+    private static final float DURACION_VISUAL = 0.15f;
 
+    public MovimientoMelee(String nombre, Texture textura, float ancho, float alto, int danio,
+                           float distanciaGolpe, GestorColisiones gestorColisiones) {
+        super(nombre, textura);
         this.anchoGolpe = ancho;
         this.altoGolpe = alto;
         this.danio = danio;
@@ -46,9 +47,10 @@ public abstract class MovimientoMelee extends Movimiento {
         float y = origenY + MathUtils.sin(angulo) * distanciaGolpe - altoGolpe / 2f;
 
         areaGolpe = new Rectangle(x, y, anchoGolpe, altoGolpe);
-        tiempoVisible = 0.15f;
 
         aplicarGolpe(atacante, areaGolpe);
+
+        tiempoVisible = DURACION_VISUAL;
     }
 
     protected void aplicarGolpe(Personaje atacante, Rectangle area) {
@@ -62,19 +64,21 @@ public abstract class MovimientoMelee extends Movimiento {
         }
     }
 
-    public void renderDebug(ShapeRenderer sr, float delta) {
-        if (tiempoVisible <= 0 || areaGolpe == null) return;
+    public void renderGolpe(ShapeRenderer sr, float delta) {
+        if (tiempoVisible <= 0f || areaGolpe == null) return;
+
         tiempoVisible -= delta;
 
-        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
         sr.begin(ShapeRenderer.ShapeType.Line);
         sr.setColor(Color.RED);
         sr.rect(areaGolpe.x, areaGolpe.y, areaGolpe.width, areaGolpe.height);
         sr.end();
 
-        if (tiempoVisible <= 0) golpeAplicado = false;
+        if (tiempoVisible <= 0f) {
+            golpeAplicado = false;
+            areaGolpe = null;
+        }
     }
 
     protected float getDistanciaGolpe() { return 50f; }
-
 }

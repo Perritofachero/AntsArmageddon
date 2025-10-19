@@ -2,15 +2,12 @@ package Gameplay.Gestores;
 
 import Fisicas.Mapa;
 import com.badlogic.gdx.math.Vector2;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 public class GestorSpawn {
-
-    //Reveer el spawn, porque tiende a espawnear siempre a la izquierda ya que es el primer lugar que revisa
-    //randomizar las posibles regiones de spawn para evitar eso.
 
     private final Mapa mapa;
     private final Random random = new Random();
@@ -34,22 +31,66 @@ public class GestorSpawn {
         int inicioX = (int) (margenLateral + anchoPersonaje / 2);
         int finX = (int) (anchoMapa - margenLateral - anchoPersonaje / 2);
 
+        float distanciaMinimaEntrePuntos = anchoPersonaje * 3f;
+
         for (int x = inicioX; x < finX; x += saltoColumnas) {
             for (int y = altoMapa - 2; y >= altoPersonaje; y--) {
                 if (mapa.esSolido(x, y)) {
+                    int alturaLibre = calcularAlturaLibre(x, y + 1, (int) (altoPersonaje + aireExtraSuperior * 0.6f));
 
-                    int alturaLibre = calcularAlturaLibre(x, y + 1, (int) (altoPersonaje + aireExtraSuperior));
-
-                    if (alturaLibre >= altoPersonaje) {
-                        if (esAreaLibre(x, y + 1, anchoPersonaje, altoPersonaje)) {
-                            float ySpawn = y + altoPersonaje * 0.5f + alturaSpawnExtra;
-                            puntosValidos.add(new Vector2(x, ySpawn));
+                    boolean areaApta = true;
+                    int margenIrregularidad = 3;
+                    for (int dx = -((int) anchoPersonaje / 2); dx <= ((int) anchoPersonaje / 2); dx++) {
+                        int alturaBajo = 0;
+                        while (y - alturaBajo > 0 && !mapa.esSolido(x + dx, y - alturaBajo)) alturaBajo++;
+                        if (alturaBajo > margenIrregularidad) {
+                            areaApta = false;
+                            break;
                         }
                     }
 
+                    if (alturaLibre >= altoPersonaje * 0.5f && areaApta) {
+                        float ySpawn = y + altoPersonaje * 0.8f + alturaSpawnExtra;
+
+                        ySpawn = Math.min(ySpawn, altoMapa - altoPersonaje / 2f);
+                        ySpawn = Math.max(altoPersonaje / 2f, ySpawn);
+
+                        Vector2 nuevo = new Vector2(
+                            Math.max(inicioX, Math.min(x, finX)),
+                            ySpawn
+                        );
+
+                        boolean muyCerca = false;
+                        for (Vector2 existente : puntosValidos) {
+                            if (existente.dst(nuevo) < distanciaMinimaEntrePuntos) {
+                                muyCerca = true;
+                                break;
+                            }
+                        }
+
+                        if (!muyCerca) {
+                            puntosValidos.add(nuevo);
+                        }
+                    }
                     break;
                 }
             }
+        }
+        Collections.shuffle(puntosValidos, random);
+
+        // 🧠 DEBUG
+        if (!puntosValidos.isEmpty()) {
+            float minX = Float.MAX_VALUE, maxX = 0, sumX = 0;
+            for (Vector2 p : puntosValidos) {
+                minX = Math.min(minX, p.x);
+                maxX = Math.max(maxX, p.x);
+                sumX += p.x;
+            }
+            float promedioX = sumX / puntosValidos.size();
+            System.out.println("🟢 Puntos válidos de spawn: " + puntosValidos.size());
+            System.out.println("   X mínima: " + minX + " | X máxima: " + maxX + " | Promedio X: " + promedioX);
+        } else {
+            System.out.println("⚠️ No se encontraron puntos válidos de spawn.");
         }
     }
 
@@ -108,28 +149,28 @@ public class GestorSpawn {
         int anchoMapa = mapa.getWidth();
         int altoMapa = mapa.getHeight();
 
-        float alturaSpawnFija = altoMapa - 50f;
-        int alturaChequeo = 80;
+        int maxIntentos = 300;
 
-        for (int intento = 0; intento < 200; intento++) {
+        for (int intento = 0; intento < maxIntentos; intento++) {
             float x = margenLateral + random.nextFloat() * (anchoMapa - 2 * margenLateral - anchoPowerUp);
 
-            boolean libre = true;
-            for (int j = 0; j < alturaChequeo; j++) {
-                if (mapa.esSolido((int) x, (int) (alturaSpawnFija - j))) {
-                    libre = false;
+            boolean tieneSueloDebajo = false;
+            for (int y = altoMapa - 5; y > 0; y--) {
+                if (mapa.esSolido((int) x, y)) {
+                    tieneSueloDebajo = true;
                     break;
                 }
             }
 
-            if (libre) {
-                return new Vector2(x, alturaSpawnFija);
-            }
+            if (!tieneSueloDebajo) continue;
+
+            float ySpawn = altoMapa - 50f - random.nextFloat() * 100f;
+
+            return new Vector2(x, ySpawn);
         }
+
+        System.out.println("⚠️ No se encontró lugar para el PowerUp tras múltiples intentos.");
         return null;
     }
 
-
-
 }
-

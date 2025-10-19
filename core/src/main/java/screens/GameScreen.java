@@ -15,12 +15,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
-import entidades.personajes.HormigaExploradora;
-import entidades.personajes.HormigaGuerrera;
-import entidades.personajes.HormigaObrera;
+import entidades.personajes.tiposPersonajes.HormigaExploradora;
+import entidades.personajes.tiposPersonajes.HormigaGuerrera;
+import entidades.personajes.tiposPersonajes.HormigaObrera;
 import entidades.personajes.Personaje;
-import entidades.personajes.PowerUps.CajaVida;
-import entidades.personajes.PowerUps.PowerUp;
+import entidades.PowerUps.CajaVida;
+import entidades.PowerUps.PowerUp;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.GestorAssets;
@@ -67,7 +67,6 @@ public class GameScreen implements Screen {
         GestorProyectiles gestorProyectiles = new GestorProyectiles(gestorColisiones, gestorFisica);
         Borde borde = new Borde(gestorColisiones);
 
-        // Generar spawns válidos para los personajes
         List<Vector2> spawns = gestorSpawn.generarVariosSpawnsPersonajes(4, 16f, 16f, 60f);
 
         Jugador jugador1 = new Jugador(new ArrayList<>());
@@ -99,18 +98,10 @@ public class GameScreen implements Screen {
         PowerUp cajaVida = new CajaVida(600, 500, gestorColisiones);
         gestorJuego.agregarEntidad(cajaVida);
 
-        // Spawn de PowerUp (cae desde arriba)
-        /*Vector2 spawnPower = gestorSpawn.generarSpawnPowerUp(8f);
-        if (spawnPower != null) {
-            PowerUp cajaVida = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
-            gestorJuego.agregarEntidad(cajaVida);
-        }*/
-
         int turnoInicial = gestorJuego.getTurnoActual();
         Gdx.input.setInputProcessor(controles.get(turnoInicial));
         turnoAnterior = turnoInicial;
     }
-
 
     @Override
     public void render(float delta) {
@@ -119,9 +110,8 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             ScreenManager.setScreen(new PauseScreen(juego));
-            return; // detener el resto del render mientras está pausado
+            return;
         }
-
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -144,8 +134,9 @@ public class GameScreen implements Screen {
         gestorJuego.renderProyectiles(RecursosGlobales.batch);
 
         hud.mostrarContador(gestorJuego.getTiempoActual(), RecursosGlobales.camaraPersonaje);
-
         RecursosGlobales.batch.end();
+
+        if (activo != null) hud.mostrarBarraCarga(activo);
 
         gestorJuego.renderDebug(RecursosGlobales.shapeRenderer, RecursosGlobales.camaraPersonaje);
 

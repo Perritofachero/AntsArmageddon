@@ -18,14 +18,12 @@ public class Granada extends Proyectil {
     private int radioDestruccion;
     private int radioExpansion;
 
-    //Por el momento mantenemos granada como hijo de proyectil aunque no use alguno de sus metodos
-    //sigue funcionando. Tal vez en un futuro la saquemos.
-
     public Granada(float x, float y, float angulo, float velocidad, int danio,
+                   float fuerzaKnockback,
                    GestorColisiones gestorColisiones, Personaje ejecutor,
                    int radioDestruccion, int radioExpansion, Texture textura,
                    float tiempoVida) {
-        super(x, y, angulo, velocidad, danio, gestorColisiones, ejecutor, textura);
+        super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
         this.radioDestruccion = radioDestruccion;
         this.radioExpansion = radioExpansion;
         this.tiempoVida = tiempoVida;
@@ -71,29 +69,22 @@ public class Granada extends Proyectil {
         gestorColisiones.getMapa().destruir(centroHitbox().x, centroHitbox().y, radioDestruccion);
         for (Colisionable c : gestorColisiones.getColisionablesRadio(centroHitbox().x, centroHitbox().y, radioExpansion)) {
             if (c instanceof Personaje personaje && personaje.getActivo()) {
-
                 float distancia = personaje.distanciaAlCentro(x, y);
                 float factor = (distancia <= radioDestruccion) ? 1f : factorDeDanio(distancia);
                 int danioFinal = (int) (danio * factor);
-
                 if (danioFinal > 0) {
                     Vector2 dir = new Vector2(
                         personaje.getX() + personaje.getWidth() / 2f - x,
                         personaje.getY() + personaje.getHeight() / 2f - y
                     ).nor();
-
-                    float fuerzaBase = 500f;
-                    float fuerzaX = dir.x * fuerzaBase * factor;
-                    float fuerzaY = dir.y * fuerzaBase * factor;
-
+                    float fuerzaX = dir.x * fuerzaKnockback * factor;
+                    float fuerzaY = dir.y * fuerzaKnockback * factor;
                     personaje.recibirDanio(danioFinal, fuerzaX, fuerzaY);
                 }
             } else if (!(c instanceof Personaje)) {
                 c.desactivar();
             }
         }
-
-
         desactivar();
     }
 
@@ -103,5 +94,6 @@ public class Granada extends Proyectil {
         return 1f - (distancia - radioDestruccion) / (radioExpansion - radioDestruccion);
     }
 
-    @Override  public void impactar(float centroX, float centroY) { }
+    @Override
+    public void impactar(float centroX, float centroY) { }
 }

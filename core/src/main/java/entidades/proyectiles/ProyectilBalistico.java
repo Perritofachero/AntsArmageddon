@@ -12,8 +12,9 @@ public class ProyectilBalistico extends Proyectil {
     private boolean clavado = false;
 
     public ProyectilBalistico(float x, float y, float angulo, float velocidad, int danio,
+                              float fuerzaKnockback,
                               GestorColisiones gestorColisiones, Personaje ejecutor, Texture textura) {
-        super(x, y, angulo, velocidad, danio, gestorColisiones, ejecutor, textura);
+        super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
     }
 
     @Override
@@ -41,27 +42,21 @@ public class ProyectilBalistico extends Proyectil {
         for (Colisionable c : gestorColisiones.getColisionables()) {
             if (c == this) continue;
 
-            if (c instanceof Personaje personaje && c.getActivo()) {
-
-                // Calcular dirección del knockback (desde el proyectil hacia el personaje)
+            if (c instanceof Personaje personaje && c.getHitbox().overlaps(hitbox)) {
                 float centroProyectilX = centroHitbox().x;
                 float centroProyectilY = centroHitbox().y;
                 float dx = personaje.getX() + personaje.getWidth() / 2f - centroProyectilX;
                 float dy = personaje.getY() + personaje.getHeight() / 2f - centroProyectilY;
                 Vector2 dir = new Vector2(dx, dy).nor();
 
-                // Escalar fuerza
-                float fuerzaBase = 300f; // ajustá según el proyectil
-                float fuerzaX = dir.x * fuerzaBase;
-                float fuerzaY = dir.y * fuerzaBase * 0.6f;
+                float fuerzaX = dir.x * fuerzaKnockback;
+                float fuerzaY = dir.y * fuerzaKnockback * 0.6f;
 
-                // Aplicar daño + knockback
                 personaje.recibirDanio(danio, fuerzaX, fuerzaY);
 
                 desactivar();
                 return;
             }
-
         }
 
         clavarse(centroX, centroY);

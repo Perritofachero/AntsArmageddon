@@ -14,6 +14,9 @@ import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import entidades.Entidad;
+import entidades.personajes.AtributosPersonaje.BarraCarga;
+import entidades.personajes.AtributosPersonaje.FisicaPersonaje;
+import entidades.personajes.AtributosPersonaje.Mirilla;
 import utils.Constantes;
 import utils.RecursosGlobales;
 import java.util.ArrayList;
@@ -25,14 +28,15 @@ public abstract class Personaje extends Entidad {
     protected Mirilla mirilla;
     protected List<Movimiento> movimientos;
     protected boolean direccion;
-    protected int vida, vidaMaxima;
+    protected int vida;
     protected float velocidadX;
     protected BarraCarga barraCarga;
     protected FisicaPersonaje fisicas;
     private int movimientoSeleccionado = 0;
+    private boolean estaDisparando = false;
 
     public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
-                     float x, float y, int vida, int vidaMaxima, float velocidadX) {
+                     float x, float y, int vida, float velocidadX) {
         super(x, y, textura, gestorColisiones);
 
         this.gestorProyectiles = gestorProyectiles;
@@ -47,7 +51,6 @@ public abstract class Personaje extends Entidad {
         this.hitbox.set(x + margenX, y + margenY, nuevaAncho, nuevaAlto);
 
         this.vida = vida;
-        this.vidaMaxima = vidaMaxima;
         this.direccion = false;
         this.activo = true;
         this.velocidadX = velocidadX;
@@ -63,58 +66,52 @@ public abstract class Personaje extends Entidad {
     }
 
     public void mover(float deltaX, float deltaY, float deltaTiempo) {
+        if (!puedeActuar()) return;
         fisicas.moverHorizontal(deltaX, deltaTiempo);
         fisicas.moverVertical(deltaY, deltaTiempo);
     }
 
-    public void saltar() { fisicas.saltar(Constantes.SALTO); }
+    public void saltar() {
+        if (!puedeActuar()) return;
+        fisicas.saltar(Constantes.SALTO);
+    }
 
-    public void usarMovimiento() {
-        if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return;
+    public void apuntar(int direccion) {
+        if (!getSobreAlgo()) return;
+        mirilla.mostrarMirilla();
+        mirilla.cambiarAngulo(direccion);
+    }
 
-        Movimiento movimientoUsado = movimientos.get(movimientoSeleccionado);
+    public void iniciarDisparo() {
+        if (!puedeDisparar()) return;
 
-        if (movimientoUsado instanceof MovimientoRango movimientoRango) {
+        Movimiento movimiento = getMovimientoSeleccionado();
+        if (movimiento == null) return;
+
+        if (!estaDisparando) {
+            barraCarga.start();
+            estaDisparando = true;
+        }
+    }
+
+    public void liberarDisparo() {
+        Movimiento movimiento = getMovimientoSeleccionado();
+        if (movimiento == null) return;
+
+        if (movimiento instanceof MovimientoRango movimientoRango && estaDisparando) {
             float potencia = barraCarga.getCargaNormalizada();
-            if (potencia <= 0f) return;
-            movimientoRango.ejecutar(this, potencia);
+            if (potencia > 0f) movimientoRango.ejecutar(this, potencia);
             barraCarga.reset();
-        } else if (movimientoUsado instanceof MovimientoMelee movimientoMelee) {
+            estaDisparando = false;
+        }
+        else if (movimiento instanceof MovimientoMelee movimientoMelee && puedeAtacarMelee()) {
             movimientoMelee.ejecutar(this);
+            estaDisparando = false;
         }
     }
 
-    @Override
-    public void actualizar(float delta) {
-        if (!activo) return;
-
-        fisicas.actualizar(delta);
-        barraCarga.update(delta);
-        mirilla.actualizarPosicion();
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        if (!activo) return;
-
-        float offsetVisual = -5f;
-        sprite.setPosition(x, y + offsetVisual);
-        sprite.draw(batch);
-
-        mirilla.render(batch);
-
-        if (barraCarga.getCargaActual() > 0f) {
-            batch.end();
-            barraCarga.render(x, y - 7f, sprite.getWidth(), 5f);
-            batch.begin();
-        }
-
-        Movimiento movimientoActual = getMovimientoSeleccionado();
-        if (movimientoActual instanceof Aranazo ara) {
-            batch.end();
-            ara.renderDebug(RecursosGlobales.shapeRenderer, Gdx.graphics.getDeltaTime());
-            batch.begin();
-        }
+    public void actualizarDisparo(float delta) {
+        if (estaDisparando) barraCarga.update(delta);
     }
 
     public void recibirDanio(int danio, float fuerzaX, float fuerzaY) {
@@ -127,18 +124,23 @@ public abstract class Personaje extends Entidad {
         }
     }
 
-    @Override public void desactivar() { activo = false; }
-
-    public void setMovimientoSeleccionado(int indice) {
-        if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
-    }
-
-    public void apuntar(int direccion) {
-        mirilla.mostrarMirilla();
-        mirilla.cambiarAngulo(direccion);
-    }
-
     public void aumentarVida(int vidaRecogida) { this.vida += vidaRecogida; }
+
+    @Override
+    public void actualizar(float delta) {
+        if (!activo) return;
+
+        fisicas.actualizar(delta);
+        mirilla.actualizarPosicion();
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        if (!activo) return;
+
+        sprite.draw(batch);
+        mirilla.render(batch);
+    }
 
     public float distanciaAlCentro(float x, float y) {
         float centroX = this.getX() + this.getSprite().getWidth() / 2f;
@@ -146,6 +148,24 @@ public abstract class Personaje extends Entidad {
         float dx = centroX - x;
         float dy = centroY - y;
         return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public void setMovimientoSeleccionado(int indice) {
+        if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
+    }
+
+    public boolean puedeActuar() {
+        return activo && !estaDisparando;
+    }
+
+    public boolean puedeDisparar() {
+        Movimiento m = getMovimientoSeleccionado();
+        return activo && m instanceof MovimientoRango && getSobreAlgo();
+    }
+
+    public boolean puedeAtacarMelee() {
+        Movimiento m = getMovimientoSeleccionado();
+        return activo && m instanceof MovimientoMelee && getSobreAlgo();
     }
 
     public void mostrarMirilla() { mirilla.mostrarMirilla(); }
@@ -161,15 +181,16 @@ public abstract class Personaje extends Entidad {
     public float getVelocidadX() { return this.velocidadX; }
     public void setDireccion(boolean direccion) { this.direccion = direccion; }
     public FisicaPersonaje getFisicas() { return fisicas;}
-
+    public boolean isDisparando() { return estaDisparando; }
+    public void setDisparando(boolean disparando) { this.estaDisparando = disparando; }
     public Movimiento getMovimientoSeleccionado() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
         return movimientos.get(movimientoSeleccionado);
     }
 
     protected abstract void inicializarMovimientos();
-
     @Override public void dispose() {}
+    @Override public void desactivar() { activo = false; }
 
     public void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
         if (!activo) return;

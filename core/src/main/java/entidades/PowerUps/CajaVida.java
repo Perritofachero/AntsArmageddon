@@ -1,4 +1,4 @@
-package entidades.personajes.PowerUps;
+package entidades.PowerUps;
 
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
