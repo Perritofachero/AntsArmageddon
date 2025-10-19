@@ -5,7 +5,6 @@ import entradas.ControlesJugador;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Jugador {
 
     private final List<Personaje> personajes;

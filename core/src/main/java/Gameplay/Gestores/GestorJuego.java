@@ -5,14 +5,12 @@ import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Movimientos.Movimiento;
 import Gameplay.Movimientos.MovimientoMelee;
-import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.principal.Jugador;
 import entidades.Entidad;
-import entidades.personajes.AtributosPersonaje.BarraCarga;
 import entidades.personajes.Personaje;
 import entidades.PowerUps.CajaVida;
 import entidades.PowerUps.PowerUp;
@@ -26,48 +24,64 @@ import java.util.List;
 
 public class GestorJuego {
 
-    private List<Jugador> jugadores = new ArrayList<>();
-    private GestorTurno gestorTurno;
-    private GestorColisiones gestorColisiones;
-    private GestorProyectiles gestorProyectiles;
-    private GestorEntidades gestorEntidades;
-    private GestorFisica gestorFisica;
-    private GestorSpawn gestorSpawn;
+    private final List<Jugador> jugadores = new ArrayList<>();
+    private final GestorColisiones gestorColisiones;
+    private final GestorProyectiles gestorProyectiles;
+    private final GestorEntidades gestorEntidades;
+    private final GestorFisica gestorFisica;
+    private final GestorSpawn gestorSpawn;
+    private final GestorTurno gestorTurno;
 
-    private int turnoAnterior = -1;
+    private int turnoTranscurriendo;
+    private int turnosCompletados;
+    private int frecuenciaPowerUps;
 
-    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones,
-                       GestorProyectiles gestorProyectiles, GestorSpawn gestorSpawn, Fisica fisica) {
+    public GestorJuego(List<Jugador> jugadores, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
+                       GestorSpawn gestorSpawn, Fisica fisica, int tiempoPorTurno, int frecuenciaPowerUps) {
+
         this.jugadores.addAll(jugadores);
         this.gestorColisiones = gestorColisiones;
         this.gestorProyectiles = gestorProyectiles;
+        this.gestorSpawn = gestorSpawn;
+        this.frecuenciaPowerUps = frecuenciaPowerUps;
 
-        this.gestorTurno = new GestorTurno(new ArrayList<>(this.jugadores));
+        this.gestorTurno = new GestorTurno(new ArrayList<>(jugadores), tiempoPorTurno);
 
         this.gestorFisica = new GestorFisica(fisica, gestorColisiones);
         this.gestorEntidades = new GestorEntidades(gestorFisica, gestorColisiones);
-        this.gestorSpawn = gestorSpawn;
 
         for (Jugador jugador : this.jugadores) {
             for (Personaje personaje : jugador.getPersonajes()) {
                 this.gestorEntidades.agregarEntidad(personaje);
             }
         }
-
     }
 
     public void actualizar(float delta, Mapa mapa) {
+        int turnoAntes = gestorTurno.getTurnoActual();
+
         gestorTurno.correrContador(delta);
         revisarPersonajesMuertos();
 
         gestorEntidades.actualizar(delta);
         gestorProyectiles.actualizar(delta);
 
-        int turnoActual = gestorTurno.getTurnoActual();
-        if (turnoActual != turnoAnterior) {
-            turnoAnterior = turnoActual;
-            generarPowerUp();
+        int turnoTranscurriendo = gestorTurno.getTurnoActual();
+
+        if (turnoTranscurriendo != turnoAntes) {
+            turnosCompletados++;
+
+            Jugador jugadorAnterior = jugadores.get(turnoAntes);
+            jugadorAnterior.getPersonajeActivo().setEnTurno(false);
+
+            Jugador jugadorActual = jugadores.get(turnoTranscurriendo);
+            jugadorActual.getPersonajeActivo().setEnTurno(true);
+
+            if (turnosCompletados > 0 && turnosCompletados % frecuenciaPowerUps == 0) {
+                generarPowerUp();
+            }
         }
+
     }
 
     public void procesarEntradaJugador(ControlesJugador control, float delta) {
@@ -179,9 +193,8 @@ public class GestorJuego {
     }
 
     public Personaje getPersonajeActivo() {
-        Jugador activo = getJugadorActivo();
-        if (activo != null && !activo.getPersonajes().isEmpty()) return activo.getPersonajeActivo();
-        return null;
+        Jugador jugadorActivo = getJugadorActivo();
+        return (jugadorActivo != null) ? jugadorActivo.getPersonajeActivo() : null;
     }
 
     public void agregarEntidad(Entidad entidad) {

@@ -5,19 +5,22 @@ import java.util.ArrayList;
 
 public class GestorTurno {
 
-    private final float TIEMPO_POR_TURNO = 500f;
+    //Ajustar turnos para que despues de ejecutar una accion su turno se acabe
 
+    private final float TIEMPO_POR_TURNO;
     private int turnoActual = 0;
-    private float tiempoActual = TIEMPO_POR_TURNO;
-
+    private float tiempoActual;
     private boolean enTransicion = false;
     private float tiempoTransicion = 0f;
     private final float DURACION_TRANSICION = 3f;
 
     ArrayList<Jugador> jugadores;
 
-    public GestorTurno( ArrayList<Jugador> jugadores){
+    public GestorTurno(ArrayList<Jugador> jugadores, float tiempoPorTurno) {
         this.jugadores = jugadores;
+        this.TIEMPO_POR_TURNO = tiempoPorTurno;
+        this.tiempoActual = tiempoPorTurno;
+        iniciarTurnoActual();
     }
 
     public void correrContador(float delta) {
@@ -59,6 +62,14 @@ public class GestorTurno {
         this.tiempoActual = TIEMPO_POR_TURNO;
     }
 
+    public void iniciarTurnoActual() {
+        if (!jugadores.isEmpty()) {
+            Jugador jugador = jugadores.get(turnoActual);
+            if (!jugador.getPersonajes().isEmpty()) {
+                jugador.getPersonajeActivo().setEnTurno(true);
+            }
+        }
+    }
     public Jugador getJugadorActivo() { return jugadores.get(turnoActual); }
     public int getTurnoActual() { return this.turnoActual; }
     public float getTiempoActual() { return this.tiempoActual; }

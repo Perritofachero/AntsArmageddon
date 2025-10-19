@@ -7,6 +7,7 @@ import screens.GameScreen;
 import screens.MenuScreen;
 import screens.OpcionesScreen;
 import screens.PreGameScreen;
+import partida.ConfiguracionPartida;
 
 public class EventosBoton {
 
@@ -18,8 +19,8 @@ public class EventosBoton {
         return () -> ScreenManager.setScreen(new MenuScreen(juego));
     }
 
-    public static Runnable irJuego(AntsArmageddon juego) {
-        return () -> ScreenManager.setScreen(new GameScreen(juego));
+    public static Runnable irJuego(AntsArmageddon juego, ConfiguracionPartida configuracion) {
+        return () -> ScreenManager.setScreen(new GameScreen(juego, configuracion));
     }
 
     public static Runnable irPreGameScreen(AntsArmageddon juego) {
@@ -33,6 +34,4 @@ public class EventosBoton {
     public static Runnable descomponerAtlas() {
         return () -> utils.Utiles.descomponerAtlas("botones/botones.atlas", "atlasDescompuestos/");
     }
-
-
 }

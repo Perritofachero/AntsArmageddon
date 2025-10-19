@@ -35,6 +35,9 @@ public abstract class Personaje extends Entidad {
     private int movimientoSeleccionado = 0;
     private boolean estaDisparando = false;
 
+    private boolean enTurno = false;
+    private boolean turnoTerminado = false;
+
     public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                      float x, float y, int vida, float velocidadX) {
         super(x, y, textura, gestorColisiones);
@@ -139,8 +142,11 @@ public abstract class Personaje extends Entidad {
         if (!activo) return;
 
         sprite.draw(batch);
-        mirilla.render(batch);
+        if (enTurno) {
+            mirilla.render(batch);
+        }
     }
+
 
     public float distanciaAlCentro(float x, float y) {
         float centroX = this.getX() + this.getSprite().getWidth() / 2f;
@@ -166,6 +172,29 @@ public abstract class Personaje extends Entidad {
     public boolean puedeAtacarMelee() {
         Movimiento m = getMovimientoSeleccionado();
         return activo && m instanceof MovimientoMelee && getSobreAlgo();
+    }
+
+    public void setEnTurno(boolean enTurno) {
+        this.enTurno = enTurno;
+        if(!enTurno) ocultarMirilla();
+    }
+
+    //despues para terminar turnos despues de una accion o cuando se lastima el personaje
+    public boolean isEnTurno() {
+        return enTurno;
+    }
+
+    public void terminarTurno() {
+        turnoTerminado = true;
+        ocultarMirilla();
+    }
+
+    public boolean isTurnoTerminado() {
+        return turnoTerminado;
+    }
+
+    public void reiniciarTurno() {
+        turnoTerminado = false;
     }
 
     public void mostrarMirilla() { mirilla.mostrarMirilla(); }

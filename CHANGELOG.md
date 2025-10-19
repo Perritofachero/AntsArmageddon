@@ -7,6 +7,18 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-10-19
+
+# Added
+- Clase configuracion partida, para que pre game screen inicie las partidas segun su configuracion.
+- Metodo para manejar el movimiento de las granadas con raycast.
+- Metodo para crear botones ciclicos y "hormiga" en fabrica botones utilizando comsumer.
+
+### Changed
+- Movimiento granada ahora utiliza mover granada con raycast.
+- Game screen y gestor juego ahora funcionan segun las configuraciones de pre game screen.
+- Los personajes ahora tienen atributos de turno, para mas adelante iterrumpirlos o jugar con ellos para power ups.
+
 ## [0.4.10] - 2025-10-18
 
 ### Changed

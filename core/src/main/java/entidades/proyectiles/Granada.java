@@ -19,10 +19,8 @@ public class Granada extends Proyectil {
     private int radioExpansion;
 
     public Granada(float x, float y, float angulo, float velocidad, int danio,
-                   float fuerzaKnockback,
-                   GestorColisiones gestorColisiones, Personaje ejecutor,
-                   int radioDestruccion, int radioExpansion, Texture textura,
-                   float tiempoVida) {
+                   float fuerzaKnockback, GestorColisiones gestorColisiones, Personaje ejecutor,
+                   int radioDestruccion, int radioExpansion, Texture textura, float tiempoVida) {
         super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
         this.radioDestruccion = radioDestruccion;
         this.radioExpansion = radioExpansion;
@@ -43,23 +41,10 @@ public class Granada extends Proyectil {
 
         Personaje ignorar = (ejecutor != null && tiempoTranscurrido < Constantes.TIEMPO_GRACIA) ? ejecutor : null;
 
-        float nuevaX = x + velocidadVector.x * delta;
-        float nuevaY = y + velocidadVector.y * delta;
+        gestorFisica.moverGranadaConRaycast(this, delta, ignorar);
 
-        boolean colisionX = !gestorColisiones.verificarMovimiento(this, nuevaX, y, ignorar);
-        boolean colisionY = !gestorColisiones.verificarMovimiento(this, x, nuevaY, ignorar);
-
-        if (colisionX) velocidadVector.x *= -coeficienteRebote;
-        else x = nuevaX;
-
-        if (colisionY) {
-            velocidadVector.y *= -coeficienteRebote;
-            if (velocidadVector.y > 0) y += 1f;
-        } else {
-            y = nuevaY;
-        }
-
-        if (velocidadVector.len2() < VELOCIDAD_MINIMA) velocidadVector.setZero();
+        if (velocidadVector.len2() < VELOCIDAD_MINIMA)
+            velocidadVector.setZero();
 
         updateHitbox();
         if (sprite != null) sprite.setPosition(x, y);
@@ -96,4 +81,6 @@ public class Granada extends Proyectil {
 
     @Override
     public void impactar(float centroX, float centroY) { }
+
+    public float getCoeficienteRebote() { return this.coeficienteRebote; }
 }

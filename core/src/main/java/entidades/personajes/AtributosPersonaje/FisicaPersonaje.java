@@ -9,6 +9,9 @@ public class FisicaPersonaje {
     //Hacer que el resbale funcione en pendientes, y qyue no se pare en pixeles.
     //Tal vez hacer que cuando esta en knockback rebote, en vez de resbalar
 
+    //Fijarse si podemos hacer que siempre que el personaje se este desplazando en x
+    //tenga tolerancia de subida o algo asi
+
     private final Personaje personaje;
     private final GestorColisiones gestorColisiones;
 

@@ -1,7 +1,6 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -9,14 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
-import managers.GestorAssets;
 import managers.ScreenManager;
 import utils.Constantes;
 
 public class PauseScreen extends ScreenMenus {
 
-    public PauseScreen(AntsArmageddon juego) {
+    private final GameScreen gameScreen;
+
+    public PauseScreen(AntsArmageddon juego, GameScreen gameScreen) {
         super(juego);
+        this.gameScreen = gameScreen;
     }
 
     @Override
@@ -26,12 +27,11 @@ public class PauseScreen extends ScreenMenus {
         fondoTransparente.setFillParent(true);
         escenario.addActor(fondoTransparente);
 
-        Sound sonidoClick = GestorAssets.get(Constantes.SONIDO_CLICK, Sound.class);
-        ImageButton botonReanudar = FabricaBotones.OPC1.crearBoton(sonidoClick, () -> {
-            ScreenManager.setScreen(new GameScreen(juego));
-        });
+        ImageButton botonReanudar = FabricaBotones.OPC1.crearBoton(Constantes.ATLAS_BOTONES, Constantes.SONIDO_CLICK,
+            () -> ScreenManager.setScreen(gameScreen));
 
-        ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(sonidoClick, EventosBoton.salirMenuOpciones(juego));
+        ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(Constantes.ATLAS_BOTONES, Constantes.SONIDO_CLICK,
+            EventosBoton.irMenuOpciones(juego));
 
         Table tabla = new Table();
         tabla.setFillParent(true);

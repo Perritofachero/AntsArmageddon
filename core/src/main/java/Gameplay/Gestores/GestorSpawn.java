@@ -15,7 +15,7 @@ public class GestorSpawn {
 
     private int saltoColumnas = 2;
     private int aireExtraSuperior = 6;
-    private float alturaSpawnExtra = 6f;
+    private float alturaSpawnExtra = 10f;
     private int margenLateral = 20;
 
     public GestorSpawn(Mapa mapa) {
@@ -31,7 +31,7 @@ public class GestorSpawn {
         int inicioX = (int) (margenLateral + anchoPersonaje / 2);
         int finX = (int) (anchoMapa - margenLateral - anchoPersonaje / 2);
 
-        float distanciaMinimaEntrePuntos = anchoPersonaje * 3f;
+        float distanciaMinimaEntrePuntos = anchoPersonaje * 2f;
 
         for (int x = inicioX; x < finX; x += saltoColumnas) {
             for (int y = altoMapa - 2; y >= altoPersonaje; y--) {
@@ -39,7 +39,7 @@ public class GestorSpawn {
                     int alturaLibre = calcularAlturaLibre(x, y + 1, (int) (altoPersonaje + aireExtraSuperior * 0.6f));
 
                     boolean areaApta = true;
-                    int margenIrregularidad = 3;
+                    int margenIrregularidad = 5;
                     for (int dx = -((int) anchoPersonaje / 2); dx <= ((int) anchoPersonaje / 2); dx++) {
                         int alturaBajo = 0;
                         while (y - alturaBajo > 0 && !mapa.esSolido(x + dx, y - alturaBajo)) alturaBajo++;
@@ -164,7 +164,8 @@ public class GestorSpawn {
 
             if (!tieneSueloDebajo) continue;
 
-            float ySpawn = altoMapa - 50f - random.nextFloat() * 100f;
+            float ySpawn = altoMapa - 10f;
+            //despues aumentar el - porque el mapa va a ser mas grande
 
             return new Vector2(x, ySpawn);
         }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
+import entidades.Limite;
 import entidades.personajes.Personaje;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class GestorColisiones {
         this.mapa = mapa;
         this.colisionables = new ArrayList<>();
     }
-
 
     public boolean verificarSobreAlgo(Colisionable objeto) {
         Rectangle hitbox = objeto.getHitbox();
@@ -41,16 +41,18 @@ public class GestorColisiones {
     }
 
     public boolean verificarMovimiento(Colisionable objeto, float nuevaX, float nuevaY) {
-        return verificarMovimiento(objeto, nuevaX, nuevaY, null);
-    }
-
-    public boolean verificarMovimiento(Colisionable objeto, float nuevaX, float nuevaY, Personaje ignorar) {
         rectTemporal.set(objeto.getHitbox());
         rectTemporal.setPosition(nuevaX, nuevaY);
 
         for (Colisionable colisionable : colisionables) {
-            if (colisionable == objeto || colisionable == ignorar || !colisionable.getActivo()) continue;
-            if (rectTemporal.overlaps(colisionable.getHitbox())) return false;
+            if (colisionable == objeto || !colisionable.getActivo()) continue;
+
+            if (rectTemporal.overlaps(colisionable.getHitbox())) {
+                if (colisionable instanceof Limite) {
+                    objeto.desactivar();
+                }
+                return false;
+            }
         }
 
         return mapa == null || !mapa.colisiona(rectTemporal);

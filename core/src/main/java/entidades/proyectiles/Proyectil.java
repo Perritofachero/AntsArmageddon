@@ -93,6 +93,9 @@ public abstract class Proyectil implements Colisionable {
 
     public float getX() { return x; }
     public float getY() { return y; }
+    public void setX(float nuevaX) { this.x = nuevaX; }
+    public void setY(float nuevaY) { this.y = nuevaY; }
+
     public boolean getActivo() { return activo; }
     public Vector2 getVelocidadVector() { return velocidadVector; }
     public Personaje getEjecutor() { return ejecutor; }

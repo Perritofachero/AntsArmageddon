@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import entidades.Entidad;
 import entidades.personajes.Personaje;
+import entidades.proyectiles.Granada;
 import entidades.proyectiles.Proyectil;
 
 public class GestorFisica {
@@ -57,7 +58,6 @@ public class GestorFisica {
 
 
     public Vector2 moverProyectilConRaycast(Proyectil proyectil, float delta, Personaje ignorar) {
-
         tmpInicio.set(
             proyectil.getX() + proyectil.getHitbox().getWidth() / 2f,
             proyectil.getY() + proyectil.getHitbox().getHeight() / 2f
@@ -93,6 +93,39 @@ public class GestorFisica {
             proyectil.getX() + proyectil.getVelocidadVector().x * delta,
             proyectil.getY() + proyectil.getVelocidadVector().y * delta
         );
+        return tmpImpacto;
+    }
+
+    public Vector2 moverGranadaConRaycast(Granada granada, float delta, Personaje ignorar) {
+        float startX = granada.getX() + granada.getHitbox().width / 2f;
+        float startY = granada.getY() + granada.getHitbox().height / 2f;
+
+        float endX = startX + granada.getVelocidadVector().x * delta;
+        float endY = startY + granada.getVelocidadVector().y * delta;
+
+        granada.setImpacto(false);
+
+        Vector2 inicioX = new Vector2(startX, startY);
+        Vector2 finX = new Vector2(endX, startY);
+        if (gestorColisiones.verificarTrayectoria(inicioX, finX, ignorar, granada) != null
+            || gestorColisiones.trayectoriaColisionaMapa(inicioX, finX) != null) {
+            granada.setImpacto(true);
+            granada.getVelocidadVector().x *= -granada.getCoeficienteRebote();
+        } else {
+            granada.setX(granada.getX() + granada.getVelocidadVector().x * delta);
+        }
+
+        Vector2 inicioY = new Vector2(granada.getX() + granada.getHitbox().width / 2f, startY);
+        Vector2 finY = new Vector2(granada.getX() + granada.getHitbox().width / 2f, endY);
+        if (gestorColisiones.verificarTrayectoria(inicioY, finY, ignorar, granada) != null
+            || gestorColisiones.trayectoriaColisionaMapa(inicioY, finY) != null) {
+            granada.setImpacto(true);
+            granada.getVelocidadVector().y *= -granada.getCoeficienteRebote();
+        } else {
+            granada.setY(granada.getY() + granada.getVelocidadVector().y * delta);
+        }
+
+        tmpImpacto.set(granada.getX(), granada.getY());
         return tmpImpacto;
     }
 
