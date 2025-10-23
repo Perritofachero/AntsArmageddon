@@ -1,15 +1,15 @@
 package entidades.PowerUps;
 
 import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 import managers.GestorAssets;
-import utils.Constantes;
 
 public class CajaVida extends PowerUp {
 
     public CajaVida(float x, float y, GestorColisiones gestorColisiones) {
-        super(x, y, GestorAssets.get(Constantes.CAJA_VIDA, Texture.class), gestorColisiones);
+        super(x, y, GestorAssets.get(GestorRutas.CAJA_VIDA, Texture.class), gestorColisiones);
 
     }
 

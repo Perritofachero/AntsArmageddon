@@ -86,56 +86,41 @@ public class GestorJuego {
 
     public void procesarEntradaJugador(ControlesJugador control, float delta) {
         if (control == null) return;
+        if (gestorTurno.isEnTransicion())  return;
 
-        Personaje activo = getPersonajeActivo();
-        if (activo == null) return;
+        Personaje activo = getPersonajeActivo(); if (activo == null) return;
+
+        if (activo.isTurnoTerminado()) return;
 
         control.procesarEntrada();
 
         if (activo.isDisparando()) {
-            if (control.getApuntarDir() != 0) activo.apuntar(control.getApuntarDir());
+
+            if (control.getApuntarDir() != 0)
+                activo.apuntar(control.getApuntarDir());
 
             if (control.getDisparoLiberado()) {
-                activo.liberarDisparo();
+                activo.usarMovimiento();
                 control.resetDisparoLiberado();
-                return;
             }
 
             activo.actualizarDisparo(delta);
-            activo.mostrarMirilla();
             return;
         }
 
         float x = control.getX();
         float y = control.getY();
-        boolean seMueve = (x != 0 || y != 0);
-
         activo.mover(x, y, delta);
-        if (seMueve) {
-            activo.ocultarMirilla();
-        }
 
-        if (control.getSaltar()) {
+        if (control.getSaltar())
             activo.saltar();
-            activo.ocultarMirilla();
-        }
 
-        if (control.getApuntarDir() != 0) {
+        if (control.getApuntarDir() != 0)
             activo.apuntar(control.getApuntarDir());
-        } else if (!seMueve && activo.getSobreAlgo() && !activo.isDisparando()) {
-            activo.mostrarMirilla();
-        } else {
-            activo.ocultarMirilla();
-        }
 
         activo.setMovimientoSeleccionado(control.getMovimientoSeleccionado());
-
-        if (control.getDisparoPresionado()) {
-            activo.iniciarDisparo();
-        } else if (control.getDisparoLiberado()) {
-            activo.liberarDisparo();
-            control.resetDisparoLiberado();
-        }
+        if (control.getDisparoPresionado())
+            activo.usarMovimiento();
     }
 
     private void revisarPersonajesMuertos() {
@@ -156,14 +141,12 @@ public class GestorJuego {
     }
 
     private void generarPowerUp() {
-        for (int i = 0; i < 10; i++) {
             Vector2 spawnPower = gestorSpawn.generarSpawnPowerUp(8f);
             if (spawnPower != null) {
                 PowerUp nuevoPower = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
                 agregarEntidad(nuevoPower);
                 System.out.println("⚡ PowerUp generado en: " + spawnPower);
             }
-        }
     }
 
     public void renderDebug(ShapeRenderer shapeRenderer, Camara camara) {
@@ -201,10 +184,16 @@ public class GestorJuego {
         gestorEntidades.agregarEntidad(entidad);
     }
 
+    public void dispose() {
+        gestorProyectiles.dispose();
+        gestorEntidades.dispose();
+    }
+
     public Jugador getJugadorActivo() { return gestorTurno.getJugadorActivo(); }
     public int getTurnoActual() { return gestorTurno.getTurnoActual(); }
     public float getTiempoActual() { return gestorTurno.getTiempoActual(); }
     public List<Jugador> getJugadores() { return jugadores; }
     public GestorColisiones getGestorColisiones() { return gestorColisiones; }
+    public GestorProyectiles getGestorProyectiles() { return this.gestorProyectiles; }
 }
 

@@ -10,5 +10,6 @@ public interface Colisionable {
     float getX();
     float getY();
     boolean getActivo();
+    void updateHitbox();
 
 }

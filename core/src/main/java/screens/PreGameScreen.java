@@ -1,5 +1,6 @@
 package screens;
 
+import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -26,6 +27,8 @@ public class PreGameScreen extends ScreenMenus {
     private SelectBox<String> selectorMapa;
     private List<Texture> texturasMapas;
     private int indiceMapa = 0;
+
+    private final Random random = new Random();
 
     public PreGameScreen(AntsArmageddon juego) {
         super(juego);
@@ -61,13 +64,11 @@ public class PreGameScreen extends ScreenMenus {
         configurarEventosSelector();
 
         ImageButton botonRandom = FabricaBotones.RANDOM.crearBoton(
-            Constantes.ATLAS_BOTONES,
-            Constantes.SONIDO_CLICK,
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK,
             () -> {
-                indiceMapa = new Random().nextInt(texturasMapas.size());
+                setMapaActual(random.nextInt(texturasMapas.size()));
                 selectorMapa.setSelectedIndex(indiceMapa);
-                imagenMapa.setDrawable(new TextureRegionDrawable(new TextureRegion(texturasMapas.get(indiceMapa))));
-                configuracion.setMapa(indiceMapa);
             }
         );
 
@@ -102,7 +103,7 @@ public class PreGameScreen extends ScreenMenus {
 
     private ImageButton crearBotonTiempo() {
         return FabricaBotones.crearBotonCiclico(
-            Constantes.ATLAS_OPCIONES, Constantes.SONIDO_CLICK,
+            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK,
             new String[]{"15_up", "25_up", "30_up"},
             new String[]{"15_over", "25_over", "30_over"},
             indice -> configuracion.setTiempoTurnoPorIndice(indice)
@@ -111,7 +112,7 @@ public class PreGameScreen extends ScreenMenus {
 
     private ImageButton crearBotonPowerUps() {
         return FabricaBotones.crearBotonCiclico(
-            Constantes.ATLAS_OPCIONES, Constantes.SONIDO_CLICK,
+            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK,
             new String[]{"1_up", "2_up", "3_up"},
             new String[]{"1_over", "2_over", "3_over"},
             indice -> configuracion.setFrecuenciaPowerUpsPorIndice(indice)
@@ -122,20 +123,25 @@ public class PreGameScreen extends ScreenMenus {
         selectorMapa.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                indiceMapa = selectorMapa.getSelectedIndex();
-                imagenMapa.setDrawable(new TextureRegionDrawable(new TextureRegion(texturasMapas.get(indiceMapa))));
-                configuracion.setMapa(indiceMapa);
+                setMapaActual(selectorMapa.getSelectedIndex());
             }
         });
     }
 
+    private void setMapaActual(int indice) {
+        indiceMapa = indice;
+        imagenMapa.setDrawable(
+            new TextureRegionDrawable(new TextureRegion(texturasMapas.get(indiceMapa)))
+        );
+        configuracion.setMapa(indiceMapa);
+    }
+
     private void cargarTexturasMapas() {
-        texturasMapas = new ArrayList<>();
-        Collections.addAll(texturasMapas,
-            GestorAssets.get(Constantes.MAPA_1, Texture.class),
-            GestorAssets.get(Constantes.MAPA_2, Texture.class),
-            GestorAssets.get(Constantes.MAPA_3, Texture.class),
-            GestorAssets.get(Constantes.MAPA_4, Texture.class)
+        texturasMapas = List.of(
+            GestorAssets.get(GestorRutas.MAPA_1, Texture.class),
+            GestorAssets.get(GestorRutas.MAPA_2, Texture.class),
+            GestorAssets.get(GestorRutas.MAPA_3, Texture.class),
+            GestorAssets.get(GestorRutas.MAPA_4, Texture.class)
         );
     }
 
@@ -166,8 +172,8 @@ public class PreGameScreen extends ScreenMenus {
         for (int i = 0; i < 6; i++) {
             final int slot = i;
             ImageButton botonHormiga = FabricaBotones.crearBotonHormiga(
-                Constantes.ATLAS_CUADRO_PERSONAJES,
-                Constantes.SONIDO_CLICK,
+                GestorRutas.ATLAS_CUADRO_PERSONAJES,
+                GestorRutas.SONIDO_CLICK,
                 indiceHormiga -> configuracion.setHormiga(jugador, slot, indiceHormiga)
             );
             contenedor.add(botonHormiga).size(65).pad(5);
@@ -180,15 +186,18 @@ public class PreGameScreen extends ScreenMenus {
         Table panel = new Table();
 
         ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(
-            Constantes.ATLAS_BOTONES,
-            Constantes.SONIDO_CLICK,
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK,
             () -> ScreenManager.setScreen(new MenuScreen(juego))
         );
 
         ImageButton botonJugar = FabricaBotones.JUGAR.crearBoton(
-            Constantes.ATLAS_BOTONES,
-            Constantes.SONIDO_CLICK,
-            () -> ScreenManager.setScreen(new GameScreen(juego, configuracion))
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK,
+            () -> {
+                configuracion.normalizarEquipos();
+                ScreenManager.setScreen(new GameScreen(juego, configuracion));
+            }
         );
 
         panel.add(botonVolver).width(150).height(55).padRight(20);
@@ -197,8 +206,8 @@ public class PreGameScreen extends ScreenMenus {
     }
 
     private Image crearTitulo() {
-        Image titulo = new Image(GestorAssets.get(Constantes.PNG_1, Texture.class));
-        titulo.setDebug(true);
+        Image titulo = new Image(GestorAssets.get(GestorRutas.PNG_1, Texture.class));
+        titulo.setDebug(false);
         return titulo;
     }
 
@@ -212,5 +221,4 @@ public class PreGameScreen extends ScreenMenus {
             configuracion.setHormiga(2, i, 0);
         }
     }
-
 }

@@ -44,11 +44,8 @@ public abstract class PowerUp extends Entidad {
     }
 
     protected void actualizarAreaRecoleccion() {
-        areaRecoleccion.set(
-            sprite.getX() - extraArea,
-            sprite.getY() - extraArea,
-            sprite.getWidth() + 2 * extraArea,
-            sprite.getHeight() + 2 * extraArea
+        areaRecoleccion.set(x - extraArea, y - extraArea,
+            sprite.getWidth() + 2 * extraArea, sprite.getHeight() + 2 * extraArea
         );
     }
 
@@ -60,11 +57,6 @@ public abstract class PowerUp extends Entidad {
             if (areaRecoleccion.overlaps(personaje.getHitbox())) return personaje;
         }
         return null;
-    }
-
-    public void setExtraRecogida(float extra) {
-        this.extraArea = extra;
-        actualizarAreaRecoleccion();
     }
 
     public abstract void aplicarEfecto(Personaje personaje);

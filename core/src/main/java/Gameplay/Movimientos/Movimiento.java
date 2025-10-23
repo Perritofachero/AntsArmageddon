@@ -1,25 +1,32 @@
 package Gameplay.Movimientos;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import entidades.personajes.Personaje;
 
 public abstract class Movimiento {
 
-    //Agregar usos, asi se pueden acabar y los power ups pueden dar usos de habilidades
-
     protected String nombre;
-    protected Texture textura;
-    protected Sprite sprite;
+    protected TextureAtlas atlasMovimiento;
+    protected TextureRegion icono;
+    protected String nombreAnimacion;
 
-    public Movimiento(String nombre, Texture textura) {
+    public Movimiento(String nombre, TextureAtlas atlasMovimiento, String nombreAnimacion) {
         this.nombre = nombre;
-        this.textura = textura;
-        this.sprite = new Sprite(textura);
+        this.atlasMovimiento = atlasMovimiento;
+        this.nombreAnimacion = nombreAnimacion;
+
+        Array<TextureAtlas.AtlasRegion> frames = atlasMovimiento.findRegions(nombreAnimacion);
+
+        this.icono = frames.isEmpty() ? null : frames.peek();
     }
 
-    public String getNombre() { return nombre; }
-    public Sprite getSprite() { return sprite; }
-    public void dispose() {}
+    public void ejecutar(Personaje p) { }
 
+    public TextureRegion getIcono() { return icono; }
+    public TextureAtlas getAtlas() { return atlasMovimiento; }
+    public String getNombreAnimacion() { return nombreAnimacion; }
+
+    public void dispose() { }
 }

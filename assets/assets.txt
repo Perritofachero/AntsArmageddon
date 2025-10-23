@@ -2,6 +2,8 @@
 2.png
 3.png
 4.png
+Extras/BarraCarga/marcoBarraCarga.png
+Extras/BarraCarga/rellenoBarraCarga.png
 Mapas/pruebaMapa1.png
 Mapas/pruebaMapa2.png
 Mapas/pruebaMapa3.png
@@ -11,7 +13,18 @@ Personajes/Cuadro_Hormigas.png
 Personajes/HormigaExploradora.png
 Personajes/HormigaGuerrera.png
 Personajes/HormigaObrera.png
-Personajes/mira.png
+Personajes/HormigaObrera/HO_Daño.atlas
+Personajes/HormigaObrera/HO_Daño.png
+Personajes/HormigaObrera/HO_Idle.atlas
+Personajes/HormigaObrera/HO_Idle.png
+Personajes/HormigaObrera/HO_Jumping.atlas
+Personajes/HormigaObrera/HO_Jumping.png
+Personajes/HormigaObrera/HO_Muerte.atlas
+Personajes/HormigaObrera/HO_Muerte.png
+Personajes/HormigaObrera/HO_Walking.atlas
+Personajes/HormigaObrera/HO_Walking.png
+Personajes/Mira/mira.atlas
+Personajes/Mira/mira.png
 PowerUps/CajaVida.png
 Proyectiles/granada.png
 Proyectiles/nectar.png
@@ -27,4 +40,6 @@ fonts/font_Contador.png
 fonts/font_Vida.fnt
 fonts/font_Vida.png
 gameOver.png
+prueba.atlas
+prueba.png
 pruebaFondoJuego.jpg

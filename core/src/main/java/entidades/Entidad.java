@@ -73,6 +73,7 @@ public abstract class Entidad implements Colisionable {
     public float getHeight() { return hitbox.getHeight(); }
     public boolean getSobreAlgo() { return sobreAlgo; }
     public void setSobreAlgo(boolean sobreAlgo) { this.sobreAlgo = sobreAlgo; }
+    public Sprite getSprite() { return this.sprite; }
 
     public abstract void renderHitbox(ShapeRenderer shapeRenderer, Camara camara);
 }

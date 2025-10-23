@@ -1,11 +1,11 @@
 package managers;
 
+import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import utils.Constantes;
 
 public class GestorAssets {
 
@@ -13,48 +13,62 @@ public class GestorAssets {
 
     public static void load() {
 
-        // --- Botones ---
-        assetManager.load(Constantes.ATLAS_BOTONES, TextureAtlas.class);
-        assetManager.load(Constantes.BOTONES_PNG, Texture.class);
-        assetManager.load(Constantes.SONIDO_CLICK, Sound.class);
+        // Botones
+        assetManager.load(GestorRutas.ATLAS_BOTONES, TextureAtlas.class);
+        assetManager.load(GestorRutas.SONIDO_CLICK, Sound.class);
 
-        // --- Fondos ---
-        assetManager.load(Constantes.FONDO_PANTALLA, Texture.class);
-        assetManager.load(Constantes.FONDO_JUEGO, Texture.class);
-        assetManager.load(Constantes.GAME_OVER, Texture.class);
+        // Fondos
+        assetManager.load(GestorRutas.FONDO_PANTALLA, Texture.class);
+        assetManager.load(GestorRutas.FONDO_JUEGO, Texture.class);
+        assetManager.load(GestorRutas.GAME_OVER, Texture.class);
 
-        // --- Mapas ---
-        assetManager.load(Constantes.MAPA_1, Texture.class);
-        assetManager.load(Constantes.MAPA_2, Texture.class);
-        assetManager.load(Constantes.MAPA_3, Texture.class);
-        assetManager.load(Constantes.MAPA_4, Texture.class);
+        // Mapas
+        assetManager.load(GestorRutas.MAPA_1, Texture.class);
+        assetManager.load(GestorRutas.MAPA_2, Texture.class);
+        assetManager.load(GestorRutas.MAPA_3, Texture.class);
+        assetManager.load(GestorRutas.MAPA_4, Texture.class);
 
-        // --- Personajes ---
-        assetManager.load(Constantes.HORMIGA_OBRERA, Texture.class);
-        assetManager.load(Constantes.HORMIGA_GUERRERA, Texture.class);
-        assetManager.load(Constantes.HORMIGA_EXPLORADORA, Texture.class);
-        assetManager.load(Constantes.MIRA, Texture.class);
-        assetManager.load(Constantes.ATLAS_CUADRO_PERSONAJES, TextureAtlas.class);
+        // Personajes
+        assetManager.load(GestorRutas.HORMIGA_OBRERA, Texture.class);
+        assetManager.load(GestorRutas.HORMIGA_GUERRERA, Texture.class);
+        assetManager.load(GestorRutas.HORMIGA_EXPLORADORA, Texture.class);
+        assetManager.load(GestorRutas.ATLAS_CUADRO_PERSONAJES, TextureAtlas.class);
 
+        // Proyectiles
+        assetManager.load(GestorRutas.ROCA, Texture.class);
+        assetManager.load(GestorRutas.NECTAR, Texture.class);
+        assetManager.load(GestorRutas.GRANADA, Texture.class);
 
-        // --- Proyectiles ---
-        assetManager.load(Constantes.ROCA, Texture.class);
-        assetManager.load(Constantes.NECTAR, Texture.class);
-        assetManager.load(Constantes.GRANADA, Texture.class);
+        // Otros assets (solo si los usás)
+        assetManager.load(GestorRutas.PNG_1, Texture.class);
+        assetManager.load(GestorRutas.PNG_2, Texture.class);
+        assetManager.load(GestorRutas.PNG_3, Texture.class);
+        assetManager.load(GestorRutas.PNG_4, Texture.class);
+        assetManager.load(GestorRutas.ATLAS_OPCIONES, TextureAtlas.class);
 
-        // --- Otros assets ---
-        assetManager.load(Constantes.PNG_1, Texture.class);
-        assetManager.load(Constantes.PNG_2, Texture.class);
-        assetManager.load(Constantes.PNG_3, Texture.class);
-        assetManager.load(Constantes.PNG_4, Texture.class);
-        assetManager.load(Constantes.ATLAS_OPCIONES, TextureAtlas.class);
+        // Fuentes
+        assetManager.load(GestorRutas.FONT_CONTADOR, BitmapFont.class);
+        assetManager.load(GestorRutas.FONT_VIDA, BitmapFont.class);
 
-        // --- Fuentes ---
-        assetManager.load(Constantes.FONT_CONTADOR, BitmapFont.class);
-        assetManager.load(Constantes.FONT_VIDA, BitmapFont.class);
+        // PowerUps
+        assetManager.load(GestorRutas.CAJA_VIDA, Texture.class);
 
-        // --- PowerUps ---
-        assetManager.load(Constantes.CAJA_VIDA, Texture.class);
+        // Mira
+        assetManager.load(GestorRutas.ATLAS_MIRA, TextureAtlas.class);
+
+        // Prueba
+        assetManager.load(GestorRutas.ATLAS_PRUEBA, TextureAtlas.class);
+
+        // Animaciones Obrera
+        assetManager.load(GestorRutas.ATLAS_HO_IDLE, TextureAtlas.class);
+        assetManager.load(GestorRutas.ATLAS_HO_WALKING, TextureAtlas.class);
+        assetManager.load(GestorRutas.ATLAS_HO_JUMPING, TextureAtlas.class);
+        assetManager.load(GestorRutas.ATLAS_HO_DAÑO, TextureAtlas.class);
+        assetManager.load(GestorRutas.ATLAS_HO_MUERTE, TextureAtlas.class);
+
+        // Barra carga
+        assetManager.load(GestorRutas.PNG_MARCO_BARRA_CARGA, Texture.class);
+        assetManager.load(GestorRutas.PNG_RELLENO_BARRA_CARGA, Texture.class);
 
         assetManager.finishLoading();
     }

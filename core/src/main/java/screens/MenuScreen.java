@@ -1,11 +1,11 @@
 package screens;
 
+import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
-import utils.Constantes;
 
 public class MenuScreen extends ScreenMenus {
 
@@ -16,9 +16,9 @@ public class MenuScreen extends ScreenMenus {
     @Override
     protected void construirUI() {
 
-        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(Constantes.ATLAS_BOTONES, Constantes.SONIDO_CLICK, EventosBoton.irPreGameScreen(juego));
-        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(Constantes.ATLAS_BOTONES, Constantes.SONIDO_CLICK, EventosBoton.irMenuOpciones(juego));
-        ImageButton salir = FabricaBotones.SALIR.crearBoton(Constantes.ATLAS_BOTONES, Constantes.SONIDO_CLICK, EventosBoton.salirJuego());
+        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK, EventosBoton.irPreGameScreen(juego));
+        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK, EventosBoton.irMenuOpciones(juego));
+        ImageButton salir = FabricaBotones.SALIR.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK, EventosBoton.salirJuego());
 
         Table table = new Table();
         table.setFillParent(true);

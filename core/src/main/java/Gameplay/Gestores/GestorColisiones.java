@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import Fisicas.Colisionable;
 import com.badlogic.gdx.math.Vector2;
 import entidades.Limite;
-import entidades.personajes.Personaje;
 import java.util.List;
 import java.util.ArrayList;
 

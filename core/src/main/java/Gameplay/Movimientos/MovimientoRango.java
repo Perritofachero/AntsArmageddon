@@ -1,17 +1,19 @@
 package Gameplay.Movimientos;
 
 import Gameplay.Gestores.GestorProyectiles;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 
 public abstract class MovimientoRango extends Movimiento {
+
     protected float velocidadBase;
     protected GestorProyectiles gestorProyectiles;
 
-    public MovimientoRango(String nombre, Texture textura, float velocidadBase, GestorProyectiles gestorProyectiles) {
-        super(nombre, textura);
+    public MovimientoRango(String nombre, TextureAtlas atlas, String nombreAnimacion,
+                           float velocidadBase, GestorProyectiles gestorProyectiles) {
+        super(nombre, atlas, nombreAnimacion);
         this.velocidadBase = velocidadBase;
         this.gestorProyectiles = gestorProyectiles;
     }

@@ -52,10 +52,8 @@ public class GestorFisica {
 
         entidad.setVelocidad(velocidad);
         entidad.setPosicion(hitbox.x, hitbox.y);
-        entidad.updateHitbox();
         entidad.setSobreAlgo(sobreAlgo);
     }
-
 
     public Vector2 moverProyectilConRaycast(Proyectil proyectil, float delta, Personaje ignorar) {
         tmpInicio.set(

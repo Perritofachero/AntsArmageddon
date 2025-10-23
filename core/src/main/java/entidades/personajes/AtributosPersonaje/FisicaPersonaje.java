@@ -4,13 +4,13 @@ import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 
+//Hacer que el resbale funcione en pendientes, y qyue no se pare en pixeles.
+//Tal vez hacer que cuando esta en knockback rebote, en vez de resbalar
+
+//Fijarse si podemos hacer que siempre que el personaje se este desplazando en x
+//tenga tolerancia de subida o algo asi
+
 public class FisicaPersonaje {
-
-    //Hacer que el resbale funcione en pendientes, y qyue no se pare en pixeles.
-    //Tal vez hacer que cuando esta en knockback rebote, en vez de resbalar
-
-    //Fijarse si podemos hacer que siempre que el personaje se este desplazando en x
-    //tenga tolerancia de subida o algo asi
 
     private final Personaje personaje;
     private final GestorColisiones gestorColisiones;
@@ -67,12 +67,20 @@ public class FisicaPersonaje {
             personaje.setX(nuevaX);
 
             int maxDescenso = 6;
+            boolean apoyoEncontrado = false;
+
             for (int i = 1; i <= maxDescenso; i++) {
-                if (gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY() - i)) {
+                if (!gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY() - (i + 1))) {
                     personaje.setY(personaje.getY() - i);
+                    apoyoEncontrado = true;
                     break;
                 }
             }
+
+            if (!apoyoEncontrado) {
+                personaje.setSobreAlgo(false);
+            }
+
         } else {
             int maxAscenso = 4;
             for (int i = 1; i <= maxAscenso; i++) {
@@ -86,7 +94,6 @@ public class FisicaPersonaje {
 
         personaje.updateHitbox();
     }
-
 
     public void moverVertical(float deltaY, float deltaTiempo) {
         if (enKnockback || deltaY == 0) return;

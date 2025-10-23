@@ -1,5 +1,6 @@
 package screens;
 
+import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -32,7 +33,7 @@ public abstract class ScreenMenus implements Screen {
         escenario = new Stage(viewport);
         Gdx.input.setInputProcessor(escenario);
 
-        Texture textura = GestorAssets.get(Constantes.FONDO_PANTALLA, Texture.class);
+        Texture textura = GestorAssets.get(GestorRutas.FONDO_PANTALLA, Texture.class);
         spriteFondo = new Sprite(textura);
         spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
 
@@ -44,6 +45,9 @@ public abstract class ScreenMenus implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        camara.update();
+
+        RecursosGlobales.batch.setProjectionMatrix(camara.combined);
         RecursosGlobales.batch.begin();
         spriteFondo.draw(RecursosGlobales.batch);
         RecursosGlobales.batch.end();
@@ -55,6 +59,8 @@ public abstract class ScreenMenus implements Screen {
     @Override
     public void resize(int ancho, int alto) {
         viewport.update(ancho, alto, true);
+        spriteFondo.setSize(viewport.getWorldWidth(), viewport.getWorldHeight());
+        camara.update();
     }
 
     @Override public void pause() { }

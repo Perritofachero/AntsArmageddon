@@ -54,5 +54,13 @@ public class GestorProyectiles {
         proyectiles.clear();
     }
 
+    public Proyectil getUltimoProyectilActivo() {
+        for (int i = proyectiles.size() - 1; i >= 0; i--) {
+            if (proyectiles.get(i).getActivo())
+                return proyectiles.get(i);
+        }
+        return null;
+    }
+
     public GestorColisiones getGestorColisiones() { return this.gestorColisiones; }
 }

@@ -7,6 +7,35 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.5.1] - 2025-10-19
+
+# Added
+- Implementacion de animaciones en distintas clases.
+- Clase Gestor de animaciones para refactorizar todas las clases que utilicen animaciones.
+- Clase path manager para rutas del proyecto.
+- Movimiento pasar turno para pasar un turno.
+- Enum anidado en la clase personaje para sus distintos estados.
+- HUD para los movimientos seleccionados del personaje.
+- Distinto colores de vida para diferenciar los personajes de distintos jugadores.
+- Sistema de juego totalmente implementado, tanto turnos como conteo de personajes por jugador para determinar ganador.
+- Fix de bug para cuando no se escogen personajes, o se escoge una para un jugador y no para otro randomizando los personajes
+en ambos casos.
+
+### Changed
+- Clase personaje para evitar que pueda realizar acciones mientras hace otras, como disparar mientras salta entre otras.
+- Clase gestor turno para implementar el sistema de turnos del worms.
+- Clase gestor juego para implementar el sistema de turnos del gestor turno.
+- Configuracion partida para evitar bugs por selecciones de personajes.
+- Screens para que la camara este seteada en projectionMatrix, para evitar desfases con el fondo y otros errores.
+- Sobrecarga de metodo ejecutar en movimientos rango y melee, para evitar reiterar codigo y mantener encapsulada su logica en otras clases.
+- Metodo de la clase camara para seguir posiciones, asi puede seguir la posicion de los proyectiles.
+- Clase gestor proyectiles para que contenga el metodo ultimo proyectil disponible asi la camara puede seguirlo.
+- Clase jugador ahora contiene un atributo con un color, para mostrar en el hud de sus personajes.
+- Clase personaje tiene un id del jugador al que pertenece, para mostrar su color en el hud e implementaciones de redes mas adelante.
+- Fix de bugs en fisicas personaje de movimiento.
+- Fix de bug de hitbox en clase entidad y proyectil. 
+- Fix de bug de prioridad en el input processor de gamescreen.
+
 ## [0.5.0] - 2025-10-19
 
 # Added

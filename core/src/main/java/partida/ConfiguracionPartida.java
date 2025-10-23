@@ -2,8 +2,8 @@ package partida;
 
 import java.util.ArrayList;
 import java.util.List;
-
-// ver si podemos hacer que lo set los haga eventos boton y no pasar esa vaina por parametro
+import java.util.Objects;
+import java.util.Random;
 
 public class ConfiguracionPartida {
 
@@ -62,6 +62,41 @@ public class ConfiguracionPartida {
         }
     }
 
+    public void normalizarEquipos() {
+        removerNulos(equipoJugador1);
+        removerNulos(equipoJugador2);
+
+        int cant1 = equipoJugador1.size();
+        int cant2 = equipoJugador2.size();
+
+        Random r = new Random();
+
+        if (cant1 == 0 && cant2 == 0) {
+            for (int i = 0; i < 6; i++) {
+                equipoJugador1.add(TIPOS_HORMIGAS[r.nextInt(TIPOS_HORMIGAS.length)]);
+                equipoJugador2.add(TIPOS_HORMIGAS[r.nextInt(TIPOS_HORMIGAS.length)]);
+            }
+            return;
+        }
+
+        if (cant1 > 0 && cant2 == 0) {
+            for (int i = 0; i < cant1; i++) {
+                equipoJugador2.add(TIPOS_HORMIGAS[r.nextInt(TIPOS_HORMIGAS.length)]);
+            }
+            return;
+        }
+
+        if (cant2 > 0 && cant1 == 0) {
+            for (int i = 0; i < cant2; i++) {
+                equipoJugador1.add(TIPOS_HORMIGAS[r.nextInt(TIPOS_HORMIGAS.length)]);
+            }
+        }
+
+    }
+
+    private void removerNulos(List<String> equipo) {
+        equipo.removeIf(Objects::isNull);
+    }
 
     public int getIndiceMapa() { return indiceMapa; }
     public int getTiempoTurno() { return tiempoTurno; }

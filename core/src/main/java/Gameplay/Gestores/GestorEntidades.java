@@ -48,9 +48,9 @@ public class GestorEntidades {
         }
     }
 
-    public void removerEntidad(Entidad entidad) {
+    private void removerEntidad(Entidad entidad) {
         gestorColisiones.removerObjeto(entidad);
-        entidad.dispose();
+        if(entidad != null) entidad.dispose();
     }
 
     public List<Entidad> getEntidades() {

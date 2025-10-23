@@ -1,18 +1,17 @@
 package Gameplay.Gestores;
 
 import com.principal.Jugador;
+import entidades.personajes.Personaje;
 import java.util.ArrayList;
 
 public class GestorTurno {
-
-    //Ajustar turnos para que despues de ejecutar una accion su turno se acabe
 
     private final float TIEMPO_POR_TURNO;
     private int turnoActual = 0;
     private float tiempoActual;
     private boolean enTransicion = false;
     private float tiempoTransicion = 0f;
-    private final float DURACION_TRANSICION = 3f;
+    private final float DURACION_TRANSICION = 4f;
 
     ArrayList<Jugador> jugadores;
 
@@ -25,6 +24,11 @@ public class GestorTurno {
 
     public void correrContador(float delta) {
 
+        if (jugadores.get(turnoActual).getPersonajeActivo().isTurnoTerminado()) {
+            iniciarTransicion();
+            return;
+        }
+
         if (enTransicion) {
             transicionarTurno(delta);
         } else {
@@ -36,9 +40,14 @@ public class GestorTurno {
         }
     }
 
+
     private void iniciarTransicion() {
         this.enTransicion = true;
         this.tiempoTransicion = 0f;
+
+        Personaje saliente = jugadores.get(turnoActual).getPersonajeActivo();
+        saliente.setEnTurno(false);
+        saliente.reiniciarTurno();
     }
 
     private void transicionarTurno(float delta){
@@ -51,14 +60,20 @@ public class GestorTurno {
         }
     }
 
-    private void actualizarTurno(){
+    private void actualizarTurno() {
         this.turnoActual++;
 
         if(turnoActual >= jugadores.size()){
             this.turnoActual = 0;
         }
 
-        jugadores.get(turnoActual).avanzarPersonaje();
+        Jugador j = jugadores.get(turnoActual);
+        j.avanzarPersonaje();
+
+        Personaje entrante = j.getPersonajeActivo();
+        entrante.setEnTurno(true);
+        entrante.reiniciarTurno();
+
         this.tiempoActual = TIEMPO_POR_TURNO;
     }
 
@@ -70,8 +85,9 @@ public class GestorTurno {
             }
         }
     }
+
     public Jugador getJugadorActivo() { return jugadores.get(turnoActual); }
     public int getTurnoActual() { return this.turnoActual; }
     public float getTiempoActual() { return this.tiempoActual; }
-
+    public boolean isEnTransicion() { return enTransicion; }
 }

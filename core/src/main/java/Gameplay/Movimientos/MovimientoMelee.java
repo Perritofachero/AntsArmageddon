@@ -3,7 +3,7 @@ package Gameplay.Movimientos;
 import Fisicas.Colisionable;
 import Gameplay.Gestores.GestorColisiones;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -24,9 +24,10 @@ public abstract class MovimientoMelee extends Movimiento {
 
     private static final float DURACION_VISUAL = 0.15f;
 
-    public MovimientoMelee(String nombre, Texture textura, float ancho, float alto, int danio,
+    public MovimientoMelee(String nombre, TextureAtlas atlas, String nombreAnimacion,
+                           float ancho, float alto, int danio,
                            float distanciaGolpe, GestorColisiones gestorColisiones) {
-        super(nombre, textura);
+        super(nombre, atlas, nombreAnimacion);
         this.anchoGolpe = ancho;
         this.altoGolpe = alto;
         this.danio = danio;
@@ -34,12 +35,13 @@ public abstract class MovimientoMelee extends Movimiento {
         this.gestorColisiones = gestorColisiones;
     }
 
+    @Override
     public void ejecutar(Personaje atacante) {
-        if (golpeAplicado || atacante == null || !atacante.getActivo()) return;
-        golpeAplicado = true;
+        if (atacante == null || !atacante.getActivo()) return;
+
+        golpeAplicado = false;
 
         float angulo = atacante.getMirilla().getAnguloRad();
-
         float origenX = atacante.getX() + atacante.getSprite().getWidth() / 2f;
         float origenY = atacante.getY() + atacante.getSprite().getHeight() / 2f;
 
@@ -47,11 +49,12 @@ public abstract class MovimientoMelee extends Movimiento {
         float y = origenY + MathUtils.sin(angulo) * distanciaGolpe - altoGolpe / 2f;
 
         areaGolpe = new Rectangle(x, y, anchoGolpe, altoGolpe);
-
         aplicarGolpe(atacante, areaGolpe);
 
         tiempoVisible = DURACION_VISUAL;
+        golpeAplicado = true;
     }
+
 
     protected void aplicarGolpe(Personaje atacante, Rectangle area) {
         List<Colisionable> colisionados = gestorColisiones.getColisionablesEnRect(area, atacante);
@@ -80,5 +83,5 @@ public abstract class MovimientoMelee extends Movimiento {
         }
     }
 
-    protected float getDistanciaGolpe() { return 50f; }
+    protected float getDistanciaGolpe() { return this.distanciaGolpe; }
 }

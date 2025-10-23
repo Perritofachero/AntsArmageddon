@@ -20,6 +20,8 @@ public class Limite implements Colisionable {
         renderer.rect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
     }
 
+    @Override
+    public void updateHitbox() {}
     @Override public Rectangle getHitbox() {
         return hitbox;
     }

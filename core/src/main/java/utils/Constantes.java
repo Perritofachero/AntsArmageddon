@@ -15,49 +15,4 @@ public class Constantes {
 
     public static final float TIEMPO_GRACIA = 0.3f;
     public static final float TIEMPO_VIDA_MAX = 7f;
-
-    // Botones
-    public static final String ATLAS_BOTONES = "Botones/botones.atlas";
-    public static final String ATLAS_CUADRO_PERSONAJES = "Personajes/Cuadro_Hormigas.atlas";
-    public static final String ATLAS_OPCIONES = "Botones/opciones.atlas";
-    public static final String OPCIONES_PNG = "Botones/opciones.png";
-    public static final String BOTONES_PNG = "Botones/botones.png";
-    public static final String SONIDO_CLICK = "Sonidos/sonido_click.mp3";
-
-    // Fondos
-    public static final String FONDO_PANTALLA = "fondoPantalla.png";
-    public static final String FONDO_JUEGO = "pruebaFondoJuego.jpg";
-    public static final String GAME_OVER = "gameOver.png";
-
-    // Mapas
-    public static final String MAPA_1 = "Mapas/pruebaMapa1.png";
-    public static final String MAPA_2 = "Mapas/pruebaMapa2.png";
-    public static final String MAPA_3 = "Mapas/pruebaMapa3.png";
-    public static final String MAPA_4 = "Mapas/pruebaMapa4.png";
-
-    // Personajes
-    public static final String HORMIGA_OBRERA = "Personajes/HormigaObrera.png";
-    public static final String HORMIGA_GUERRERA = "Personajes/HormigaGuerrera.png";
-    public static final String HORMIGA_EXPLORADORA = "Personajes/HormigaExploradora.png";
-    public static final String MIRA = "Personajes/mira.png";
-    public static final String PNG_CUADRO_PERSONAJES = "Personajes/Cuadro_Hormigas.png";
-
-    // Proyectiles
-    public static final String ROCA = "Proyectiles/roca.png";
-    public static final String NECTAR = "Proyectiles/nectar.png";
-    public static final String GRANADA = "Proyectiles/granada.png";
-
-    // PowerUps
-    public static final String CAJA_VIDA = "PowerUps/CajaVida.png";
-
-    // Otros assets
-    public static final String PNG_1 = "1.png";
-    public static final String PNG_2 = "2.png";
-    public static final String PNG_3 = "3.png";
-    public static final String PNG_4 = "4.png";
-
-    // Fuentes
-    public static final String FONT_CONTADOR = "Fonts/font_Contador.fnt";
-    public static final String FONT_VIDA = "Fonts/font_Vida.fnt";
-
 }

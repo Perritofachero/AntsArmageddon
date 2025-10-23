@@ -89,7 +89,8 @@ public abstract class Proyectil implements Colisionable {
     }
 
 
-    protected void updateHitbox() { if (hitbox != null) hitbox.setPosition(x, y); }
+    @Override public void updateHitbox() {
+        if (hitbox != null) hitbox.setPosition(x, y); }
 
     public float getX() { return x; }
     public float getY() { return y; }

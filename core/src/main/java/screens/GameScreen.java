@@ -5,7 +5,6 @@ import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.*;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,12 +18,10 @@ import entidades.personajes.tiposPersonajes.HormigaExploradora;
 import entidades.personajes.tiposPersonajes.HormigaGuerrera;
 import entidades.personajes.tiposPersonajes.HormigaObrera;
 import entidades.personajes.Personaje;
-import entidades.PowerUps.CajaVida;
-import entidades.PowerUps.PowerUp;
+import entidades.proyectiles.Proyectil;
 import entradas.ControlesJugador;
 import hud.Hud;
 import managers.GestorAssets;
-import managers.ScreenManager;
 import partida.ConfiguracionPartida;
 import utils.Constantes;
 import utils.RecursosGlobales;
@@ -60,14 +57,14 @@ public class GameScreen implements Screen {
 
         int indiceMapa = configuracion.getIndiceMapa();
         String mapaPath = switch (indiceMapa) {
-            case 0 -> Constantes.MAPA_1;
-            case 1 -> Constantes.MAPA_2;
-            case 2 -> Constantes.MAPA_3;
-            case 3 -> Constantes.MAPA_4;
-            default -> Constantes.MAPA_1;
+            case 0 -> GestorRutas.MAPA_4;
+            case 1 -> GestorRutas.MAPA_2;
+            case 2 -> GestorRutas.MAPA_3;
+            case 3 -> GestorRutas.MAPA_1; //cambiar esto despues, y mejorar el boton list.
+            default -> GestorRutas.MAPA_1;
         };
 
-        spriteMapa = new Sprite(GestorAssets.get(Constantes.FONDO_JUEGO, Texture.class));
+        spriteMapa = new Sprite(GestorAssets.get(GestorRutas.FONDO_JUEGO, Texture.class));
 
         mapa = new Mapa(mapaPath);
         gestorSpawn = new GestorSpawn(mapa);
@@ -85,8 +82,21 @@ public class GameScreen implements Screen {
         );
         List<Vector2> spawns = gestorSpawn.generarVariosSpawnsPersonajes(totalHormigas * 2, 16f, 16f, 60f);
 
-        Jugador jugador1 = crearJugadorDesdeConfig(configuracion.getEquipoJugador1(), spawns.subList(0, totalHormigas), gestorColisiones, gestorProyectiles);
-        Jugador jugador2 = crearJugadorDesdeConfig(configuracion.getEquipoJugador2(), spawns.subList(totalHormigas, totalHormigas * 2), gestorColisiones, gestorProyectiles);
+        Jugador jugador1 = crearJugadorDesdeConfig(
+            0,
+            configuracion.getEquipoJugador1(),
+            spawns.subList(0, totalHormigas),
+            gestorColisiones,
+            gestorProyectiles
+        );
+
+        Jugador jugador2 = crearJugadorDesdeConfig(
+            1,
+            configuracion.getEquipoJugador2(),
+            spawns.subList(totalHormigas, totalHormigas * 2),
+            gestorColisiones,
+            gestorProyectiles
+        );
 
         List<Jugador> jugadores = List.of(jugador1, jugador2);
 
@@ -107,6 +117,7 @@ public class GameScreen implements Screen {
     }
 
     private Jugador crearJugadorDesdeConfig(
+        int idJugador,
         List<String> nombresHormigas,
         List<Vector2> posiciones,
         GestorColisiones gestorColisiones,
@@ -121,9 +132,12 @@ public class GameScreen implements Screen {
             Vector2 pos = posiciones.get(i);
 
             switch (tipo) {
-                case "Cuadro_HO_Up" -> jugador.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, pos.x, pos.y));
-                case "Cuadro_HG_Up" -> jugador.agregarPersonaje(new HormigaGuerrera(gestorColisiones, gestorProyectiles, pos.x, pos.y));
-                case "Cuadro_HE_Up" -> jugador.agregarPersonaje(new HormigaExploradora(gestorColisiones, gestorProyectiles, pos.x, pos.y));
+                case "Cuadro_HO_Up" ->
+                    jugador.agregarPersonaje(new HormigaObrera(gestorColisiones, gestorProyectiles, pos.x, pos.y, idJugador));
+                case "Cuadro_HG_Up" ->
+                    jugador.agregarPersonaje(new HormigaGuerrera(gestorColisiones, gestorProyectiles, pos.x, pos.y, idJugador));
+                case "Cuadro_HE_Up" ->
+                    jugador.agregarPersonaje(new HormigaExploradora(gestorColisiones, gestorProyectiles, pos.x, pos.y, idJugador));
             }
         }
 
@@ -132,25 +146,22 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        gestorJuego.actualizar(delta, mapa);
-        procesarEntradaJugador(delta);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            ScreenManager.setScreen(new PauseScreen(juego, this));
-        }
+        gestorJuego.actualizar(delta, mapa);
 
         Gdx.gl.glClearColor(0.7f, 0.7f, 0.7f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        Proyectil p = gestorJuego.getGestorProyectiles().getUltimoProyectilActivo();
         Personaje activo = gestorJuego.getPersonajeActivo();
-        if (activo != null) {
-            RecursosGlobales.camaraPersonaje.seguirPersonaje(activo);
-            RecursosGlobales.camaraPersonaje.getCamera().update();
-        }
+
+        if (p != null) RecursosGlobales.camaraPersonaje.seguirPosicion(p.getX(), p.getY());
+        else if (activo != null) RecursosGlobales.camaraPersonaje.seguirPersonaje(activo);
+
+        RecursosGlobales.camaraPersonaje.getCamera().update();
 
         RecursosGlobales.batch.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
         RecursosGlobales.batch.begin();
-        RecursosGlobales.batch.enableBlending();
 
         spriteMapa.draw(RecursosGlobales.batch);
         mapa.render();
@@ -158,16 +169,22 @@ public class GameScreen implements Screen {
         gestorJuego.renderEntidades(RecursosGlobales.batch);
         gestorJuego.renderPersonajes(hud);
         gestorJuego.renderProyectiles(RecursosGlobales.batch);
-
         hud.mostrarContador(gestorJuego.getTiempoActual(), RecursosGlobales.camaraPersonaje);
+
+        if (activo != null)
+            hud.mostrarAnimSelectorMovimientos(activo, RecursosGlobales.camaraPersonaje, delta);
+
         RecursosGlobales.batch.end();
 
-        if (activo != null) hud.mostrarBarraCarga(activo);
+        if (activo != null)
+            hud.mostrarBarraCarga(activo);
 
         gestorJuego.renderDebug(RecursosGlobales.shapeRenderer, RecursosGlobales.camaraPersonaje);
 
         escenario.act(delta);
         escenario.draw();
+
+        procesarEntradaJugador(delta);
 
         actualizarTurno();
     }
@@ -201,8 +218,13 @@ public class GameScreen implements Screen {
         escenario.dispose();
         hud.dispose();
         spriteMapa.getTexture().dispose();
+
+        mapa.dispose();
+        gestorJuego.dispose();
+
         for (Jugador j : gestorJuego.getJugadores()) {
             j.getPersonajes().forEach(Personaje::dispose);
         }
     }
+
 }
