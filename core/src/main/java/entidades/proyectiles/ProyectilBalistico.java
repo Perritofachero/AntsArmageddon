@@ -1,31 +1,27 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
-import Gameplay.Gestores.GestorColisiones;
-import Gameplay.Gestores.GestorFisica;
+import Gameplay.Gestores.GestorAudio;
+import Gameplay.Gestores.GestorRutas;
+import Gameplay.Gestores.Logicos.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorFisica;
+import Gameplay.Gestores.Visuales.GestorAssets;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 
 public class ProyectilBalistico extends Proyectil {
 
-    private boolean clavado = false;
-
     public ProyectilBalistico(float x, float y, float angulo, float velocidad, int danio,
-                              float fuerzaKnockback,
-                              GestorColisiones gestorColisiones, Personaje ejecutor, Texture textura) {
+                              float fuerzaKnockback, GestorColisiones gestorColisiones,
+                              Personaje ejecutor, Texture textura) {
         super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
     }
 
     @Override
     public void mover(float delta, GestorFisica gestorFisica) {
         if (!activo) return;
-
-        if (clavado) {
-            updateHitbox();
-            if (sprite != null) sprite.setPosition(x, y);
-            return;
-        }
 
         super.mover(delta, gestorFisica);
 
@@ -37,7 +33,9 @@ public class ProyectilBalistico extends Proyectil {
 
     @Override
     public void impactar(float centroX, float centroY) {
-        if (!activo || clavado) return;
+
+        Sound sonidoExplosion = GestorAssets.get(GestorRutas.SONIDO_EXPLOSION, Sound.class);
+        GestorAudio.playSFX(sonidoExplosion);
 
         for (Colisionable c : gestorColisiones.getColisionables()) {
             if (c == this) continue;
@@ -58,13 +56,7 @@ public class ProyectilBalistico extends Proyectil {
                 return;
             }
         }
-
-        clavarse(centroX, centroY);
+        desactivar();
     }
 
-    private void clavarse(float centroX, float centroY) {
-        updateHitbox();
-        velocidadVector.setZero();
-        clavado = true;
-    }
 }

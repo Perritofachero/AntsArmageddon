@@ -1,7 +1,7 @@
 package entidades;
 
 import Fisicas.Camara;
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

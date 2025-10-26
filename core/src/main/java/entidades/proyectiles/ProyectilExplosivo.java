@@ -1,8 +1,12 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
-import Gameplay.Gestores.GestorColisiones;
-import Gameplay.Gestores.GestorFisica;
+import Gameplay.Gestores.GestorAudio;
+import Gameplay.Gestores.GestorRutas;
+import Gameplay.Gestores.Logicos.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorFisica;
+import Gameplay.Gestores.Visuales.GestorAssets;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
@@ -13,10 +17,10 @@ public abstract class ProyectilExplosivo extends Proyectil {
     protected int radioExpansion;
 
     public ProyectilExplosivo(float x, float y, float angulo, float velocidad, int danio,
-                              float fuerzaKnockback,
-                              GestorColisiones gestorColisiones, Personaje ejecutor,
+                              float fuerzaKnockback, GestorColisiones gestorColisiones, Personaje ejecutor,
                               int radioDestruccion, int radioExpansion, Texture textura) {
         super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
+
         this.radioDestruccion = radioDestruccion;
         this.radioExpansion = radioExpansion;
     }
@@ -35,6 +39,10 @@ public abstract class ProyectilExplosivo extends Proyectil {
 
     @Override
     public void impactar(float centroX, float centroY) {
+
+        Sound sonidoExplosion = GestorAssets.get(GestorRutas.SONIDO_EXPLOSION, Sound.class);
+        GestorAudio.playSFX(sonidoExplosion);
+
         gestorColisiones.getMapa().destruir(centroX, centroY, radioDestruccion);
         for (Colisionable c : gestorColisiones.getColisionablesRadio(centroX, centroY, radioExpansion)) {
             if (c instanceof Personaje personaje && personaje.getActivo()) {

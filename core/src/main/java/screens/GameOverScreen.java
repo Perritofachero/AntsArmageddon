@@ -6,10 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.principal.AntsArmageddon;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class GameOverScreen implements Screen {
-//Hacer que extienda de ScreensMenus
+
     private AntsArmageddon juego;
     private SpriteBatch batch;
     private Sprite spriteFondo;

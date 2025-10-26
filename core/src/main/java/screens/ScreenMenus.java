@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.principal.AntsArmageddon;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 import utils.Constantes;
 import utils.RecursosGlobales;
 

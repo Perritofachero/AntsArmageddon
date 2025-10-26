@@ -1,8 +1,8 @@
 package entidades.personajes.tiposPersonajes;
 
-import Gameplay.Gestores.GestorAnimaciones;
-import Gameplay.Gestores.GestorColisiones;
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Visuales.GestorAnimaciones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.Melee.Aranazo;
 import Gameplay.Movimientos.Otros.PasarTurno;
@@ -15,14 +15,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import entidades.personajes.Personaje;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class HormigaObrera extends Personaje {
 
     public HormigaObrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                          float x, float y, int idJugador) {
         super(GestorAssets.get(GestorRutas.HORMIGA_OBRERA, Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 80, 150f, idJugador);
+            gestorProyectiles, x, y, 80, 200, 500f, 1.4f,
+            idJugador);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class HormigaObrera extends Personaje {
         TextureAtlas atlasHit    = GestorAssets.get(GestorRutas.ATLAS_HO_DAÑO, TextureAtlas.class);
         TextureAtlas atlasMuerte = GestorAssets.get(GestorRutas.ATLAS_HO_MUERTE, TextureAtlas.class);
 
-        Animation<TextureRegion> animIdle   = GestorAnimaciones.obtener(atlasIdle,   "HormigaObrera", 0.45f, true);
+        Animation<TextureRegion> animIdle   = GestorAnimaciones.obtener(atlasIdle,   "HormigaObrera", 0.25f, true);
         Animation<TextureRegion> animWalk   = GestorAnimaciones.obtener(atlasWalk,   "HO_Walking",    0.10f, true);
         Animation<TextureRegion> animJump   = GestorAnimaciones.obtener(atlasJump,   "HO_Jumping",    0.50f, false);
         Animation<TextureRegion> animHit    = GestorAnimaciones.obtener(atlasHit,    "HO_Daño",       999f,  false);

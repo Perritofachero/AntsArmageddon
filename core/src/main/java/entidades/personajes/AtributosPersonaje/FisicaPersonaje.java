@@ -1,6 +1,6 @@
 package entidades.personajes.AtributosPersonaje;
 
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
 
@@ -131,9 +131,12 @@ public class FisicaPersonaje {
     }
 
     public void aplicarKnockback(float fuerzaX, float fuerzaY) {
+        float divisor = Math.max(0.5f, personaje.getPeso() * 0.1f);
+
         Vector2 vel = personaje.getVelocidad();
-        vel.x = fuerzaX;
-        vel.y = fuerzaY;
+        vel.x = fuerzaX / divisor;
+        vel.y = fuerzaY / divisor;
+
         personaje.setVelocidad(vel);
         enKnockback = true;
         personaje.setSobreAlgo(false);

@@ -1,8 +1,9 @@
 package com.principal;
 
+import Gameplay.Gestores.GestorAudio;
 import com.badlogic.gdx.Game;
-import managers.GestorAssets;
-import managers.ScreenManager;
+import Gameplay.Gestores.Visuales.GestorAssets;
+import Gameplay.Gestores.Logicos.GestorScreen;
 import screens.MenuScreen;
 import utils.RecursosGlobales;
 
@@ -13,8 +14,9 @@ public class AntsArmageddon extends Game {
     public void create() {
         RecursosGlobales.inicializar();
         GestorAssets.load();
+        GestorAudio.iniciarMusica();
 
-        ScreenManager.setJuego(this);
+        GestorScreen.setJuego(this);
         setScreen(new MenuScreen(this));
     }
 

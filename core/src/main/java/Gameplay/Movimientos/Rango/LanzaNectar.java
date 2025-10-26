@@ -1,19 +1,19 @@
 package Gameplay.Movimientos.Rango;
 
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.Nectar;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class LanzaNectar extends MovimientoRango {
 
     public LanzaNectar(GestorProyectiles gestorProyectiles) {
-        super("Lanza Néctar", GestorAssets.get(GestorRutas.ATLAS_MIRA, TextureAtlas.class),
-            "mira", 300f, gestorProyectiles);
+        super("Lanza Néctar", GestorAssets.get(GestorRutas.ATLAS_MOVIMIENTO_NECTAR, TextureAtlas.class),
+            "NectarMovimiento", 300f, gestorProyectiles);
     }
 
     @Override

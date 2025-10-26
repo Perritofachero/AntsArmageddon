@@ -4,6 +4,7 @@ import Fisicas.Borde;
 import Fisicas.Fisica;
 import Fisicas.Mapa;
 import Gameplay.Gestores.*;
+import Gameplay.Gestores.Logicos.*;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +22,7 @@ import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entradas.ControlesJugador;
 import hud.Hud;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 import partida.ConfiguracionPartida;
 import utils.Constantes;
 import utils.RecursosGlobales;
@@ -57,10 +58,12 @@ public class GameScreen implements Screen {
 
         int indiceMapa = configuracion.getIndiceMapa();
         String mapaPath = switch (indiceMapa) {
-            case 0 -> GestorRutas.MAPA_4;
+            case 0 -> GestorRutas.MAPA_1;
             case 1 -> GestorRutas.MAPA_2;
             case 2 -> GestorRutas.MAPA_3;
-            case 3 -> GestorRutas.MAPA_1; //cambiar esto despues, y mejorar el boton list.
+            case 3 -> GestorRutas.MAPA_4;
+            case 4 -> GestorRutas.MAPA_5;
+            case 5 -> GestorRutas.MAPA_6;
             default -> GestorRutas.MAPA_1;
         };
 
@@ -226,5 +229,4 @@ public class GameScreen implements Screen {
             j.getPersonajes().forEach(Personaje::dispose);
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package hud;
 
+import Gameplay.Gestores.GestorAudio;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -7,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
@@ -38,7 +39,7 @@ public enum FabricaBotones {
         boton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (sonido != null) sonido.play();
+                if (sonido != null) GestorAudio.playSFX(sonido);
                 if (evento != null) evento.run();
             }
         });
@@ -75,7 +76,7 @@ public enum FabricaBotones {
                 indice[0] = (indice[0] + 1) % arrUp.length;
                 boton.getStyle().imageUp = arrUp[indice[0]];
                 boton.getStyle().imageOver = arrOver[indice[0]];
-                if (sonido != null) sonido.play();
+                if (sonido != null) GestorAudio.playSFX(sonido);
                 if (eventoCambio != null) eventoCambio.accept(indice[0]);
             }
         });
@@ -129,7 +130,7 @@ public enum FabricaBotones {
                         callbackCambio.accept(-1);
                 }
 
-                if (sonido != null) sonido.play();
+                if (sonido != null) GestorAudio.playSFX(sonido);
                 return super.touchDown(event, x, y, pointer, button);
             }
         });

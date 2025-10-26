@@ -1,6 +1,7 @@
 package utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Texture;
@@ -40,6 +41,49 @@ public class Utiles {
 
         atlas.dispose();
         System.out.println("Atlas descompuesto correctamente");
+    }
+
+    public static void descomponerSheet(String sheetPath, int cols, int rows, String outputFolder) {
+
+        Texture sheet = new Texture(Gdx.files.internal(sheetPath));
+        sheet.getTextureData().prepare();
+        Pixmap pixmap = sheet.getTextureData().consumePixmap();
+
+        int frameWidth  = pixmap.getWidth() / cols;
+        int frameHeight = pixmap.getHeight() / rows;
+
+        // crear carpeta si no existe
+        FileHandle folder = Gdx.files.local(outputFolder);
+        if(!folder.exists()) folder.mkdirs();
+
+        int index = 0;
+
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+
+                Pixmap frame = new Pixmap(frameWidth, frameHeight, Pixmap.Format.RGBA8888);
+
+                frame.drawPixmap(
+                    pixmap,
+                    0, 0,
+                    x * frameWidth, y * frameHeight,
+                    frameWidth, frameHeight
+                );
+
+                PixmapIO.writePNG(
+                    Gdx.files.local(outputFolder + "/explosion_" + index + ".png"),
+                    frame
+                );
+
+                frame.dispose();
+                index++;
+            }
+        }
+
+        pixmap.dispose();
+        sheet.dispose();
+
+        System.out.println("✅ Sprite sheet descompuesto en: " + outputFolder);
     }
 
 }

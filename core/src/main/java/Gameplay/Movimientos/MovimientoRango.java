@@ -1,6 +1,6 @@
 package Gameplay.Movimientos;
 
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import entidades.personajes.Personaje;

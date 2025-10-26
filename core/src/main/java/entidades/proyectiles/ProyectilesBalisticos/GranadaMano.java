@@ -1,11 +1,11 @@
 package entidades.proyectiles.ProyectilesBalisticos;
 
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.graphics.Texture;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Granada;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class GranadaMano extends Granada {
 

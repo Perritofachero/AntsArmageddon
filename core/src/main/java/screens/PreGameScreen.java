@@ -2,7 +2,9 @@ package screens;
 
 import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -11,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.principal.AntsArmageddon;
 import hud.FabricaBotones;
-import managers.GestorAssets;
-import managers.ScreenManager;
+import Gameplay.Gestores.Visuales.GestorAssets;
+import Gameplay.Gestores.Logicos.GestorScreen;
 import partida.ConfiguracionPartida;
 import utils.Constantes;
 import java.util.*;
@@ -41,7 +43,6 @@ public class PreGameScreen extends ScreenMenus {
         rootTable.defaults().pad(10);
         escenario.addActor(rootTable);
 
-        rootTable.add(crearTitulo()).colspan(2).center().padBottom(20).row();
         rootTable.add(crearPanelIzquierdo()).width(Constantes.RESOLUCION_ANCHO / 3f).top().left();
         rootTable.add(crearPanelDerecho()).width(Constantes.RESOLUCION_ANCHO * 2 / 3f).top().right();
 
@@ -59,21 +60,20 @@ public class PreGameScreen extends ScreenMenus {
 
         final var skin = new Skin(Gdx.files.internal("uiskin.json"));
         selectorMapa = new SelectBox<>(skin);
-        selectorMapa.setItems("Mapa 1", "Mapa 2", "Mapa 3", "Mapa 4");
+        selectorMapa.setItems("Mapa 1", "Mapa 2", "Mapa 3", "Mapa 4", "Mapa 5", "Mapa 6");
 
         configurarEventosSelector();
 
         ImageButton botonRandom = FabricaBotones.RANDOM.crearBoton(
-            GestorRutas.ATLAS_BOTONES,
-            GestorRutas.SONIDO_CLICK,
-            () -> {
-                setMapaActual(random.nextInt(texturasMapas.size()));
+            GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON,
+            () -> {setMapaActual(random.nextInt(texturasMapas.size()));
                 selectorMapa.setSelectedIndex(indiceMapa);
             }
         );
 
         Table opciones = crearOpcionesConfigurables(skin);
 
+        panel.add(crearTituloSeccion("SELECCIÓN DE MAPA")).row();
         panel.add(imagenMapa).width(300).height(200).padBottom(10).row();
         panel.add(selectorMapa).width(250).row();
         panel.add(botonRandom).row();
@@ -86,10 +86,10 @@ public class PreGameScreen extends ScreenMenus {
         Table opciones = new Table();
         opciones.defaults().pad(5);
 
-        Label labelTiempo = new Label("Tiempo por turno", skin);
+        Label labelTiempo = new Label("Tiempo por turno", crearEstiloTextoComun());
         ImageButton botonTiempo = crearBotonTiempo();
 
-        Label labelPower = new Label("Frecuencia power-ups (turnos)", skin);
+        Label labelPower = new Label("Frecuencia PU (turnos)", crearEstiloTextoComun());
         ImageButton botonPowerUps = crearBotonPowerUps();
 
         opciones.add(labelTiempo).right().padRight(10);
@@ -103,7 +103,7 @@ public class PreGameScreen extends ScreenMenus {
 
     private ImageButton crearBotonTiempo() {
         return FabricaBotones.crearBotonCiclico(
-            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK,
+            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK_BOTON,
             new String[]{"15_up", "25_up", "30_up"},
             new String[]{"15_over", "25_over", "30_over"},
             indice -> configuracion.setTiempoTurnoPorIndice(indice)
@@ -112,7 +112,7 @@ public class PreGameScreen extends ScreenMenus {
 
     private ImageButton crearBotonPowerUps() {
         return FabricaBotones.crearBotonCiclico(
-            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK,
+            GestorRutas.ATLAS_OPCIONES, GestorRutas.SONIDO_CLICK_BOTON,
             new String[]{"1_up", "2_up", "3_up"},
             new String[]{"1_over", "2_over", "3_over"},
             indice -> configuracion.setFrecuenciaPowerUpsPorIndice(indice)
@@ -141,7 +141,9 @@ public class PreGameScreen extends ScreenMenus {
             GestorAssets.get(GestorRutas.MAPA_1, Texture.class),
             GestorAssets.get(GestorRutas.MAPA_2, Texture.class),
             GestorAssets.get(GestorRutas.MAPA_3, Texture.class),
-            GestorAssets.get(GestorRutas.MAPA_4, Texture.class)
+            GestorAssets.get(GestorRutas.MAPA_4, Texture.class),
+            GestorAssets.get(GestorRutas.MAPA_5, Texture.class),
+            GestorAssets.get(GestorRutas.MAPA_6, Texture.class)
         );
     }
 
@@ -150,17 +152,38 @@ public class PreGameScreen extends ScreenMenus {
         Table panelSuperior = crearPanelEquipos();
         Table panelInferior = crearPanelInferior();
 
+        panel.add(crearTituloSeccion("SELECCIÓN DE PERSONAJES")).padBottom(100).row();
         panel.add(panelSuperior).expand().fill().padBottom(100).row();
         panel.add(panelInferior).bottom().height(120).fillX();
         return panel;
+    }
+
+    private Table crearPanelEquipo(int jugador, Skin skin) {
+        Table contenedor = new Table();
+
+        Label titulo = new Label("Jugador " + jugador, crearEstiloTextoComun());
+        contenedor.add(titulo).colspan(6).center().padBottom(10).row();
+
+        for (int i = 0; i < 6; i++) {
+            final int slot = i;
+            ImageButton botonHormiga = FabricaBotones.crearBotonHormiga(
+                GestorRutas.ATLAS_CUADRO_PERSONAJES,
+                GestorRutas.SONIDO_CLICK_HORMIGA,
+                indiceHormiga -> configuracion.setHormiga(jugador, slot, indiceHormiga)
+            );
+            contenedor.add(botonHormiga).size(65).pad(5);
+        }
+
+        return contenedor;
     }
 
     private Table crearPanelEquipos() {
         Table panel = new Table();
         final var skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        panel.add(crearPanelEquipo("Jugador 1", 1, skin)).center().row();
-        panel.add(crearPanelEquipo("Jugador 2", 2, skin)).center();
+        panel.add(crearPanelEquipo(1, skin)).center().padBottom(20).row();
+
+        panel.add(crearPanelEquipo(2, skin)).center();
 
         return panel;
     }
@@ -173,7 +196,7 @@ public class PreGameScreen extends ScreenMenus {
             final int slot = i;
             ImageButton botonHormiga = FabricaBotones.crearBotonHormiga(
                 GestorRutas.ATLAS_CUADRO_PERSONAJES,
-                GestorRutas.SONIDO_CLICK,
+                GestorRutas.SONIDO_CLICK_HORMIGA,
                 indiceHormiga -> configuracion.setHormiga(jugador, slot, indiceHormiga)
             );
             contenedor.add(botonHormiga).size(65).pad(5);
@@ -187,28 +210,22 @@ public class PreGameScreen extends ScreenMenus {
 
         ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(
             GestorRutas.ATLAS_BOTONES,
-            GestorRutas.SONIDO_CLICK,
-            () -> ScreenManager.setScreen(new MenuScreen(juego))
+            GestorRutas.SONIDO_CLICK_BOTON,
+            () -> GestorScreen.setScreen(new MenuScreen(juego))
         );
 
         ImageButton botonJugar = FabricaBotones.JUGAR.crearBoton(
             GestorRutas.ATLAS_BOTONES,
-            GestorRutas.SONIDO_CLICK,
+            GestorRutas.SONIDO_CLICK_BOTON,
             () -> {
                 configuracion.normalizarEquipos();
-                ScreenManager.setScreen(new GameScreen(juego, configuracion));
+                GestorScreen.setScreen(new GameScreen(juego, configuracion));
             }
         );
 
         panel.add(botonVolver).width(150).height(55).padRight(20);
         panel.add(botonJugar).width(150).height(55);
         return panel;
-    }
-
-    private Image crearTitulo() {
-        Image titulo = new Image(GestorAssets.get(GestorRutas.PNG_1, Texture.class));
-        titulo.setDebug(false);
-        return titulo;
     }
 
     private void inicializarConfiguracionPorDefecto() {
@@ -221,4 +238,19 @@ public class PreGameScreen extends ScreenMenus {
             configuracion.setHormiga(2, i, 0);
         }
     }
+
+    private Label.LabelStyle crearEstiloTextoComun() {
+        Label.LabelStyle estilo = new Label.LabelStyle();
+        estilo.font = GestorAssets.get(GestorRutas.FONT_VIDA, BitmapFont.class);
+        estilo.fontColor = Color.WHITE;
+        return estilo;
+    }
+
+    private Label crearTituloSeccion(String texto) {
+        Label.LabelStyle estilo = new Label.LabelStyle();
+        estilo.font = GestorAssets.get(GestorRutas.FONT_VIDA, BitmapFont.class);
+        estilo.fontColor = Color.WHITE;
+        return new Label(texto, estilo);
+    }
+
 }

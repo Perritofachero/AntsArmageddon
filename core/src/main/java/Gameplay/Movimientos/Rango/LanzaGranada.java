@@ -1,19 +1,19 @@
 package Gameplay.Movimientos.Rango;
 
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.GranadaMano;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class LanzaGranada extends MovimientoRango {
 
     public LanzaGranada(GestorProyectiles gestorProyectiles) {
-        super("Lanza Granada", GestorAssets.get(GestorRutas.ATLAS_PRUEBA, TextureAtlas.class),
-            "Prueba", 300f, gestorProyectiles);
+        super("Lanza Granada", GestorAssets.get(GestorRutas.ATLAS_MOVIMIENTO_GRANADA, TextureAtlas.class),
+            "GranadaMovimiento", 300f, gestorProyectiles);
     }
 
     @Override

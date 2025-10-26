@@ -1,6 +1,6 @@
 package Fisicas;
 
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import entidades.Limite;

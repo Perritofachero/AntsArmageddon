@@ -1,12 +1,12 @@
 package entidades.personajes;
 
 import Fisicas.Camara;
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Movimientos.Movimiento;
 import Gameplay.Movimientos.MovimientoRango;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.*;
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -51,9 +51,12 @@ public abstract class Personaje extends Entidad {
 
     private float lastX = 0f;
 
-    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
-                     float x, float y, int vida, float velocidadX, int idJugador) {
+    protected float fuerzaSalto;
+    protected float peso;
 
+    public Personaje(Texture textura, GestorColisiones gestorColisiones, GestorProyectiles
+                         gestorProyectiles, float x, float y, int vida, float velocidadMovimiento,
+                     float fuerzaSalto, float peso, int idJugador) {
         super(x, y, textura, gestorColisiones);
 
         this.gestorProyectiles = gestorProyectiles;
@@ -63,16 +66,13 @@ public abstract class Personaje extends Entidad {
 
         this.lastX = x;
 
-        float margenX = 2f;
-        float margenY = 3f;
-        float nuevaAncho = sprite.getWidth() - 4 * margenX;
-        float nuevaAlto = sprite.getHeight() - 4 * margenY;
-        this.hitbox.set(x + margenX, y + margenY, nuevaAncho, nuevaAlto);
-
         this.vida = vida;
         this.activo = true;
-        this.velocidadX = velocidadX;
         this.barraCarga = new BarraCarga();
+
+        this.velocidadX = velocidadMovimiento;
+        this.fuerzaSalto = fuerzaSalto;
+        this.peso = peso;
 
         this.mirilla = new Mirilla(this);
         this.movimientos = new ArrayList<>();
@@ -173,7 +173,7 @@ public abstract class Personaje extends Entidad {
 
     public void saltar() {
         if (!puedeActuar()) return;
-        fisicas.saltar(Constantes.SALTO);
+        fisicas.saltar(fuerzaSalto);
     }
 
     public void apuntar(int direccion) {
@@ -273,6 +273,9 @@ public abstract class Personaje extends Entidad {
     public boolean isDisparando() { return estaDisparando; }
     public void setDisparando(boolean disparando) { this.estaDisparando = disparando; }
     public int getIdJugador() { return this.idJugador; }
+    public float getFuerzaSalto() { return this.fuerzaSalto; }
+    public float getPeso() { return this.peso; }
+
     public Movimiento getMovimientoSeleccionado() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
         return movimientos.get(movimientoSeleccionado);

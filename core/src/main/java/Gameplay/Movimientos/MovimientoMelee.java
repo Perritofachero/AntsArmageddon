@@ -1,7 +1,7 @@
 package Gameplay.Movimientos;
 
 import Fisicas.Colisionable;
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -11,6 +11,8 @@ import entidades.personajes.Personaje;
 import java.util.List;
 
 public abstract class MovimientoMelee extends Movimiento {
+
+    //No integrado al juego.
 
     protected final float anchoGolpe;
     protected final float altoGolpe;

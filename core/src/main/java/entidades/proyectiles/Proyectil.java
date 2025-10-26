@@ -2,10 +2,10 @@ package entidades.proyectiles;
 
 import Fisicas.Colisionable;
 import Fisicas.Fisica;
-import Gameplay.Gestores.GestorFisica;
+import Gameplay.Gestores.Logicos.GestorFisica;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import Gameplay.Gestores.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,12 +33,14 @@ public abstract class Proyectil implements Colisionable {
 
     public Proyectil(float x, float y, float angulo, float velocidad, int danio, float fuerzaKnockback,
                      GestorColisiones gestorColisiones, Personaje ejecutor, Texture textura) {
+
         this.x = x;
         this.y = y;
         this.danio = danio;
         this.gestorColisiones = gestorColisiones;
         this.ejecutor = ejecutor;
 
+        this.textura = textura;
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
         this.hitbox = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());

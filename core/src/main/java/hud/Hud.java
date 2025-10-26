@@ -1,7 +1,7 @@
 package hud;
 
 import Fisicas.Camara;
-import Gameplay.Gestores.GestorAnimaciones;
+import Gameplay.Gestores.Visuales.GestorAnimaciones;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.Movimiento;
 import Gameplay.Movimientos.MovimientoRango;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import entidades.personajes.AtributosPersonaje.BarraCarga;
 import entidades.personajes.Personaje;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 import utils.RecursosGlobales;
 import java.util.List;
 

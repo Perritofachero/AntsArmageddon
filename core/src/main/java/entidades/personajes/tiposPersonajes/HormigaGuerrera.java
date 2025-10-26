@@ -1,8 +1,8 @@
 package entidades.personajes.tiposPersonajes;
 
-import Gameplay.Gestores.GestorAnimaciones;
-import Gameplay.Gestores.GestorColisiones;
-import Gameplay.Gestores.GestorProyectiles;
+import Gameplay.Gestores.Visuales.GestorAnimaciones;
+import Gameplay.Gestores.Logicos.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.Melee.Aranazo;
 import Gameplay.Movimientos.Rango.LanzaGranada;
@@ -14,14 +14,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import entidades.personajes.Personaje;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class HormigaGuerrera extends Personaje {
 
     public HormigaGuerrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                            float x, float y, int idJugador) {
         super(GestorAssets.get(GestorRutas.HORMIGA_GUERRERA, Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 80, 150f, idJugador);
+            gestorProyectiles, x, y, 120, 150, 400, 2.0f,
+            idJugador);
     }
 
     @Override
@@ -36,17 +37,17 @@ public class HormigaGuerrera extends Personaje {
     @Override
     protected void inicializarAnimaciones() {
 
-        TextureAtlas atlasIdle   = GestorAssets.get(GestorRutas.ATLAS_HO_IDLE, TextureAtlas.class);
-        TextureAtlas atlasWalk   = GestorAssets.get(GestorRutas.ATLAS_HO_WALKING, TextureAtlas.class);
-        TextureAtlas atlasJump   = GestorAssets.get(GestorRutas.ATLAS_HO_JUMPING, TextureAtlas.class);
-        TextureAtlas atlasHit    = GestorAssets.get(GestorRutas.ATLAS_HO_DAÑO, TextureAtlas.class);
-        TextureAtlas atlasMuerte = GestorAssets.get(GestorRutas.ATLAS_HO_MUERTE, TextureAtlas.class);
+        TextureAtlas atlasIdle   = GestorAssets.get(GestorRutas.ATLAS_HG_IDLE, TextureAtlas.class);
+        TextureAtlas atlasWalk   = GestorAssets.get(GestorRutas.ATLAS_HG_WALKING, TextureAtlas.class);
+        TextureAtlas atlasJump   = GestorAssets.get(GestorRutas.ATLAS_HG_JUMPING, TextureAtlas.class);
+        TextureAtlas atlasHit    = GestorAssets.get(GestorRutas.ATLAS_HG_DAÑO, TextureAtlas.class);
+        TextureAtlas atlasMuerte = GestorAssets.get(GestorRutas.ATLAS_HG_MUERTE, TextureAtlas.class);
 
-        Animation<TextureRegion> animIdle   = GestorAnimaciones.obtener(atlasIdle,   "HormigaObrera", 0.45f, true);
-        Animation<TextureRegion> animWalk   = GestorAnimaciones.obtener(atlasWalk,   "HO_Walking",    0.10f, true);
-        Animation<TextureRegion> animJump   = GestorAnimaciones.obtener(atlasJump,   "HO_Jumping",    0.50f, false);
-        Animation<TextureRegion> animHit    = GestorAnimaciones.obtener(atlasHit,    "HO_Daño",       999f,  false);
-        Animation<TextureRegion> animMuerte = GestorAnimaciones.obtener(atlasMuerte, "HO_Muerto",     0.25f, false);
+        Animation<TextureRegion> animIdle   = GestorAnimaciones.obtener(atlasIdle,   "HG_Idle", 0.25f, true);
+        Animation<TextureRegion> animWalk   = GestorAnimaciones.obtener(atlasWalk,   "HG_Walking",    0.10f, true);
+        Animation<TextureRegion> animJump   = GestorAnimaciones.obtener(atlasJump,   "HG_Jumping",    0.50f, false);
+        Animation<TextureRegion> animHit    = GestorAnimaciones.obtener(atlasHit,    "HG_Daño",       999f,  false);
+        Animation<TextureRegion> animMuerte = GestorAnimaciones.obtener(atlasMuerte, "HG_Muerte",     0.25f, false);
 
         animaciones.put(Estado.IDLE,   animIdle);
         animaciones.put(Estado.WALK,   animWalk);

@@ -1,8 +1,12 @@
 package entidades.proyectiles;
 
 import Fisicas.Colisionable;
-import Gameplay.Gestores.GestorColisiones;
-import Gameplay.Gestores.GestorFisica;
+import Gameplay.Gestores.GestorAudio;
+import Gameplay.Gestores.GestorRutas;
+import Gameplay.Gestores.Logicos.GestorColisiones;
+import Gameplay.Gestores.Logicos.GestorFisica;
+import Gameplay.Gestores.Visuales.GestorAssets;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import entidades.personajes.Personaje;
@@ -22,6 +26,7 @@ public class Granada extends Proyectil {
                    float fuerzaKnockback, GestorColisiones gestorColisiones, Personaje ejecutor,
                    int radioDestruccion, int radioExpansion, Texture textura, float tiempoVida) {
         super(x, y, angulo, velocidad, danio, fuerzaKnockback, gestorColisiones, ejecutor, textura);
+
         this.radioDestruccion = radioDestruccion;
         this.radioExpansion = radioExpansion;
         this.tiempoVida = tiempoVida;
@@ -51,6 +56,10 @@ public class Granada extends Proyectil {
     }
 
     private void explotar() {
+
+        Sound sonidoExplosion = GestorAssets.get(GestorRutas.SONIDO_EXPLOSION, Sound.class);
+        GestorAudio.playSFX(sonidoExplosion);
+
         gestorColisiones.getMapa().destruir(centroHitbox().x, centroHitbox().y, radioDestruccion);
         for (Colisionable c : gestorColisiones.getColisionablesRadio(centroHitbox().x, centroHitbox().y, radioExpansion)) {
             if (c instanceof Personaje personaje && personaje.getActivo()) {

@@ -7,7 +7,25 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
-## [0.5.1] - 2025-10-19
+## [0.5.2] - 2025-10-26
+
+# Added
+- Todas las animaciones de los personajes.
+- Distintos sonidos para los botones.
+- Implementacion de un opciones screen funcional.
+- Gestor sonido para gestionar los sonidos del juego.
+- Clase explosion para reproducir una animacion cuando los proyectiles explotan.
+- Animacion del power up vida.
+- Tutorial screen con las reglas del juego.
+- Musica de fondo.
+- Sonido de explosion cuando un proyectil impacta o explota.
+
+### Changed
+- Los personajes ahora tienen peso para recibir menos o mas knockback.
+- Los personajes tienen estadisticas balanceadas para incentivar sus usos.
+- Se cambiaron algunos sonidos de botones.
+
+## [0.5.1] - 2025-10-23
 
 # Added
 - Implementacion de animaciones en distintas clases.

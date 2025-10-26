@@ -1,10 +1,10 @@
 package entidades.personajes.AtributosPersonaje;
 
-import Gameplay.Gestores.GestorAnimaciones;
+import Gameplay.Gestores.Visuales.GestorAnimaciones;
 import Gameplay.Gestores.GestorRutas;
 import com.badlogic.gdx.graphics.g2d.*;
 import entidades.personajes.Personaje;
-import managers.GestorAssets;
+import Gameplay.Gestores.Visuales.GestorAssets;
 
 public class Mirilla {
 
