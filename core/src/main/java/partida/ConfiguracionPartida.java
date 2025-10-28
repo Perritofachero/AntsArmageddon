@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class ConfiguracionPartida {
 
-    public static final int[] OPCIONES_TIEMPO_TURNO = {15, 25, 30};
+    public static final int[] OPCIONES_TIEMPO_TURNO = {150, 25, 30};
     public static final int[] OPCIONES_FRECUENCIA_PU = {1, 2, 3};
 
     public static final String[] TIPOS_HORMIGAS = {

@@ -115,25 +115,20 @@ public abstract class Personaje extends Entidad {
         float dx = Math.abs(getX() - lastX);
         boolean caminando = dx > 0.1f && getSobreAlgo();
 
-        if (vida <= 0) {
-            cambiarEstado(Estado.MUERTE);
-        }
-        else if (!getSobreAlgo()) {
-            cambiarEstado(Estado.JUMP);
-        }
-        else if (caminando) {
-            cambiarEstado(Estado.WALK);
-        }
-        else {
-            cambiarEstado(Estado.IDLE);
-        }
+        if (vida <= 0) cambiarEstado(Estado.MUERTE);
+
+        else if (!getSobreAlgo()) cambiarEstado(Estado.JUMP);
+
+        else if (caminando) cambiarEstado(Estado.WALK);
+
+        else cambiarEstado(Estado.IDLE);
 
         if (!enTurno || estadoActual == Estado.MUERTE || estadoActual == Estado.HIT) {
             ocultarMirilla();
         }
-        else if (estaDisparando) {
-            mostrarMirilla();
-        }
+
+        else if (estaDisparando) mostrarMirilla();
+
         else if (!caminando && getSobreAlgo()) {
             mostrarMirilla();
         } else {
@@ -165,10 +160,9 @@ public abstract class Personaje extends Entidad {
         }
     }
 
-    public void mover(float deltaX, float deltaY, float deltaTiempo) {
+    public void mover(float deltaX, float deltaTiempo) {
         if (!puedeActuar()) return;
         fisicas.moverHorizontal(deltaX, deltaTiempo);
-        fisicas.moverVertical(deltaY, deltaTiempo);
     }
 
     public void saltar() {

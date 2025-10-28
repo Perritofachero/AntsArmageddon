@@ -1,6 +1,14 @@
 package utils;
 
-public class Constantes {
+public final class Constantes {
+
+    //Cosas a arreglar o agregar:
+
+    /*
+    arreglar el knockback
+
+    Agregar a red al juego
+     */
 
     public static final int RESOLUCION_ANCHO = 1280;
     public static final int RESOLUCION_ALTO = 720;

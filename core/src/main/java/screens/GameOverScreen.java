@@ -1,47 +1,61 @@
 package screens;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.principal.AntsArmageddon;
 import Gameplay.Gestores.Visuales.GestorAssets;
+import Gameplay.Gestores.GestorRutas;
+import hud.EventosBoton;
+import hud.FabricaBotones;
 
-public class GameOverScreen implements Screen {
+public class GameOverScreen extends ScreenMenus {
 
-    private AntsArmageddon juego;
-    private SpriteBatch batch;
-    private Sprite spriteFondo;
+    private final AntsArmageddon juego;
+    private final String mensajeGanador;
 
-
-    public GameOverScreen(AntsArmageddon juego) {
+    public GameOverScreen(AntsArmageddon juego, String mensajeGanador) {
+        super(juego);
         this.juego = juego;
-        batch = new SpriteBatch();
+        this.mensajeGanador = mensajeGanador;
+    }
 
-        spriteFondo = new Sprite(GestorAssets.get("gameOver.png", com.badlogic.gdx.graphics.Texture.class));
-        spriteFondo.setPosition(
-            Gdx.graphics.getWidth() / 2f - spriteFondo.getWidth() / 2f,
-            Gdx.graphics.getHeight() / 2f - spriteFondo.getHeight() / 2f
+    @Override
+    protected void construirUI() {
+        Image fondoOscuro = new Image(new Texture(Gdx.files.internal("pruebaFondoJuego.jpg")));
+        fondoOscuro.setColor(0, 0, 0, 0.6f);
+        fondoOscuro.setFillParent(true);
+        escenario.addActor(fondoOscuro);
+
+        BitmapFont fuente = GestorAssets.get(GestorRutas.FONT_VIDA, BitmapFont.class);
+        Label.LabelStyle estilo = new Label.LabelStyle(fuente, Color.WHITE);
+
+        Label labTitulo = new Label("GAME OVER", estilo);
+        labTitulo.setAlignment(Align.center);
+
+        Label labGanador = new Label(mensajeGanador, estilo);
+        labGanador.setAlignment(Align.center);
+
+        ImageButton btnVolverMenu = FabricaBotones.VOLVER.crearBoton(
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.irMenuPrincipal(juego)
         );
+
+        Table table = new Table();
+        table.setFillParent(true);
+        table.center();
+
+        table.add(labTitulo).padBottom(30).row();
+        table.add(labGanador).padBottom(50).row();
+        table.add(btnVolverMenu).row();
+
+        escenario.addActor(table);
     }
-
-    @Override
-    public void show() {}
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.begin();
-        spriteFondo.draw(batch);
-        batch.end();
-    }
-
-    @Override public void resize(int width, int height) {}
-    @Override public void pause() {}
-    @Override public void resume() {}
-    @Override public void hide() {}
-    @Override public void dispose() { batch.dispose(); }
 }

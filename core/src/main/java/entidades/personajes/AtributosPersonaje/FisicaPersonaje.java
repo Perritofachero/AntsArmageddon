@@ -52,82 +52,58 @@ public class FisicaPersonaje {
 
         if (deltaX < 0) {
             personaje.setDireccion(false);
-            if (!personaje.getSprite().isFlipX())
-                personaje.getSprite().flip(true, false);
+            if (!personaje.getSprite().isFlipX()) personaje.getSprite().flip(true, false);
         } else {
             personaje.setDireccion(true);
-            if (personaje.getSprite().isFlipX())
-                personaje.getSprite().flip(true, false);
+            if (personaje.getSprite().isFlipX()) personaje.getSprite().flip(true, false);
         }
 
         float nuevaX = personaje.getX() + deltaX * personaje.getVelocidadX() * deltaTiempo;
-        boolean puedeMoverX = gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY());
 
-        if (puedeMoverX) {
+        boolean libreEnX = gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY());
+
+        if (libreEnX) {
             personaje.setX(nuevaX);
-
-            int maxDescenso = 6;
-            boolean apoyoEncontrado = false;
-
-            for (int i = 1; i <= maxDescenso; i++) {
-                if (!gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY() - (i + 1))) {
-                    personaje.setY(personaje.getY() - i);
-                    apoyoEncontrado = true;
-                    break;
-                }
-            }
-
-            if (!apoyoEncontrado) {
-                personaje.setSobreAlgo(false);
-            }
-
         } else {
-            int maxAscenso = 4;
-            for (int i = 1; i <= maxAscenso; i++) {
-                if (gestorColisiones.verificarMovimiento(personaje, nuevaX, personaje.getY() + i)) {
-                    personaje.setX(nuevaX);
-                    personaje.setY(personaje.getY() + i);
-                    break;
+            if (personaje.getSobreAlgo()) {
+                final int maxAscenso = 4;
+                boolean subio = false;
+
+                for (int i = 1; i <= maxAscenso; i++) {
+                    float yCandidata = personaje.getY() + i;
+                    if (gestorColisiones.verificarMovimiento(personaje, personaje.getX(), yCandidata) &&
+                        gestorColisiones.verificarMovimiento(personaje, nuevaX, yCandidata)) {
+                        personaje.setY(yCandidata);
+                        personaje.setX(nuevaX);
+                        subio = true;
+                        break;
+                    }
                 }
+
+                if (!subio) {
+                    Vector2 vel = personaje.getVelocidad();
+                    vel.x = 0;
+                    personaje.setVelocidad(vel);
+                }
+            } else {
+                Vector2 vel = personaje.getVelocidad();
+                vel.x = 0;
+                personaje.setVelocidad(vel);
             }
         }
 
         personaje.updateHitbox();
     }
 
-    public void moverVertical(float deltaY, float deltaTiempo) {
-        if (enKnockback || deltaY == 0) return;
 
-        float nuevaY = personaje.getY() + deltaY * personaje.getVelocidad().y * deltaTiempo;
-        float pasoY = 1f;
-
-        if (deltaY > 0) {
-            while (personaje.getY() < nuevaY) {
-                if (gestorColisiones.verificarMovimiento(personaje, personaje.getX(), personaje.getY() + pasoY)) {
-                    personaje.setY(personaje.getY() + pasoY);
-                } else {
-                    personaje.setY((float) Math.floor(personaje.getY()));
-                    personaje.getVelocidad().y = 0;
-                    break;
-                }
-            }
+    public void saltar(float fuerzaSalto) {
+        if (personaje.getSobreAlgo() && !enKnockback) {
+            Vector2 vel = personaje.getVelocidad();
+            vel.y = fuerzaSalto;
+            personaje.setVelocidad(vel);
             personaje.setSobreAlgo(false);
-        } else {
-            while (personaje.getY() > nuevaY) {
-                if (gestorColisiones.verificarMovimiento(personaje, personaje.getX(), personaje.getY() - pasoY)) {
-                    personaje.setY(personaje.getY() - pasoY);
-                } else {
-                    personaje.setY((float) Math.ceil(personaje.getY()));
-                    personaje.getVelocidad().y = 0;
-                    personaje.setSobreAlgo(true);
-                    break;
-                }
-            }
-            if (personaje.getVelocidad().y != 0)
-                personaje.setSobreAlgo(false);
+            tiempoDesdeContacto = 0;
         }
-
-        personaje.updateHitbox();
     }
 
     public void aplicarKnockback(float fuerzaX, float fuerzaY) {
@@ -143,15 +119,6 @@ public class FisicaPersonaje {
         tiempoDesdeContacto = 0;
     }
 
-    public void saltar(float fuerzaSalto) {
-        if (personaje.getSobreAlgo() && !enKnockback) {
-            Vector2 vel = personaje.getVelocidad();
-            vel.y = fuerzaSalto;
-            personaje.setVelocidad(vel);
-            personaje.setSobreAlgo(false);
-            tiempoDesdeContacto = 0;
-        }
-    }
 
     public float getTiempoResbale() { return tiempoResbale; }
     public boolean estaEnKnockback() { return enKnockback; }

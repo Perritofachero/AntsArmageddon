@@ -1,12 +1,12 @@
 package screens;
 
 import Gameplay.Gestores.GestorRutas;
-import Gameplay.Gestores.Logicos.GestorScreen;
 import Gameplay.Gestores.Visuales.GestorAssets;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.principal.AntsArmageddon;
+import hud.EventosBoton;
 import hud.FabricaBotones;
 
 public class TutorialScreen extends ScreenMenus {
@@ -55,7 +55,7 @@ public class TutorialScreen extends ScreenMenus {
 
         ImageButton btnVolver = FabricaBotones.VOLVER.crearBoton(
             GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON,
-            () -> GestorScreen.setScreen(new MenuScreen(juego))
+            EventosBoton.irScreenAnterior()
         );
 
         Table table = new Table();

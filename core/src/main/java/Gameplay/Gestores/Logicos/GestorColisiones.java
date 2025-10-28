@@ -31,8 +31,13 @@ public class GestorColisiones {
             if (colisionable == objeto || !colisionable.getActivo()) continue;
 
             if (rectTemporal.overlaps(colisionable.getHitbox())) {
+
                 if (colisionable instanceof Limite) {
-                    objeto.desactivar();
+                    if (objeto instanceof Personaje personaje) {
+                        personaje.recibirDanio(9999, 0, 0);
+                    } else {
+                        objeto.desactivar();
+                    }
                 }
                 return false;
             }
@@ -40,6 +45,7 @@ public class GestorColisiones {
 
         return mapa == null || !mapa.colisiona(rectTemporal);
     }
+
 
     public boolean verificarSobreAlgo(Colisionable objeto) {
         Rectangle hitbox = objeto.getHitbox();

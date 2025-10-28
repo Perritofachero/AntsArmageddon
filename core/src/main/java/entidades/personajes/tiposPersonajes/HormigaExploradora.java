@@ -22,16 +22,16 @@ public class HormigaExploradora extends Personaje {
     public HormigaExploradora(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                               float x, float y, int idJugador) {
         super(GestorAssets.get(GestorRutas.HORMIGA_EXPLORADORA, Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 30, 350f, 600f, 0.6f,
+            gestorProyectiles, x, y, 30, 350f, 600f, 5.5f,
             idJugador);
     }
 
     @Override
     protected void inicializarMovimientos() {
-        movimientos.add(new Aranazo(gestorColisiones));
+        //movimientos.add(new Aranazo(gestorColisiones));
+        movimientos.add(new LanzaRoca(gestorProyectiles));
         movimientos.add(new LanzaNectar(gestorProyectiles));
         movimientos.add(new LanzaGranada(gestorProyectiles));
-        movimientos.add(new LanzaRoca(gestorProyectiles));
         movimientos.add(new PasarTurno());
 
     }

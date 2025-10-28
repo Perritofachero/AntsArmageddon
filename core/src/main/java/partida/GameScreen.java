@@ -1,4 +1,4 @@
-package screens;
+package partida;
 
 import Fisicas.Borde;
 import Fisicas.Fisica;
@@ -6,6 +6,7 @@ import Fisicas.Mapa;
 import Gameplay.Gestores.*;
 import Gameplay.Gestores.Logicos.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,7 +24,7 @@ import entidades.proyectiles.Proyectil;
 import entradas.ControlesJugador;
 import hud.Hud;
 import Gameplay.Gestores.Visuales.GestorAssets;
-import partida.ConfiguracionPartida;
+import screens.PauseScreen;
 import utils.Constantes;
 import utils.RecursosGlobales;
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class GameScreen implements Screen {
     private Sprite spriteMapa;
     private Mapa mapa;
 
+    private boolean inicializado = false;
+
     private GestorJuego gestorJuego;
 
     private List<ControlesJugador> controles = new ArrayList<>();
@@ -52,13 +55,26 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        if (!inicializado) {
+            realizarShow();
+            inicializado = true;
+        }
+
+        if (turnoAnterior >= 0 && turnoAnterior < controles.size()) {
+            controles.get(turnoAnterior).reset();
+
+            Gdx.input.setInputProcessor(controles.get(turnoAnterior));
+        }
+    }
+
+    public void realizarShow() {
         FitViewport viewport = new FitViewport(Constantes.RESOLUCION_ANCHO, Constantes.RESOLUCION_ALTO);
         escenario = new Stage(viewport);
         hud = new Hud();
 
         int indiceMapa = configuracion.getIndiceMapa();
         String mapaPath = switch (indiceMapa) {
-            case 0 -> GestorRutas.MAPA_1;
+            case 0 -> GestorRutas.MAPA_6;
             case 1 -> GestorRutas.MAPA_2;
             case 2 -> GestorRutas.MAPA_3;
             case 3 -> GestorRutas.MAPA_4;
@@ -126,7 +142,7 @@ public class GameScreen implements Screen {
         GestorColisiones gestorColisiones,
         GestorProyectiles gestorProyectiles
     ) {
-        Jugador jugador = new Jugador(new ArrayList<>());
+        Jugador jugador = new Jugador(idJugador, new ArrayList<>());
 
         for (int i = 0; i < nombresHormigas.size(); i++) {
             String tipo = nombresHormigas.get(i);
@@ -149,6 +165,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            GestorScreen.setScreen(new PauseScreen(juego, this));
+            return;
+        }
 
         gestorJuego.actualizar(delta, mapa);
 

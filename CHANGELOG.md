@@ -7,6 +7,22 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.5.3] - 2025-10-28
+
+# Added
+- Pantalla de pausa funcional.
+- Pantalla de game over screen funcional.
+- Nuevos eventos en eventos boton.
+
+### Changed
+- Fix de bug de cuando un personaje se tocaba un borde se desactivava y no terminaba el turno.
+- Utilizamos un show condicional en el game screen para tener una pausa real.
+- Agregamos un mensaje de ganador al game over y un boton volver, para que se pueda seguir en el juego.
+- Screen manager para que funcione con la pausa.
+- Correccion de metodos y refactorizacion.
+- Fix de bug de salto de personajes.
+- Correcta asignacion de pesos a los personajes.
+
 ## [0.5.2] - 2025-10-26
 
 # Added

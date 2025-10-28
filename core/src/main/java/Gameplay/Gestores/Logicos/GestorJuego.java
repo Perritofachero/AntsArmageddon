@@ -109,8 +109,7 @@ public class GestorJuego {
         }
 
         float x = control.getX();
-        float y = control.getY();
-        activo.mover(x, y, delta);
+        activo.mover(x, delta);
 
         if (control.getSaltar())
             activo.saltar();
@@ -125,6 +124,7 @@ public class GestorJuego {
 
     private void revisarPersonajesMuertos() {
         List<Jugador> jugadoresSinPersonajes = new ArrayList<>();
+
         for (Jugador jugador : jugadores) {
             List<Personaje> muertos = new ArrayList<>();
             for (Personaje personaje : jugador.getPersonajes()) {
@@ -133,11 +133,24 @@ public class GestorJuego {
             for (Personaje personaje : muertos) jugador.removerPersonaje(personaje);
             if (!jugador.estaVivo()) jugadoresSinPersonajes.add(jugador);
         }
+
         jugadores.removeAll(jugadoresSinPersonajes);
 
-        if (jugadores.size() <= 1) {
-            GestorScreen.setScreen(new GameOverScreen(GestorScreen.returnJuego()));
+        if (jugadores.size() <= 1) indicarGanador();
+
+    }
+
+    private void indicarGanador() {
+        String mensajeFinal;
+
+        if (jugadores.isEmpty()) {
+            mensajeFinal = "Empate";
+        } else {
+            Jugador ganador = jugadores.get(0);
+            mensajeFinal = "Jugador " + (ganador.getIdJugador() + 1) + " gana!";
         }
+
+        GestorScreen.setScreen(new GameOverScreen(GestorScreen.returnJuego(), mensajeFinal));
     }
 
     private void generarPowerUp() {
@@ -145,7 +158,7 @@ public class GestorJuego {
             if (spawnPower != null) {
                 PowerUp nuevoPower = new CajaVida(spawnPower.x, spawnPower.y, gestorColisiones);
                 agregarEntidad(nuevoPower);
-                System.out.println("⚡ PowerUp generado en: " + spawnPower);
+                System.out.println("PowerUp generado en: " + spawnPower);
             }
     }
 

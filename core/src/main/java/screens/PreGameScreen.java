@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import com.principal.AntsArmageddon;
+import hud.EventosBoton;
 import hud.FabricaBotones;
 import Gameplay.Gestores.Visuales.GestorAssets;
-import Gameplay.Gestores.Logicos.GestorScreen;
 import partida.ConfiguracionPartida;
 import utils.Constantes;
 import java.util.*;
@@ -211,20 +211,17 @@ public class PreGameScreen extends ScreenMenus {
         ImageButton botonVolver = FabricaBotones.VOLVER.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
-            () -> GestorScreen.setScreen(new MenuScreen(juego))
+            EventosBoton.irMenuPrincipal(juego)
         );
 
         ImageButton botonJugar = FabricaBotones.JUGAR.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
-            () -> {
-                configuracion.normalizarEquipos();
-                GestorScreen.setScreen(new GameScreen(juego, configuracion));
-            }
+            EventosBoton.irJuego(juego, configuracion)
         );
 
-        panel.add(botonVolver).width(150).height(55).padRight(20);
-        panel.add(botonJugar).width(150).height(55);
+        panel.add(botonVolver).padRight(20);
+        panel.add(botonJugar);
         return panel;
     }
 

@@ -14,10 +14,13 @@ public class Jugador {
     private ControlesJugador controlesJugador;
     private Color colorJugador = Color.WHITE;
 
-    public Jugador(List<Personaje> personajes) {
+    private int idJugador;
+
+    public Jugador(int idJugador, List<Personaje> personajes) {
         this.personajes = new ArrayList<>(personajes);
         this.indiceActivo = 0;
         this.jugadorVivo = !personajes.isEmpty();
+        this.idJugador = idJugador;
     }
 
     public void removerPersonaje(Personaje personaje) {
@@ -61,5 +64,6 @@ public class Jugador {
     public boolean estaVivo() { return jugadorVivo; }
     public void setColorJugador(Color color) { this.colorJugador = color; }
     public Color getColorJugador() { return colorJugador; }
+    public int getIdJugador() { return this.idJugador; }
 
 }

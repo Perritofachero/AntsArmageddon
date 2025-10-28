@@ -5,6 +5,7 @@ import Gameplay.Gestores.Logicos.GestorColisiones;
 import Gameplay.Gestores.Logicos.GestorProyectiles;
 import Gameplay.Gestores.GestorRutas;
 import Gameplay.Movimientos.Melee.Aranazo;
+import Gameplay.Movimientos.Otros.PasarTurno;
 import Gameplay.Movimientos.Rango.LanzaGranada;
 import Gameplay.Movimientos.Rango.LanzaNectar;
 import Gameplay.Movimientos.Rango.LanzaRoca;
@@ -21,16 +22,17 @@ public class HormigaGuerrera extends Personaje {
     public HormigaGuerrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                            float x, float y, int idJugador) {
         super(GestorAssets.get(GestorRutas.HORMIGA_GUERRERA, Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 120, 150, 400, 2.0f,
+            gestorProyectiles, x, y, 120, 150, 400, 10f,
             idJugador);
     }
 
     @Override
     protected void inicializarMovimientos() {
-        movimientos.add(new Aranazo(gestorColisiones));
+        //movimientos.add(new Aranazo(gestorColisiones));
+        movimientos.add(new LanzaRoca(gestorProyectiles));
         movimientos.add(new LanzaNectar(gestorProyectiles));
         movimientos.add(new LanzaGranada(gestorProyectiles));
-        movimientos.add(new LanzaRoca(gestorProyectiles));
+        movimientos.add(new PasarTurno());
 
     }
 

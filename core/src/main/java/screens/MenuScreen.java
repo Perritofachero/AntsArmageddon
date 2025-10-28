@@ -16,9 +16,20 @@ public class MenuScreen extends ScreenMenus {
     @Override
     protected void construirUI() {
 
-        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON, EventosBoton.irPreGameScreen(juego));
-        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON, EventosBoton.irMenuOpciones(juego));
-        ImageButton salir = FabricaBotones.SALIR.crearBoton(GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON, EventosBoton.salirJuego());
+        ImageButton jugar = FabricaBotones.JUGAR.crearBoton(
+            GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.irPreGameScreen(juego)
+        );
+
+        ImageButton opciones = FabricaBotones.OPCIONES.crearBoton(
+            GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.irMenuOpciones(juego)
+        );
+
+        ImageButton salir = FabricaBotones.SALIR.crearBoton(
+            GestorRutas.ATLAS_BOTONES, GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.salirJuego()
+        );
 
         Table table = new Table();
         table.setFillParent(true);

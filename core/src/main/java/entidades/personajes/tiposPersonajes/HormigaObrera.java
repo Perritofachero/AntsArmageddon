@@ -22,16 +22,16 @@ public class HormigaObrera extends Personaje {
     public HormigaObrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                          float x, float y, int idJugador) {
         super(GestorAssets.get(GestorRutas.HORMIGA_OBRERA, Texture.class), gestorColisiones,
-            gestorProyectiles, x, y, 80, 200, 500f, 1.4f,
+            gestorProyectiles, x, y, 80, 200, 500f, 7.5f,
             idJugador);
     }
 
     @Override
     protected void inicializarMovimientos() {
-        movimientos.add(new Aranazo(gestorColisiones));
+        //movimientos.add(new Aranazo(gestorColisiones));
+        movimientos.add(new LanzaRoca(gestorProyectiles));
         movimientos.add(new LanzaNectar(gestorProyectiles));
         movimientos.add(new LanzaGranada(gestorProyectiles));
-        movimientos.add(new LanzaRoca(gestorProyectiles));
         movimientos.add(new PasarTurno());
 
     }
