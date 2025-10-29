@@ -24,9 +24,9 @@ public abstract class Movimiento {
 
     public void ejecutar(Personaje p) { }
 
-    public TextureRegion getIcono() { return icono; }
-    public TextureAtlas getAtlas() { return atlasMovimiento; }
-    public String getNombreAnimacion() { return nombreAnimacion; }
+    public final TextureRegion getIcono() { return icono; }
+    public final TextureAtlas getAtlas() { return atlasMovimiento; }
+    public final String getNombreAnimacion() { return nombreAnimacion; }
 
     public void dispose() { }
 }

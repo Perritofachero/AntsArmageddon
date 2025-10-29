@@ -65,7 +65,7 @@ public abstract class PowerUp extends Entidad {
         sprite.draw(batch);
     }
 
-    protected void actualizarAreaRecoleccion() {
+    protected final void actualizarAreaRecoleccion() {
         areaRecoleccion.set(
             x - extraArea, y - extraArea,
             hitbox.width + 2 * extraArea,
@@ -76,7 +76,7 @@ public abstract class PowerUp extends Entidad {
     public abstract void aplicarEfecto(Personaje personaje);
 
     @Override
-    public void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
+    public final void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
         if (!activo) return;
 
         shapeRenderer.setProjectionMatrix(camara.getCamera().combined);

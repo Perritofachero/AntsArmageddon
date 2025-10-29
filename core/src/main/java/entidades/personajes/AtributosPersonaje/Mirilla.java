@@ -6,13 +6,16 @@ import com.badlogic.gdx.graphics.g2d.*;
 import entidades.personajes.Personaje;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class Mirilla {
+public final class Mirilla {
+
+    private static final float RADIO_MIRA = 50f;
+    private static final float VELOCIDAD_MIRA = 2f;
+    private static final float ANGULO_MIN = 90f;
+    private static final float ANGULO_MAX = 270f;
 
     private float x, y;
     private float angulo;
     private float anguloRad;
-    private float radio = 50f;
-
     private final Personaje personaje;
 
     private final Animation<TextureRegion> animMirilla;
@@ -20,7 +23,6 @@ public class Mirilla {
     private float stateTime = 0f;
 
     private boolean visible = false;
-    private final float velocidadMirilla = 2f;
 
     public Mirilla(Personaje personaje) {
         this.personaje = personaje;
@@ -38,17 +40,17 @@ public class Mirilla {
 
         anguloRad = (float) Math.toRadians(angulo);
 
-        float distanciaX = (float) Math.cos(anguloRad) * radio * personaje.getDireccionMultiplicador();
-        float distanciaY = (float) Math.sin(anguloRad) * radio;
+        float distanciaX = (float) Math.cos(anguloRad) * RADIO_MIRA * personaje.getDireccionMultiplicador();
+        float distanciaY = (float) Math.sin(anguloRad) * RADIO_MIRA;
 
         this.x = poscX + distanciaX;
         this.y = poscY + distanciaY;
     }
 
     public void cambiarAngulo(int direccion) {
-        angulo += direccion * velocidadMirilla;
-        if (angulo > 270) angulo = 270;
-        else if (angulo < 90) angulo = 90;
+        angulo += direccion * VELOCIDAD_MIRA;
+        if (angulo > ANGULO_MAX) angulo = ANGULO_MAX;
+        else if (angulo < ANGULO_MIN) angulo = ANGULO_MIN;
         actualizarPosicion();
     }
 
@@ -57,9 +59,7 @@ public class Mirilla {
 
         if (!animTerminada) {
             stateTime += delta;
-            if (animMirilla.isAnimationFinished(stateTime)) {
-                animTerminada = true;
-            }
+            if (animMirilla.isAnimationFinished(stateTime)) animTerminada = true;
         }
     }
 

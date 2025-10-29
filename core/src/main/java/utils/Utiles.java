@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import java.util.HashMap;
 
-public class Utiles {
+public final class Utiles {
+
+    private Utiles() {}
 
     public static void descomponerAtlas(String atlasPath, String outputFolder) {
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal(atlasPath));

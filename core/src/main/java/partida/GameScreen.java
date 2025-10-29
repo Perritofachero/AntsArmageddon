@@ -30,7 +30,7 @@ import utils.RecursosGlobales;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameScreen implements Screen {
+public final class GameScreen implements Screen {
 
     private AntsArmageddon juego;
     private ConfiguracionPartida configuracion;
@@ -74,7 +74,7 @@ public class GameScreen implements Screen {
 
         int indiceMapa = configuracion.getIndiceMapa();
         String mapaPath = switch (indiceMapa) {
-            case 0 -> GestorRutas.MAPA_6;
+            case 0 -> GestorRutas.MAPA_1;
             case 1 -> GestorRutas.MAPA_2;
             case 2 -> GestorRutas.MAPA_3;
             case 3 -> GestorRutas.MAPA_4;
@@ -179,12 +179,18 @@ public class GameScreen implements Screen {
         Proyectil p = gestorJuego.getGestorProyectiles().getUltimoProyectilActivo();
         Personaje activo = gestorJuego.getPersonajeActivo();
 
-        if (p != null) RecursosGlobales.camaraPersonaje.seguirPosicion(p.getX(), p.getY());
-        else if (activo != null) RecursosGlobales.camaraPersonaje.seguirPersonaje(activo);
+        if (p != null) {
+            RecursosGlobales.camaraJuego.seguirPosicion(p.getX(), p.getY());
+        }
+        else if (activo.isTurnoTerminado()) {
+        }
+        else if (!gestorJuego.getGestorTurno().isEnTransicion()) {
+            RecursosGlobales.camaraJuego.seguirPersonaje(activo);
+        }
 
-        RecursosGlobales.camaraPersonaje.getCamera().update();
+        RecursosGlobales.camaraJuego.getCamera().update();
 
-        RecursosGlobales.batch.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
+        RecursosGlobales.batch.setProjectionMatrix(RecursosGlobales.camaraJuego.getCamera().combined);
         RecursosGlobales.batch.begin();
 
         spriteMapa.draw(RecursosGlobales.batch);
@@ -193,17 +199,17 @@ public class GameScreen implements Screen {
         gestorJuego.renderEntidades(RecursosGlobales.batch);
         gestorJuego.renderPersonajes(hud);
         gestorJuego.renderProyectiles(RecursosGlobales.batch);
-        hud.mostrarContador(gestorJuego.getTiempoActual(), RecursosGlobales.camaraPersonaje);
+        hud.mostrarContador(gestorJuego.getTiempoActual(), RecursosGlobales.camaraJuego);
 
         if (activo != null)
-            hud.mostrarAnimSelectorMovimientos(activo, RecursosGlobales.camaraPersonaje, delta);
+            hud.mostrarAnimSelectorMovimientos(activo, RecursosGlobales.camaraJuego, delta);
 
         RecursosGlobales.batch.end();
 
         if (activo != null)
             hud.mostrarBarraCarga(activo);
 
-        gestorJuego.renderDebug(RecursosGlobales.shapeRenderer, RecursosGlobales.camaraPersonaje);
+        gestorJuego.renderDebug(RecursosGlobales.shapeRenderer, RecursosGlobales.camaraJuego);
 
         escenario.act(delta);
         escenario.draw();
@@ -229,7 +235,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        RecursosGlobales.camaraPersonaje.getViewport().update(width, height, true);
+        RecursosGlobales.camaraJuego.getViewport().update(width, height, true);
         escenario.getViewport().update(width, height, true);
     }
 

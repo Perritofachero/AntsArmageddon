@@ -14,12 +14,15 @@ import java.util.function.Consumer;
 
 public enum FabricaBotones {
 
-    OPC1("opc_up", "opc_over", "opc_down"),
-    SONIDO("sonido_up", "sonido_over", "sonido_down"),
-    VOLVER("volver_up", "volver_over", "volver_down"),
     JUGAR("jugar_up", "jugar_over", "jugar_down"),
     OPCIONES("opciones_up", "opciones_over", "opciones_down"),
     SALIR("salir_up", "salir_over", "salir_down"),
+    TUTORIAL("tutorial_up", "tutorial_over", "tutorial_down"),
+    VOLVER("volver_up", "volver_over", "volver_down"),
+    REANUDAR("reanudar_up", "reanudar_over", "reanudar_down"),
+    SONIDO("sonido_up", "sonido_over", "sonido_down"),
+    MUTE("mute_up", "mute_over", "mute_down"),
+    OPC1("opc_up", "opc_over", "opc_down"),
     RANDOM("random_up", "random_over", "random_down");
 
     private final String up;

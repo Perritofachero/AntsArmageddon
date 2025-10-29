@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.badlogic.gdx.graphics.Color;
 
-public class Jugador {
+public final class Jugador {
 
     private final List<Personaje> personajes;
     private int indiceActivo;
@@ -60,10 +60,10 @@ public class Jugador {
 
     public void setControlesJugador(ControlesJugador controlesJugador) { this.controlesJugador = controlesJugador; }
     public ControlesJugador getControlesJugador() { return this.controlesJugador; }
-    public List<Personaje> getPersonajes() { return personajes; }
-    public boolean estaVivo() { return jugadorVivo; }
+    public List<Personaje> getPersonajes() { return this.personajes; }
+    public boolean estaVivo() { return this.jugadorVivo; }
     public void setColorJugador(Color color) { this.colorJugador = color; }
-    public Color getColorJugador() { return colorJugador; }
+    public Color getColorJugador() { return this.colorJugador; }
     public int getIdJugador() { return this.idJugador; }
 
 }

@@ -4,7 +4,7 @@ import com.principal.Jugador;
 import entidades.personajes.Personaje;
 import java.util.ArrayList;
 
-public class GestorTurno {
+public final class GestorTurno {
 
     private final float TIEMPO_POR_TURNO;
     private int turnoActual = 0;

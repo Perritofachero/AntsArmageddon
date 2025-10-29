@@ -7,11 +7,11 @@ import com.badlogic.gdx.utils.Array;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GestorAnimaciones {
+public final class GestorAnimaciones {
+
+    private GestorAnimaciones() { }
 
     private static final Map<String, Animation<TextureRegion>> cache = new HashMap<>();
-
-    private GestorAnimaciones() {}
 
     public static Animation<TextureRegion> obtener(TextureAtlas atlas, String nombreBase, float duracionFrame, boolean loop) {
         String atlasId = atlas.toString();

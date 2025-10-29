@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Limite implements Colisionable {
+public final class Limite implements Colisionable {
 
     private Rectangle hitbox;
     private boolean activo = true;

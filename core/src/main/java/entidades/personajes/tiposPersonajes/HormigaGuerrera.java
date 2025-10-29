@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.MathUtils;
 import entidades.personajes.Personaje;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class HormigaGuerrera extends Personaje {
+public final class HormigaGuerrera extends Personaje {
 
     public HormigaGuerrera(GestorColisiones gestorColisiones, GestorProyectiles gestorProyectiles,
                            float x, float y, int idJugador) {

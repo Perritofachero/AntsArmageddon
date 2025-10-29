@@ -9,7 +9,9 @@ import partida.GameScreen;
 import screens.*;
 import partida.ConfiguracionPartida;
 
-public class EventosBoton {
+public final class EventosBoton {
+
+    private EventosBoton() {}
 
     public static Runnable irMenuOpciones(AntsArmageddon juego) {
         return () -> GestorScreen.setScreen(new OpcionesScreen(juego));
@@ -64,8 +66,7 @@ public class EventosBoton {
         };
     }
 
-    /*Eventos de utilidad, para usar cuando se necesiten:
-
+    //Eventos de utilidad, para usar cuando se necesiten:
 
     public static Runnable descomponerAtlas() {
         return () -> utils.Utiles.descomponerAtlas("botones/botones.atlas", "atlasDescompuestos/");
@@ -73,6 +74,6 @@ public class EventosBoton {
 
     public static Runnable descomponerSheet(String sheetPath, int cols, int rows, String outputFolder) {
         return () -> utils.Utiles.descomponerSheet(sheetPath, cols, rows, outputFolder);
-    }*/
+    }
 
 }

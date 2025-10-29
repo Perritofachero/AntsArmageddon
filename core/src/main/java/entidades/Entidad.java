@@ -41,9 +41,9 @@ public abstract class Entidad implements Colisionable {
         this.velocidad = new Vector2(0, 0);
     }
 
-    public void updateHitbox() { hitbox.setPosition(x, y); }
+    public final void updateHitbox() { hitbox.setPosition(x, y); }
 
-    public void setPosicion(float x, float y) {
+    public final void setPosicion(float x, float y) {
         this.x = x;
         this.y = y;
         updateHitbox();
@@ -55,25 +55,25 @@ public abstract class Entidad implements Colisionable {
 
     public void dispose() {}
 
-    @Override public void desactivar() { activo = false; }
-    @Override public boolean getActivo() { return activo; }
-    @Override public Rectangle getHitbox() { return hitbox; }
+    @Override public final void desactivar() { this.activo = false; }
+    @Override public final boolean getActivo() { return this.activo; }
+    @Override public final Rectangle getHitbox() { return this.hitbox; }
 
-    @Override public Rectangle getHitboxPosicion(float x, float y) {
+    @Override public final Rectangle getHitboxPosicion(float x, float y) {
         return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
     }
 
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public void setX(float x) { this.x = x; }
-    public void setY(float y) { this.y = y; }
-    public Vector2 getVelocidad() { return velocidad; }
-    public void setVelocidad(Vector2 velocidad) { this.velocidad.set(velocidad); }
-    public float getWidth() { return hitbox.getWidth(); }
-    public float getHeight() { return hitbox.getHeight(); }
-    public boolean getSobreAlgo() { return sobreAlgo; }
-    public void setSobreAlgo(boolean sobreAlgo) { this.sobreAlgo = sobreAlgo; }
-    public Sprite getSprite() { return this.sprite; }
+    public final float getX() { return x; }
+    public final float getY() { return y; }
+    public final void setX(float x) { this.x = x; }
+    public final void setY(float y) { this.y = y; }
+    public final Vector2 getVelocidad() { return this.velocidad; }
+    public final void setVelocidad(Vector2 velocidad) { this.velocidad.set(velocidad); }
+    public final float getWidth() { return this.hitbox.getWidth(); }
+    public final float getHeight() { return this.hitbox.getHeight(); }
+    public final boolean getSobreAlgo() { return this.sobreAlgo; }
+    public final void setSobreAlgo(boolean sobreAlgo) { this.sobreAlgo = sobreAlgo; }
+    public final Sprite getSprite() { return this.sprite; }
 
     public abstract void renderHitbox(ShapeRenderer shapeRenderer, Camara camara);
 }

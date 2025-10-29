@@ -5,19 +5,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import utils.RecursosGlobales;
 
-public class Mapa {
-
-    //Que el mapa sea de 3000x1300 y que este en el centro del mapa, dejando espacio en izquierda
-    //y derecha para que los personaje se caigan y todo eso. Masomenos 2500x800 la resolucion del terreno.
+public final class Mapa {
 
     private Pixmap pixmap;
     private Texture textura;
     private final String ruta;
     private final Color colorTemp = new Color();
+
+    private static final float UMBRAL_SOLIDEZ = 0.05f;
 
     public Mapa(String ruta) {
         this.ruta = ruta;
@@ -34,7 +34,7 @@ public class Mapa {
         int xPixmap = mundoAX(x);
         int yPixmap = mundoAY(y);
         Color.rgba8888ToColor(colorTemp, pixmap.getPixel(xPixmap, yPixmap));
-        return colorTemp.a > 0.05f;
+        return colorTemp.a > UMBRAL_SOLIDEZ;
     }
 
     public boolean colisiona(Rectangle hitboxMundo) {
@@ -46,7 +46,7 @@ public class Mapa {
         for (int x = inicioX; x < finX; x++) {
             for (int y = inicioY; y < finY; y++) {
                 Color.rgba8888ToColor(colorTemp, pixmap.getPixel(x, y));
-                if (colorTemp.a > 0.05f) return true;
+                if (colorTemp.a > UMBRAL_SOLIDEZ) return true;
             }
         }
         return false;
@@ -104,4 +104,24 @@ public class Mapa {
         return pixmap;
     }
 
+    public void renderDebug(ShapeRenderer shapeRenderer) {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Point);
+        shapeRenderer.setColor(Color.RED);
+
+        int width = pixmap.getWidth();
+        int height = pixmap.getHeight();
+
+        for (int x = 0; x < width; x += 2) {
+            for (int y = 0; y < height; y += 2) {
+                int pixel = pixmap.getPixel(x, y);
+                Color.rgba8888ToColor(colorTemp, pixel);
+                if (colorTemp.a > UMBRAL_SOLIDEZ) {
+                    int mundoX = x;
+                    int mundoY = pixmap.getHeight() - y;
+                    shapeRenderer.point(mundoX, mundoY, 0);
+                }
+            }
+        }
+        shapeRenderer.end();
+    }
 }

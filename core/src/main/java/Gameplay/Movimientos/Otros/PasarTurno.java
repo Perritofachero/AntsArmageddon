@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import entidades.personajes.Personaje;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class PasarTurno extends Movimiento {
+public final class PasarTurno extends Movimiento {
 
     public PasarTurno() {
         super("Pasar turno", GestorAssets.get(GestorRutas.ATLAS_MOVIMIENTO_PASAR, TextureAtlas.class),

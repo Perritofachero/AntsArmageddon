@@ -12,7 +12,7 @@ import entidades.personajes.Personaje;
 import java.util.List;
 import java.util.ArrayList;
 
-public class GestorColisiones {
+public final class GestorColisiones {
 
     private final List<Colisionable> colisionables;
     private final Mapa mapa;

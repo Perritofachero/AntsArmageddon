@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ControlesJugador implements InputProcessor {
+public final class ControlesJugador implements InputProcessor {
 
     private final Set<Integer> keysPresionadas = new HashSet<>();
     private int movimientoSeleccionado = 0;

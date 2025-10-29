@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class GestorEntidades {
+public final class GestorEntidades {
 
     private final List<Entidad> entidades = new ArrayList<>();
     private final GestorFisica gestorFisica;

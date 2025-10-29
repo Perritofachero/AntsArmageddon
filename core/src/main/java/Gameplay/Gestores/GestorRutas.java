@@ -2,7 +2,10 @@ package Gameplay.Gestores;
 
 public final class GestorRutas {
 
-    //Eliminar los numeros magicos
+    //Eliminar los numeros magicos, establecer clases no extendibles o instanciables y
+    //dejar el juego listo para integrarlo a red
+
+    private GestorRutas() {}
 
     // Sonidos
     public static final String SONIDO_CLICK_BOTON = "Sonidos/SonidoClickBoton.wav";

@@ -7,6 +7,15 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 
 ## [Unreleased]
 
+## [0.5.4] - 2025-10-29
+
+### Changed
+- Se cambiaron las clases que no deben ser extendidas a final.
+- Se cambiaron las clases que no deben ser instancidas, y pasan a tener un constructor privado.
+- Se pusieron los metodos de las clases padres que no deben ser reescritos como final.
+- Se reescribieron variables y metodos para cumplir con los estandares.
+- Se agregaron limites de velocidad, salto, tamaño, etc al juego.
+
 ## [0.5.3] - 2025-10-28
 
 # Added

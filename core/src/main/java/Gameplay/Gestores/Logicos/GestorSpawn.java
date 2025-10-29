@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class GestorSpawn {
+public final class GestorSpawn {
 
     private final Mapa mapa;
     private final Random random = new Random();
@@ -39,7 +39,7 @@ public class GestorSpawn {
                     int alturaLibre = calcularAlturaLibre(x, y + 1, (int) (altoPersonaje + aireExtraSuperior * 0.6f));
 
                     boolean areaApta = true;
-                    int margenIrregularidad = 5;
+                    int margenIrregularidad = 3;
                     for (int dx = -((int) anchoPersonaje / 2); dx <= ((int) anchoPersonaje / 2); dx++) {
                         int alturaBajo = 0;
                         while (y - alturaBajo > 0 && !mapa.esSolido(x + dx, y - alturaBajo)) alturaBajo++;
@@ -164,7 +164,7 @@ public class GestorSpawn {
 
             if (!tieneSueloDebajo) continue;
 
-            float ySpawn = altoMapa - 10f;
+            float ySpawn = altoMapa - 75f;
             //despues aumentar el - porque el mapa va a ser mas grande
 
             return new Vector2(x, ySpawn);

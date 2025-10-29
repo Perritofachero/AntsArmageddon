@@ -22,7 +22,7 @@ import utils.RecursosGlobales;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GestorJuego {
+public final class GestorJuego {
 
     private final List<Jugador> jugadores = new ArrayList<>();
     private final GestorColisiones gestorColisiones;
@@ -208,5 +208,6 @@ public class GestorJuego {
     public List<Jugador> getJugadores() { return jugadores; }
     public GestorColisiones getGestorColisiones() { return gestorColisiones; }
     public GestorProyectiles getGestorProyectiles() { return this.gestorProyectiles; }
+    public GestorTurno getGestorTurno() { return this.gestorTurno; }
 }
 

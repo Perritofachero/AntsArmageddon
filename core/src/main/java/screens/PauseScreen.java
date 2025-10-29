@@ -8,7 +8,7 @@ import hud.EventosBoton;
 import hud.FabricaBotones;
 import partida.GameScreen;
 
-public class PauseScreen extends ScreenMenus {
+public final class PauseScreen extends ScreenMenus {
 
     private final AntsArmageddon juego;
     private final GameScreen gameScreen;
@@ -25,19 +25,19 @@ public class PauseScreen extends ScreenMenus {
         table.setFillParent(true);
         table.center();
 
-        ImageButton btnReanudar = FabricaBotones.OPC1.crearBoton(
+        ImageButton btnReanudar = FabricaBotones.REANUDAR.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
             EventosBoton.reanudarJuego(juego, gameScreen)
         );
 
-        ImageButton btnTutorial = FabricaBotones.OPC1.crearBoton(
+        ImageButton btnTutorial = FabricaBotones.TUTORIAL.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
             EventosBoton.irTutorial(juego)
         );
 
-        ImageButton btnSalir = FabricaBotones.OPC1.crearBoton(
+        ImageButton btnSalir = FabricaBotones.SALIR.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
             EventosBoton.salirPausa(juego)

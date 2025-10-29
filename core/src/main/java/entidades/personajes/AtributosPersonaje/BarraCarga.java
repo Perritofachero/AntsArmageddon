@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import utils.RecursosGlobales;
 
-public class BarraCarga {
+public final class BarraCarga {
 
     private float cargaActual = 0f;
     private final float CARGA_MAXIMA = 1f;
@@ -24,7 +24,7 @@ public class BarraCarga {
     public void render(float x, float y, float ancho, float alto) {
         ShapeRenderer sr = RecursosGlobales.shapeRenderer;
 
-        sr.setProjectionMatrix(RecursosGlobales.camaraPersonaje.getCamera().combined);
+        sr.setProjectionMatrix(RecursosGlobales.camaraJuego.getCamera().combined);
 
         sr.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -42,8 +42,8 @@ public class BarraCarga {
         cargando = false;
     }
 
-    public float getCargaNormalizada() { return cargaActual / CARGA_MAXIMA; }
-    public void start() { cargando = true; }
-    public void stop() { cargando = false; }
-    public float getCargaActual() { return cargaActual; }
+    public float getCargaNormalizada() { return this.cargaActual / CARGA_MAXIMA; }
+    public void start() { this.cargando = true; }
+    public void stop() { this.cargando = false; }
+    public float getCargaActual() { return this.cargaActual; }
 }

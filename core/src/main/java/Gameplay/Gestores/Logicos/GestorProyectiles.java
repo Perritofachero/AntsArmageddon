@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class GestorProyectiles {
+public final class GestorProyectiles {
 
     private final List<Proyectil> proyectiles = new ArrayList<>();
     private final List<Explosion> explosiones = new ArrayList<>();

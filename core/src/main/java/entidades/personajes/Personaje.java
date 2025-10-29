@@ -71,7 +71,19 @@ public abstract class Personaje extends Entidad {
         this.barraCarga = new BarraCarga();
 
         this.velocidadX = velocidadMovimiento;
+        if (this.velocidadX > Constantes.VEL_MAX_HORIZONTAL) {
+            this.velocidadX = Constantes.VEL_MAX_HORIZONTAL;
+        } else if (this.velocidadX < 0f) {
+            this.velocidadX = 0f;
+        }
+
         this.fuerzaSalto = fuerzaSalto;
+        if (this.fuerzaSalto > Constantes.VEL_MAX_VERTICAL) {
+            this.fuerzaSalto = Constantes.VEL_MAX_VERTICAL;
+        } else if (this.fuerzaSalto < 0f) {
+            this.fuerzaSalto = 0f;
+        }
+
         this.peso = peso;
 
         this.mirilla = new Mirilla(this);
@@ -90,12 +102,27 @@ public abstract class Personaje extends Entidad {
         inicializarAnimaciones();
 
         this.stateTime = MathUtils.random(0f, animActual.getAnimationDuration());
+
+        float anchoSprite = sprite.getWidth();
+        float altoSprite  = sprite.getHeight();
+
+        float factorAncho = 0.7f;
+        float factorAlto  = 0.85f;
+
+        float anchoHitbox = anchoSprite * factorAncho;
+        float altoHitbox  = altoSprite * factorAlto;
+
+        float offsetX = (anchoSprite - anchoHitbox) / 2f;
+        float offsetY = (altoSprite - altoHitbox) * 0.35f;
+
+        this.hitbox.set(x + offsetX, y + offsetY, anchoHitbox, altoHitbox);
+
     }
 
     protected abstract void inicializarAnimaciones();
 
     @Override
-    public void actualizar(float delta) {
+    public final void actualizar(float delta) {
         if (!activo) return;
 
         stateTime += delta;
@@ -139,7 +166,7 @@ public abstract class Personaje extends Entidad {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public final void render(SpriteBatch batch) {
         if (!activo) return;
 
         TextureRegion frame = animActual.getKeyFrame(stateTime, true);
@@ -152,7 +179,7 @@ public abstract class Personaje extends Entidad {
         if (enTurno) mirilla.render(batch);
     }
 
-    protected void cambiarEstado(Estado nuevoEstado) {
+    protected final void cambiarEstado(Estado nuevoEstado) {
         if (estadoActual != nuevoEstado) {
             estadoActual = nuevoEstado;
             animActual = animaciones.get(estadoActual);
@@ -160,23 +187,23 @@ public abstract class Personaje extends Entidad {
         }
     }
 
-    public void mover(float deltaX, float deltaTiempo) {
+    public final void mover(float deltaX, float deltaTiempo) {
         if (!puedeActuar()) return;
         fisicas.moverHorizontal(deltaX, deltaTiempo);
     }
 
-    public void saltar() {
+    public final void saltar() {
         if (!puedeActuar()) return;
         fisicas.saltar(fuerzaSalto);
     }
 
-    public void apuntar(int direccion) {
+    public final void apuntar(int direccion) {
         if (!getSobreAlgo()) return;
         mirilla.mostrarMirilla();
         mirilla.cambiarAngulo(direccion);
     }
 
-    public void usarMovimiento() {
+    public final void usarMovimiento() {
 
         if (!getSobreAlgo() || !activo) return;
 
@@ -204,15 +231,23 @@ public abstract class Personaje extends Entidad {
         terminarTurno();
     }
 
-    public void actualizarDisparo(float delta) {
+    public final void actualizarDisparo(float delta) {
         if (estaDisparando) barraCarga.update(delta);
     }
 
-    public void recibirDanio(int danio, float fuerzaX, float fuerzaY) {
-        vida -= danio;
+    public final void recibirDanio(int danio, float fuerzaX, float fuerzaY) {
+        float danoFinal = danio;
 
-        if (vida <= 0) {
-            vida = 0;
+        if (danoFinal < 0) {
+            danoFinal = 0;
+        } else if (danoFinal > Constantes.DANO_MAXIMO) {
+            danoFinal = Constantes.DANO_MAXIMO;
+        }
+
+        this.vida -= danoFinal;
+
+        if (this.vida <= 0) {
+            this.vida = 0;
             cambiarEstado(Estado.MUERTE);
             terminarTurno();
             return;
@@ -222,9 +257,17 @@ public abstract class Personaje extends Entidad {
         cambiarEstado(Estado.HIT);
     }
 
-    public void aumentarVida(int vidaRecogida) { this.vida += vidaRecogida; }
+    public final void aumentarVida(int vidaRecogida) {
+        if (vidaRecogida <= 0) return;
+        this.vida += vidaRecogida;
 
-    public float distanciaAlCentro(float x, float y) {
+        if (this.vida > Constantes.VIDA_MAXIMA) {
+            this.vida = Constantes.VIDA_MAXIMA;
+        }
+    }
+
+
+    public final float distanciaAlCentro(float x, float y) {
         float centroX = this.getX() + this.getSprite().getWidth() / 2f;
         float centroY = this.getY() + this.getSprite().getHeight() / 2f;
         float dx = centroX - x;
@@ -232,54 +275,53 @@ public abstract class Personaje extends Entidad {
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
-    public void setMovimientoSeleccionado(int indice) {
-        if (indice >= 0 && indice < movimientos.size()) movimientoSeleccionado = indice;
+    public final void setMovimientoSeleccionado(int indice) {
+        if (indice >= 0 && indice < this.movimientos.size()) this.movimientoSeleccionado = indice;
     }
 
-    public boolean puedeActuar() {
-        return activo && !estaDisparando;
+    public final boolean puedeActuar() {
+        return this.activo && !estaDisparando;
     }
 
-    public void setEnTurno(boolean enTurno) {
+    public final void setEnTurno(boolean enTurno) {
         this.enTurno = enTurno;
         if (!enTurno) ocultarMirilla();
     }
 
-    public boolean isEnTurno() { return enTurno; }
-    public void terminarTurno() {
-        turnoTerminado = true;
+    public final boolean isEnTurno() { return this.enTurno; }
+    public final void terminarTurno() {
+        this.turnoTerminado = true;
         ocultarMirilla();
     }
-    public boolean isTurnoTerminado() { return turnoTerminado; }
-    public void reiniciarTurno() { turnoTerminado = false; }
+    public final boolean isTurnoTerminado() { return this.turnoTerminado; }
+    public final void reiniciarTurno() { this.turnoTerminado = false; }
 
-    public void mostrarMirilla() { mirilla.mostrarMirilla(); }
-    public void ocultarMirilla() { mirilla.ocultarMirilla(); }
-    public BarraCarga getBarraCarga() { return barraCarga; }
-    public int getDireccionMultiplicador() { return direccion ? -1 : 1; }
-    public int getVida() { return vida; }
-    public boolean getDireccion() { return direccion; }
-    public Mirilla getMirilla() { return mirilla; }
-    public List<Movimiento> getMovimientos() { return movimientos; }
-    public float getVelocidadX() { return this.velocidadX; }
-    public void setDireccion(boolean direccion) { this.direccion = direccion; }
-    public FisicaPersonaje getFisicas() { return fisicas;}
-    public boolean isDisparando() { return estaDisparando; }
-    public void setDisparando(boolean disparando) { this.estaDisparando = disparando; }
-    public int getIdJugador() { return this.idJugador; }
-    public float getFuerzaSalto() { return this.fuerzaSalto; }
-    public float getPeso() { return this.peso; }
+    public final void mostrarMirilla() { this.mirilla.mostrarMirilla(); }
+    public final void ocultarMirilla() { this.mirilla.ocultarMirilla(); }
+    public final BarraCarga getBarraCarga() { return this.barraCarga; }
+    public final int getDireccionMultiplicador() { return this.direccion ? -1 : 1; }
+    public final int getVida() { return this.vida; }
+    public final boolean getDireccion() { return this.direccion; }
+    public final Mirilla getMirilla() { return this.mirilla; }
+    public final List<Movimiento> getMovimientos() { return this.movimientos; }
+    public final float getVelocidadX() { return this.velocidadX; }
+    public final void setDireccion(boolean direccion) { this.direccion = direccion; }
+    public final FisicaPersonaje getFisicas() { return this.fisicas;}
+    public final boolean isDisparando() { return this.estaDisparando; }
+    public final void setDisparando(boolean disparando) { this.estaDisparando = disparando; }
+    public final int getIdJugador() { return this.idJugador; }
+    public final float getFuerzaSalto() { return this.fuerzaSalto; }
+    public final float getPeso() { return this.peso; }
 
-    public Movimiento getMovimientoSeleccionado() {
+    public final Movimiento getMovimientoSeleccionado() {
         if (movimientoSeleccionado < 0 || movimientoSeleccionado >= movimientos.size()) return null;
         return movimientos.get(movimientoSeleccionado);
     }
 
     protected abstract void inicializarMovimientos();
-    @Override public void dispose() {}
-    @Override public void desactivar() { activo = false; }
+    @Override public final void dispose() {}
 
-    public void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
+    public final void renderHitbox(ShapeRenderer shapeRenderer, Camara camara) {
         if (!activo) return;
         shapeRenderer.setProjectionMatrix(camara.getCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

@@ -11,7 +11,7 @@ import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
 
-public class OpcionesScreen extends ScreenMenus {
+public final class OpcionesScreen extends ScreenMenus {
 
     private Slider sliderMusica;
     private Slider sliderSFX;
@@ -53,13 +53,13 @@ public class OpcionesScreen extends ScreenMenus {
             return false;
         });
 
-        ImageButton btnMute = FabricaBotones.OPC1.crearBoton(
+        ImageButton btnMute = FabricaBotones.MUTE.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
             EventosBoton.muteTotal(sliderMusica, sliderSFX)
         );
 
-        ImageButton btnTutorial = FabricaBotones.OPCIONES.crearBoton(
+        ImageButton btnTutorial = FabricaBotones.TUTORIAL.crearBoton(
             GestorRutas.ATLAS_BOTONES,
             GestorRutas.SONIDO_CLICK_BOTON,
             EventosBoton.irTutorial(juego)

@@ -7,7 +7,7 @@ import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
 
-public class MenuScreen extends ScreenMenus {
+public final class MenuScreen extends ScreenMenus {
 
     public MenuScreen(AntsArmageddon juego) {
         super(juego);
@@ -31,12 +31,26 @@ public class MenuScreen extends ScreenMenus {
             EventosBoton.salirJuego()
         );
 
+        /*ImageButton btnDescomponerAtlas = FabricaBotones.OPC1.crearBoton(
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.descomponerAtlas()
+        );*/
+
+        /*ImageButton btnDescomponerSheet = FabricaBotones.OPC1.crearBoton(
+            GestorRutas.ATLAS_BOTONES,
+            GestorRutas.SONIDO_CLICK_BOTON,
+            EventosBoton.descomponerSheet();
+        );*/
+
         Table table = new Table();
         table.setFillParent(true);
         table.center();
         table.add(jugar).pad(10).row();
         table.add(opciones).pad(10).row();
         table.add(salir).pad(10).row();
+        //table.add(btnDescomponerAtlas).pad(10).row();
+        //table.add(btnDescomponerSheet).pad(10).row();
 
         escenario.addActor(table);
     }

@@ -37,15 +37,33 @@ public abstract class Proyectil implements Colisionable {
         this.x = x;
         this.y = y;
         this.danio = danio;
+        this.fuerzaKnockback = fuerzaKnockback;
         this.gestorColisiones = gestorColisiones;
         this.ejecutor = ejecutor;
-
         this.textura = textura;
+
+        if (this.danio > Constantes.DANO_MAXIMO) {
+            this.danio = Constantes.DANO_MAXIMO;
+        } else if (this.danio < 0) {
+            this.danio = 0;
+        }
+
+        if (this.fuerzaKnockback > Constantes.KNOCKBACK_MAXIMO) {
+            this.fuerzaKnockback = Constantes.KNOCKBACK_MAXIMO;
+        } else if (this.fuerzaKnockback < 0f) {
+            this.fuerzaKnockback = 0f;
+        }
+
+        if (velocidad > Constantes.VEL_MAX_HORIZONTAL) {
+            velocidad = Constantes.VEL_MAX_HORIZONTAL;
+        } else if (velocidad < 0f) {
+            velocidad = 0f;
+        }
+
         this.sprite = new Sprite(textura);
         this.sprite.setPosition(x, y);
         this.hitbox = new Rectangle(x, y, sprite.getWidth(), sprite.getHeight());
         this.activo = true;
-        this.fuerzaKnockback = fuerzaKnockback;
 
         this.velocidadVector.x = (float) Math.cos(angulo) * velocidad *
             (ejecutor != null ? ejecutor.getDireccionMultiplicador() : 1);
@@ -80,37 +98,29 @@ public abstract class Proyectil implements Colisionable {
 
     public void aplicarFisica(float delta, Fisica fisica) {
         fisica.aplicarGravedad(velocidadVector, delta);
+
+        if (velocidadVector.x > Constantes.VEL_MAX_HORIZONTAL) {
+            velocidadVector.x = Constantes.VEL_MAX_HORIZONTAL;
+        } else if (velocidadVector.x < -Constantes.VEL_MAX_HORIZONTAL) {
+            velocidadVector.x = -Constantes.VEL_MAX_HORIZONTAL;
+        }
+
+        if (velocidadVector.y > Constantes.VEL_MAX_VERTICAL) {
+            velocidadVector.y = Constantes.VEL_MAX_VERTICAL;
+        } else if (velocidadVector.y < -Constantes.VEL_MAX_VERTICAL) {
+            velocidadVector.y = -Constantes.VEL_MAX_VERTICAL;
+        }
     }
 
     public void desactivar() { activo = false; }
 
     public void render(SpriteBatch batch) {
-        if (sprite != null && activo) {
-            sprite.draw(batch);
-        }
+        if (sprite != null && activo) sprite.draw(batch);
     }
 
-
-    @Override public void updateHitbox() {
-        if (hitbox != null) hitbox.setPosition(x, y); }
-
-    public float getX() { return x; }
-    public float getY() { return y; }
-    public void setX(float nuevaX) { this.x = nuevaX; }
-    public void setY(float nuevaY) { this.y = nuevaY; }
-
-    public boolean getActivo() { return activo; }
-    public Vector2 getVelocidadVector() { return velocidadVector; }
-    public Personaje getEjecutor() { return ejecutor; }
-    public float getTiempoTranscurrido() { return tiempoTranscurrido; }
-    public boolean getImpacto() { return impacto; }
-    public void setImpacto(boolean valor) { this.impacto = valor; }
-    public abstract void impactar(float centroX, float centroY);
-
-    @Override public Rectangle getHitbox() { return hitbox; }
-
-    @Override public Rectangle getHitboxPosicion(float x, float y) {
-        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
+    @Override
+    public void updateHitbox() {
+        if (hitbox != null) hitbox.setPosition(x, y);
     }
 
     protected Vector2 centroHitbox() {
@@ -120,9 +130,28 @@ public abstract class Proyectil implements Colisionable {
         );
     }
 
-    public float getFuerzaKnockback() { return fuerzaKnockback; }
-    public void setFuerzaKnockback(float fuerzaKnockback) { this.fuerzaKnockback = fuerzaKnockback; }
+    public abstract void impactar(float centroX, float centroY);
 
+    @Override
+    public Rectangle getHitbox() { return this.hitbox; }
+
+    @Override
+    public Rectangle getHitboxPosicion(float x, float y) {
+        return new Rectangle(x, y, hitbox.getWidth(), hitbox.getHeight());
+    }
+    public float getX() { return this.x; }
+    public float getY() { return this.y; }
+    public void setX(float nuevaX) { this.x = nuevaX; }
+    public void setY(float nuevaY) { this.y = nuevaY; }
+    public boolean getActivo() { return this.activo; }
+    public Vector2 getVelocidadVector() { return this.velocidadVector; }
+    public Personaje getEjecutor() { return this.ejecutor; }
+    public float getTiempoTranscurrido() { return this.tiempoTranscurrido; }
+    public boolean getImpacto() { return this.impacto; }
+    public void setImpacto(boolean valor) { this.impacto = valor; }
+    public float getFuerzaKnockback() { return this.fuerzaKnockback; }
+    public void setFuerzaKnockback(float fuerzaKnockback) { this.fuerzaKnockback = fuerzaKnockback; }
 
     public void dispose() {}
 }
+

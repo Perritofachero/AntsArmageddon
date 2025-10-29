@@ -8,8 +8,9 @@ import entidades.Entidad;
 import entidades.personajes.Personaje;
 import entidades.proyectiles.Granada;
 import entidades.proyectiles.Proyectil;
+import utils.Constantes;
 
-public class GestorFisica {
+public final class GestorFisica {
 
     private final Fisica fisica;
     private final GestorColisiones gestorColisiones;
@@ -31,6 +32,8 @@ public class GestorFisica {
         entidad.setSobreAlgo(sobreAlgo);
 
         if (!sobreAlgo) fisica.aplicarGravedad(velocidad, delta);
+
+        limitarVelocidad(velocidad);
 
         float nuevaX = hitbox.x + velocidad.x * delta;
         if (gestorColisiones.verificarMovimiento(entidad, nuevaX, hitbox.y)) {
@@ -56,6 +59,8 @@ public class GestorFisica {
     }
 
     public Vector2 moverProyectilConRaycast(Proyectil proyectil, float delta, Personaje ignorar) {
+        limitarVelocidad(proyectil.getVelocidadVector());
+
         tmpInicio.set(
             proyectil.getX() + proyectil.getHitbox().getWidth() / 2f,
             proyectil.getY() + proyectil.getHitbox().getHeight() / 2f
@@ -95,6 +100,8 @@ public class GestorFisica {
     }
 
     public Vector2 moverGranadaConRaycast(Granada granada, float delta, Personaje ignorar) {
+        limitarVelocidad(granada.getVelocidadVector());
+
         float startX = granada.getX() + granada.getHitbox().width / 2f;
         float startY = granada.getY() + granada.getHitbox().height / 2f;
 
@@ -125,6 +132,20 @@ public class GestorFisica {
 
         tmpImpacto.set(granada.getX(), granada.getY());
         return tmpImpacto;
+    }
+
+    private void limitarVelocidad(Vector2 velocidad) {
+        if (velocidad.x > Constantes.VEL_MAX_HORIZONTAL) {
+            velocidad.x = Constantes.VEL_MAX_HORIZONTAL;
+        } else if (velocidad.x < -Constantes.VEL_MAX_HORIZONTAL) {
+            velocidad.x = -Constantes.VEL_MAX_HORIZONTAL;
+        }
+
+        if (velocidad.y > Constantes.VEL_MAX_VERTICAL) {
+            velocidad.y = Constantes.VEL_MAX_VERTICAL;
+        } else if (velocidad.y < -Constantes.VEL_MAX_VERTICAL) {
+            velocidad.y = -Constantes.VEL_MAX_VERTICAL;
+        }
     }
 
     public Fisica getFisica() { return this.fisica; }

@@ -20,7 +20,7 @@ import utils.Constantes;
 import java.util.*;
 import java.util.List;
 
-public class PreGameScreen extends ScreenMenus {
+public final class PreGameScreen extends ScreenMenus {
 
     private ConfiguracionPartida configuracion = new ConfiguracionPartida();
 

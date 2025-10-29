@@ -3,7 +3,9 @@ package Gameplay.Gestores.Logicos;
 import com.badlogic.gdx.Screen;
 import com.principal.AntsArmageddon;
 
-public class GestorScreen {
+public final class GestorScreen {
+
+    private GestorScreen() { }
 
     private static AntsArmageddon juego;
     private static Screen screenAnterior;

@@ -9,7 +9,7 @@ import com.principal.AntsArmageddon;
 import hud.EventosBoton;
 import hud.FabricaBotones;
 
-public class TutorialScreen extends ScreenMenus {
+public final class TutorialScreen extends ScreenMenus {
 
     private BitmapFont fuente;
 

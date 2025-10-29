@@ -9,11 +9,11 @@ import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.GranadaMano;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class LanzaGranada extends MovimientoRango {
+public final class LanzaGranada extends MovimientoRango {
 
     public LanzaGranada(GestorProyectiles gestorProyectiles) {
         super("Lanza Granada", GestorAssets.get(GestorRutas.ATLAS_MOVIMIENTO_GRANADA, TextureAtlas.class),
-            "GranadaMovimiento", 300f, gestorProyectiles);
+            "GranadaMovimiento", 550f, gestorProyectiles);
     }
 
     @Override

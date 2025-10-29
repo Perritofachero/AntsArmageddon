@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class GestorAssets {
+public final class GestorAssets {
+
+    private GestorAssets() { }
 
     private static final AssetManager assetManager = new AssetManager();
 

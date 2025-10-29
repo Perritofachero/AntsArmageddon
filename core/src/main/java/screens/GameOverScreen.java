@@ -15,7 +15,7 @@ import Gameplay.Gestores.GestorRutas;
 import hud.EventosBoton;
 import hud.FabricaBotones;
 
-public class GameOverScreen extends ScreenMenus {
+public final class GameOverScreen extends ScreenMenus {
 
     private final AntsArmageddon juego;
     private final String mensajeGanador;

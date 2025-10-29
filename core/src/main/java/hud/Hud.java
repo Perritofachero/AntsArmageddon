@@ -15,7 +15,7 @@ import Gameplay.Gestores.Visuales.GestorAssets;
 import utils.RecursosGlobales;
 import java.util.List;
 
-public class Hud {
+public final class Hud {
 
     private final BitmapFont fuenteContador, fuenteVida;
     private final GlyphLayout layout;

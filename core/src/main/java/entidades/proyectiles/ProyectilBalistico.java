@@ -20,7 +20,7 @@ public class ProyectilBalistico extends Proyectil {
     }
 
     @Override
-    public void mover(float delta, GestorFisica gestorFisica) {
+    public final void mover(float delta, GestorFisica gestorFisica) {
         if (!activo) return;
 
         super.mover(delta, gestorFisica);
@@ -32,7 +32,7 @@ public class ProyectilBalistico extends Proyectil {
     }
 
     @Override
-    public void impactar(float centroX, float centroY) {
+    public final void impactar(float centroX, float centroY) {
 
         Sound sonidoExplosion = GestorAssets.get(GestorRutas.SONIDO_EXPLOSION, Sound.class);
         GestorAudio.playSFX(sonidoExplosion);

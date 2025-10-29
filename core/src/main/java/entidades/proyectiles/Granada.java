@@ -33,7 +33,7 @@ public class Granada extends Proyectil {
     }
 
     @Override
-    public void mover(float delta, GestorFisica gestorFisica) {
+    public final void mover(float delta, GestorFisica gestorFisica) {
         if (!activo) return;
 
         tiempoTranscurrido += delta;
@@ -55,7 +55,7 @@ public class Granada extends Proyectil {
         if (sprite != null) sprite.setPosition(x, y);
     }
 
-    private void explotar() {
+    private final void explotar() {
 
         Sound sonidoExplosion = GestorAssets.get(GestorRutas.SONIDO_EXPLOSION, Sound.class);
         GestorAudio.playSFX(sonidoExplosion);
@@ -89,7 +89,7 @@ public class Granada extends Proyectil {
     }
 
     @Override
-    public void impactar(float centroX, float centroY) { }
+    public final void impactar(float centroX, float centroY) { }
 
     public float getCoeficienteRebote() { return this.coeficienteRebote; }
 }

@@ -6,19 +6,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import entidades.Limite;
 import utils.Constantes;
 
-public class Borde {
+public final class Borde {
 
     private Limite limiteSuperior, limiteInferior, limiteIzquierdo, limiteDerecho;
+    public static final int GROSOR_BORDE = 10;
 
     public Borde(GestorColisiones gestor) {
         final int ancho = Constantes.RESOLUCION_ANCHO_MAPA;
         final int alto  = Constantes.RESOLUCION_ALTO_MAPA;
-        final int grosor = 10;
 
-        limiteSuperior  = new Limite(0, alto, ancho, grosor);
-        limiteInferior  = new Limite(0, -grosor, ancho, grosor);
-        limiteIzquierdo = new Limite(-grosor, 0, grosor, alto);
-        limiteDerecho   = new Limite(ancho, 0, grosor, alto);
+        limiteSuperior  = new Limite(0, alto, ancho, GROSOR_BORDE);
+        limiteInferior  = new Limite(0, -GROSOR_BORDE, ancho, GROSOR_BORDE);
+        limiteIzquierdo = new Limite(-GROSOR_BORDE, 0, GROSOR_BORDE, alto);
+        limiteDerecho   = new Limite(ancho, 0, GROSOR_BORDE, alto);
 
         gestor.agregarObjeto(limiteSuperior);
         gestor.agregarObjeto(limiteInferior);

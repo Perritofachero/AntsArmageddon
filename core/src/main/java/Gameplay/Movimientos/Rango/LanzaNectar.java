@@ -9,11 +9,11 @@ import entidades.proyectiles.Proyectil;
 import entidades.proyectiles.ProyectilesBalisticos.Nectar;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class LanzaNectar extends MovimientoRango {
+public final class LanzaNectar extends MovimientoRango {
 
     public LanzaNectar(GestorProyectiles gestorProyectiles) {
         super("Lanza Néctar", GestorAssets.get(GestorRutas.ATLAS_MOVIMIENTO_NECTAR, TextureAtlas.class),
-            "NectarMovimiento", 300f, gestorProyectiles);
+            "NectarMovimiento", 550f, gestorProyectiles);
     }
 
     @Override

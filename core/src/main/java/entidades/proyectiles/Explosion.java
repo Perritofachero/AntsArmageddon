@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Explosion {
+public final class Explosion {
 
     private float x, y;
     private float stateTime = 0f;
@@ -34,6 +34,6 @@ public class Explosion {
         batch.draw(frame, x - ancho / 2f, y - alto / 2f);
     }
 
-    public boolean isActiva() { return activa; }
+    public boolean isActiva() { return this.activa; }
 }
 

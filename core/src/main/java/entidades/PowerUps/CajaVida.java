@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import entidades.personajes.Personaje;
 import Gameplay.Gestores.Visuales.GestorAssets;
 
-public class CajaVida extends PowerUp {
+public final class CajaVida extends PowerUp {
 
     public CajaVida(float x, float y, GestorColisiones gestorColisiones) {
         super(x, y, GestorAssets.get(GestorRutas.ATLAS_CAJA_VIDA, TextureAtlas.class),
